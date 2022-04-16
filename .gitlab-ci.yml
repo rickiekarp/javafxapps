@@ -1,0 +1,120 @@
+test-javafxapps:
+  stage: test
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew clean :core:test
+    - ./gradlew clean :SnakeFX:test
+  only:
+    changes:
+      - projects/JavaFXApps/*
+
+build-BotManager:
+  stage: build
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew clean :BotManager:distZip
+  artifacts:
+    paths:
+    - projects/JavaFXApps/BotManager/build/distributions
+    expire_in: 1 week
+  only:
+    changes:
+      - projects/JavaFXApps/*
+
+build-ColorPuzzle:
+  stage: build
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew clean :ColorPuzzle:distZip
+  artifacts:
+    paths:
+      - projects/JavaFXApps/ColorPuzzle/build/distributions
+    expire_in: 1 week
+  only:
+    changes:
+      - projects/JavaFXApps/*
+
+build-FilelistCreator:
+  stage: build
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew clean :FilelistCreator:distZip
+  artifacts:
+    paths:
+    - projects/JavaFXApps/FilelistCreator/build/distributions
+    expire_in: 1 week
+  only:
+    changes:
+      - projects/JavaFXApps/*
+
+build-QAAccountManager:
+  stage: build
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew clean :QAAccountManager:distZip
+  artifacts:
+    paths:
+    - projects/JavaFXApps/QAAccountManager/build/distributions
+    expire_in: 1 week
+  only:
+    changes:
+      - projects/JavaFXApps/*
+
+build-SHA1Pass:
+  stage: build
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew clean :SHA1Pass:distZip
+  artifacts:
+    paths:
+    - projects/JavaFXApps/SHA1Pass/build/distributions
+    expire_in: 1 week
+  only:
+    changes:
+      - projects/JavaFXApps/*
+
+build-SnakeFX:
+  stage: build
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew clean :SnakeFX:distZip
+  artifacts:
+    paths:
+      - projects/JavaFXApps/SnakeFX/build/distributions
+    expire_in: 1 week
+  only:
+    changes:
+      - projects/JavaFXApps/*
+
+detekt-javafxapps:
+  stage: report
+  image: openjdk:11.0.7-jdk
+  script:
+    - cd projects/JavaFXApps
+    - ./gradlew :AppUpdater:detekt
+    - ./gradlew :BotLib:detekt
+    - ./gradlew :BotManager:detekt
+    - ./gradlew :core:detekt
+    - ./gradlew :FilelistCreator:detekt
+    - ./gradlew :QAAccountManager:detekt
+    - ./gradlew :SHA1Pass:detekt
+  artifacts:
+    paths:
+      - projects/JavaFXApps/AppUpdater/build/reports/detekt/
+      - projects/JavaFXApps/BotManager/BotLib/build/reports/detekt/
+      - projects/JavaFXApps/BotManager/build/reports/detekt/
+      - projects/JavaFXApps/core/build/reports/detekt/
+      - projects/JavaFXApps/FilelistCreator/build/reports/detekt/
+      - projects/JavaFXApps/QAAccountManager/build/reports/detekt/
+      - projects/JavaFXApps/SHA1Pass/build/reports/detekt/
+    expire_in: 1 week
+  only:
+    changes:
+      - projects/JavaFXApps/*

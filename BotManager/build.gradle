@@ -1,0 +1,42 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin'
+}
+
+dependencies {
+    compile project(":core")
+    compile project(":BotLib")
+    /* uncomment for cross-platform jar: */
+//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
+//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
+//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
+}
+
+mainClassName = 'net.rickiekarp.botter.Main'
+
+jar {
+    println("Building " + project.name)
+
+    def minorVersion = 0
+    def publicVersion = 0
+
+    if (minorVersion > 0) {
+        publicVersion = new SimpleDateFormat("yy.MM").format(new Date()) + '.' + minorVersion
+    } else {
+        publicVersion = new SimpleDateFormat("yy.MM").format(new Date())
+    }
+
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': application.mainClassName,
+                'Build-Time': new SimpleDateFormat("yyMMddHHmm").format(new Date()),
+                'Version': publicVersion
+        )
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

@@ -1,0 +1,6 @@
+dependencies {
+  compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
+  compile "org.json:json:$jsonVersion"
+  compile "commons-io:commons-io:$commonsIO"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+}

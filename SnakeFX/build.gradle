@@ -1,0 +1,43 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin'
+}
+
+mainClassName = 'net.rickiekarp.snakefx.Main'
+
+dependencies {
+    compile project(":core")
+    
+    compile "javax.validation:validation-api:1.0.0.GA"
+    compile "org.codehaus.jackson:jackson-mapper-asl:1.9.12"
+
+    // testing
+    testCompile "org.mockito:mockito-core:$mockitoCore"
+}
+
+jar {
+    println("Building " + project.name)
+
+    def minorVersion = 0
+    def publicVersion = 0
+
+    if (minorVersion > 0) {
+        publicVersion = new SimpleDateFormat("yy.MM").format(new Date()) + '.' + minorVersion
+    } else {
+        publicVersion = new SimpleDateFormat("yy.MM").format(new Date())
+    }
+
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': application.mainClassName,
+                'Build-Time': new SimpleDateFormat("yyMMddHHmm").format(new Date()),
+                'Version': publicVersion
+        )
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

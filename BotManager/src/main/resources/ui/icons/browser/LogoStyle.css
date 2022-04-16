@@ -1,0 +1,31 @@
+/*
+*	chrome button
+*/
+.logo-button-chrome {
+    -fx-background-image:url("./logo-chrome.png");
+    -fx-background-repeat:no-repeat;
+    -fx-border-width: 0;
+    -fx-background-size: auto;
+    -fx-background-position: center;
+}
+
+.logo-button-chrome:focused {
+    -fx-border-style: null;
+    -fx-border-color: null;
+}
+
+/*
+*	firefox button
+*/
+.logo-button-firefox {
+    -fx-background-image:url("./logo-firefox.png");
+    -fx-background-repeat:no-repeat;
+    -fx-border-width: 0;
+    -fx-background-size: auto;
+    -fx-background-position: center;
+}
+
+.logo-button-firefox:focused {
+    -fx-border-style: null;
+    -fx-border-color: null;
+}

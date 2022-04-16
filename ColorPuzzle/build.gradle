@@ -43,13 +43,13 @@ jar {
 
     manifest {
         attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Class-Path': configurations.runtimeClasspath.collect { it.getName() }.join(' '),
                 'Main-Class': application.mainClassName,
                 'Build-Time': new SimpleDateFormat("yyMMddHHmm").format(new Date()),
                 'Version': publicVersion
         )
     }
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

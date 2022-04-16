@@ -14,7 +14,7 @@ dependencies {
     compile "org.codehaus.jackson:jackson-mapper-asl:1.9.12"
 
     // testing
-    testCompile "org.mockito:mockito-core:$mockitoCore"
+    testCompile "org.mockito:mockito-core:3.9.0"
 }
 
 jar {
@@ -31,13 +31,13 @@ jar {
 
     manifest {
         attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Class-Path': configurations.runtimeClasspath.collect { it.getName() }.join(' '),
                 'Main-Class': application.mainClassName,
                 'Build-Time': new SimpleDateFormat("yyMMddHHmm").format(new Date()),
                 'Version': publicVersion
         )
     }
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

@@ -1,8 +1,4 @@
 buildscript {
-    apply from: '../../config/kotlin/dependencies/latest/base.gradle.kts'
-    apply from: '../../config/kotlin/dependencies/latest/libs.gradle.kts'
-    apply from: '../../config/kotlin/dependencies/latest/ui.gradle.kts'
-
     repositories {
         mavenCentral()
         maven {
@@ -10,9 +6,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion" as Object
-        classpath "org.openjfx:javafx-plugin:$javafxPlugin"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10" as Object
+        classpath "org.openjfx:javafx-plugin:0.0.9"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1"
     }
 }
 
@@ -23,7 +19,7 @@ allprojects {
 
     apply plugin: "org.openjfx.javafxplugin"
     javafx {
-        version = "$javafxVersion"
+        version = "16"
         modules = [ 'javafx.controls', 'javafx.fxml' ]
     }
 
@@ -34,8 +30,8 @@ allprojects {
     }
 
     dependencies {
-        testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+        testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
         /* uncomment for cross-platform jar: */
 //    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
 //    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
@@ -64,12 +60,12 @@ allprojects {
     }
 
     detekt {
-        toolVersion = "$detektVersion"
+        toolVersion = "1.17.1"
         input = files("src/main/kotlin")
-        config = files("../../../config/kotlin/plugins/detekt/detekt.yml")
+        config = files("../config/detekt/detekt.yml")
     }
 }
 
 wrapper {
-    gradleVersion = project.ext.gradleVersion
+    gradleVersion = "6.7.1"
 }

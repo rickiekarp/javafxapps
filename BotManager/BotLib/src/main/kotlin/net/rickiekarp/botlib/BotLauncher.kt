@@ -58,6 +58,8 @@ class BotLauncher {
                 Platform.runLater { MessageDialog(0, "Invalid browser selection!", 500, 300) }
                 return true
             }
+
+            else -> { return false }
         }
         return false
     }
@@ -172,6 +174,7 @@ class BotLauncher {
                 BotType.Bot.CHROME -> chromeDriverService!!.stop()
                 BotType.Bot.FIREFOX -> geckoDriverService!!.stop()
                 BotType.Bot.ANDROID -> appiumService!!.stop()
+                else -> { LogFileHandler.logger.warning("Something went wrong when stopping appium service") }
             }
         }
     }

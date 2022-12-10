@@ -40,8 +40,10 @@ class BotTask(botLauncher: BotLauncher, private val plugin: PluginData) : Task<V
                         BotPlatforms.WEB -> when (PluginConfig.botType) {
                             BotType.Bot.FIREFOX -> launcher!!.launch(plugin)
                             BotType.Bot.CHROME -> launcher!!.launch(plugin)
+                            else -> {}
                         }
                         BotPlatforms.ANDROID -> launcher!!.launch(plugin)
+                        else -> {}
                     }
                 } else {
                     println("There was a problem while starting the service!")

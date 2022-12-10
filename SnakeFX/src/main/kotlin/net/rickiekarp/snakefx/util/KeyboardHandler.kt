@@ -18,6 +18,7 @@ class KeyboardHandler(private val viewModel: ViewModel) : EventHandler<KeyEvent>
             KeyCode.A, KeyCode.LEFT -> viewModel.snakeDirection.set(Direction.LEFT)
             KeyCode.S, KeyCode.DOWN -> viewModel.snakeDirection.set(Direction.DOWN)
             KeyCode.D, KeyCode.RIGHT -> viewModel.snakeDirection.set(Direction.RIGHT)
+            else -> {}
         }
     }
 }

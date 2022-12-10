@@ -6,11 +6,7 @@ plugins {
 }
 
 dependencies {
-    compile project(":core")
-    /* uncomment for cross-platform jar: */
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
+    implementation project(":core")
 }
 
 mainClassName = 'net.rickiekarp.qaacc.Main'
@@ -34,8 +30,5 @@ jar {
                 'Build-Time': new SimpleDateFormat("yyMMddHHmm").format(new Date()),
                 'Version': publicVersion
         )
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

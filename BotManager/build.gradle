@@ -6,12 +6,9 @@ plugins {
 }
 
 dependencies {
-    compile project(":core")
-    compile project(":BotLib")
-    /* uncomment for cross-platform jar: */
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
+    implementation project(":core")
+    implementation project(":BotLib")
+    implementation 'org.json:json:20220924'
 }
 
 mainClassName = 'net.rickiekarp.botter.Main'
@@ -35,8 +32,5 @@ jar {
                 'Build-Time': new SimpleDateFormat("yyMMddHHmm").format(new Date()),
                 'Version': publicVersion
         )
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

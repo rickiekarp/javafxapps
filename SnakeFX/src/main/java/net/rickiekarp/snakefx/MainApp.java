@@ -29,9 +29,9 @@ public class MainApp extends AppStarter {
 
         setWinType((byte) 1);
         setMinWidth(700);
-        setMinHeight(550);
+        setMinHeight(625);
         setWidth(850);
-        setHeight(600);
+        setHeight(650);
 
         DependencyInjector dependencyInjector = new DependencyInjector();
         final ViewModel viewModel = dependencyInjector.get(ViewModel.class);

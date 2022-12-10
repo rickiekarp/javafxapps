@@ -26,8 +26,8 @@ class BotRunnerBuilder {
             BotPlatforms.WEB -> return object : BotRunner<RemoteWebDriver, DriverService>() {
                 override fun start() {
                     when (PluginConfig.botType) {
-                        //                            case FIREFOX: set(new MarionetteDriver((GeckoDriverService) getDriverService(), BotLauncher.getCapabilities(plugin))); break;
                         BotType.Bot.CHROME -> set(ChromeDriver(driverService as ChromeDriverService, BotLauncher.getCapabilities(plugin)))
+                        else -> {}
                     }
                 }
 

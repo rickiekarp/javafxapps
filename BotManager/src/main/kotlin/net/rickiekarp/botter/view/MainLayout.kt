@@ -505,6 +505,8 @@ class MainLayout : AppLayout {
                             BotSetting.Builder.create().setName(LanguageController.getString("browserSelect")).setDescription(LanguageController.getString("browserSelect_desc")).setVisible(true).setNode(browserSelectionSection).build()
                     )
                 }
+
+                else -> {}
             }
 
             PluginConfig.botPlatform = modCBox.selectionModel.selectedItem.pluginType

@@ -8,13 +8,13 @@ plugins {
 mainClassName = 'net.rickiekarp.snakefx.Main'
 
 dependencies {
-    compile project(":core")
-    
-    compile "javax.validation:validation-api:1.0.0.GA"
-    compile "org.codehaus.jackson:jackson-mapper-asl:1.9.12"
+    implementation project(":core")
+
+    implementation "javax.validation:validation-api:1.0.0.GA"
+    implementation "org.codehaus.jackson:jackson-mapper-asl:1.9.12"
 
     // testing
-    testCompile "org.mockito:mockito-core:3.9.0"
+    testImplementation "org.mockito:mockito-core:3.9.0"
 }
 
 jar {
@@ -36,8 +36,5 @@ jar {
                 'Build-Time': new SimpleDateFormat("yyMMddHHmm").format(new Date()),
                 'Version': publicVersion
         )
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

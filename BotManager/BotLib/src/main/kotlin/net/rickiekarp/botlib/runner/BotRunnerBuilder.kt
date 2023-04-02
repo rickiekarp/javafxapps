@@ -1,10 +1,5 @@
 package net.rickiekarp.botlib.runner
 
-import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.botlib.BotLauncher
-import net.rickiekarp.botlib.PluginConfig
-import net.rickiekarp.botlib.model.PluginData
-import net.rickiekarp.botlib.plugin.BotSetting
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.service.local.AppiumDriverLocalService
 import javafx.application.Platform
@@ -12,8 +7,13 @@ import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
+import net.rickiekarp.botlib.BotLauncher
+import net.rickiekarp.botlib.PluginConfig
 import net.rickiekarp.botlib.enums.BotPlatforms
 import net.rickiekarp.botlib.enums.BotType
+import net.rickiekarp.botlib.model.PluginData
+import net.rickiekarp.botlib.plugin.BotSetting
+import net.rickiekarp.core.view.MainScene
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService

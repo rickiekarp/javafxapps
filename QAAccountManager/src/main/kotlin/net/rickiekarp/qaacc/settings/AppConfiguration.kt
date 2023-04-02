@@ -1,12 +1,12 @@
 package net.rickiekarp.qaacc.settings
 
+import javafx.collections.FXCollections
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.settings.LoadSave
 import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.qaacc.model.Account
 import net.rickiekarp.qaacc.model.Projects
-import javafx.collections.FXCollections
 import org.w3c.dom.Node
 
 object AppConfiguration {

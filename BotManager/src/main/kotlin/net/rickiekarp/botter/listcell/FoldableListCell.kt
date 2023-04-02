@@ -1,13 +1,13 @@
 package net.rickiekarp.botter.listcell
 
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.botlib.plugin.BotSetting
 import javafx.scene.control.Label
 import javafx.scene.control.ListCell
 import javafx.scene.control.ListView
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Paint
 import javafx.scene.shape.SVGPath
+import net.rickiekarp.botlib.plugin.BotSetting
+import net.rickiekarp.core.debug.DebugHelper
 
 class FoldableListCell(private val list: ListView<*>) : ListCell<BotSetting>() {
 

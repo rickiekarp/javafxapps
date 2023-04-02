@@ -6,7 +6,6 @@ import de.saxsys.mvvmfx.InjectViewModel;
 import de.saxsys.mvvmfx.ViewTuple;
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
-import net.rickiekarp.colorpuzzlefx.core.Colors;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import net.rickiekarp.colorpuzzlefx.core.Colors;
 
 import java.net.URL;
 import java.util.ResourceBundle;

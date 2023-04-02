@@ -1,21 +1,5 @@
 package net.rickiekarp.core.view
 
-import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.model.SettingsList
-import net.rickiekarp.core.net.update.FileDownloader
-import net.rickiekarp.core.net.update.UpdateChecker
-import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.core.settings.LoadSave
-import net.rickiekarp.core.ui.anim.AnimationHandler
-import net.rickiekarp.core.ui.windowmanager.ThemeSelector
-import net.rickiekarp.core.ui.tray.ToolTrayIcon
-import net.rickiekarp.core.ui.windowmanager.WindowScene
-import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
@@ -28,12 +12,26 @@ import javafx.scene.control.cell.TextFieldTableCell
 import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.stage.Stage
-
+import net.rickiekarp.core.AppContext
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.model.SettingsList
+import net.rickiekarp.core.net.update.FileDownloader
+import net.rickiekarp.core.net.update.UpdateChecker
+import net.rickiekarp.core.settings.Configuration
+import net.rickiekarp.core.settings.LoadSave
+import net.rickiekarp.core.ui.anim.AnimationHandler
+import net.rickiekarp.core.ui.tray.ToolTrayIcon
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.ui.windowmanager.ThemeSelector
+import net.rickiekarp.core.ui.windowmanager.WindowScene
+import net.rickiekarp.core.ui.windowmanager.WindowStage
 import java.io.File
 import java.lang.reflect.Field
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.ArrayList
 import java.util.logging.Level
 
 /**
@@ -451,7 +449,7 @@ class SettingsScene {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 }
 

@@ -1,5 +1,30 @@
 package net.rickiekarp.core.ui.windowmanager
 
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleDoubleProperty
+import javafx.geometry.Insets
+import javafx.geometry.NodeOrientation
+import javafx.geometry.Pos
+import javafx.geometry.Rectangle2D
+import javafx.scene.CacheHint
+import javafx.scene.Scene
+import javafx.scene.control.Button
+import javafx.scene.control.Label
+import javafx.scene.control.TextField
+import javafx.scene.control.Tooltip
+import javafx.scene.effect.BlurType
+import javafx.scene.effect.DropShadow
+import javafx.scene.image.ImageView
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyCodeCombination
+import javafx.scene.layout.*
+import javafx.scene.paint.Color
+import javafx.scene.shape.Rectangle
+import javafx.scene.shape.StrokeType
+import javafx.stage.Modality
+import javafx.stage.Screen
+import javafx.stage.Stage
+import javafx.stage.StageStyle
 import net.rickiekarp.core.components.button.SidebarButton
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.debug.DebugHelper
@@ -10,23 +35,6 @@ import net.rickiekarp.core.settings.LoadSave
 import net.rickiekarp.core.ui.anim.AnimationHandler
 import net.rickiekarp.core.view.AboutScene
 import net.rickiekarp.core.view.SettingsScene
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleDoubleProperty
-import javafx.geometry.*
-import javafx.scene.CacheHint
-import javafx.scene.Scene
-import javafx.scene.control.*
-import javafx.scene.effect.BlurType
-import javafx.scene.effect.DropShadow
-import javafx.scene.image.ImageView
-import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyCodeCombination
-import javafx.scene.layout.*
-import javafx.scene.paint.Color
-import javafx.scene.shape.Rectangle
-import javafx.scene.shape.StrokeType
-import javafx.stage.*
-
 import java.util.logging.Level
 
 /**

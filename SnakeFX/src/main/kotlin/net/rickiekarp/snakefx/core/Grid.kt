@@ -2,13 +2,10 @@ package net.rickiekarp.snakefx.core
 
 import com.sun.javafx.collections.ObservableListWrapper
 import net.rickiekarp.snakefx.settings.Config
+import net.rickiekarp.snakefx.settings.Config.GRID_SIZE_IN_PIXEL
+import net.rickiekarp.snakefx.settings.Config.ROW_AND_COLUMN_COUNT
 import net.rickiekarp.snakefx.view.ViewModel
-
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Random
-
-import net.rickiekarp.snakefx.settings.Config.*
+import java.util.*
 
 /**
  * This class is the grid of the game. It contains a collection of [GameField]

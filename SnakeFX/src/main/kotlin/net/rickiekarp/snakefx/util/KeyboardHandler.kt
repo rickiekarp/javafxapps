@@ -1,10 +1,10 @@
 package net.rickiekarp.snakefx.util
 
-import net.rickiekarp.snakefx.core.Direction
-import net.rickiekarp.snakefx.view.ViewModel
 import javafx.event.EventHandler
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
+import net.rickiekarp.snakefx.core.Direction
+import net.rickiekarp.snakefx.view.ViewModel
 
 /**
  * This class handles the input of the user.

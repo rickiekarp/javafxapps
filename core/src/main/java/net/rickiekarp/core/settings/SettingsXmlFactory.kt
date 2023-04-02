@@ -1,13 +1,15 @@
 package net.rickiekarp.core.settings
 
+import javafx.scene.paint.Color
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.ui.windowmanager.ThemeSelector
-import javafx.scene.paint.Color
 import org.w3c.dom.Document
 import org.w3c.dom.NodeList
 import org.xml.sax.SAXException
-
+import java.io.File
+import java.io.IOException
+import java.lang.reflect.Field
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.OutputKeys
@@ -15,9 +17,6 @@ import javax.xml.transform.TransformerException
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import java.io.File
-import java.io.IOException
-import java.lang.reflect.Field
 
 /**
  * This class handles reading and writing of the config.xml file.
@@ -46,7 +45,7 @@ class SettingsXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
         }
 
@@ -79,7 +78,7 @@ class SettingsXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
         }
 
@@ -97,7 +96,7 @@ class SettingsXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
             null
         }
@@ -165,7 +164,7 @@ class SettingsXmlFactory {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 
@@ -232,21 +231,21 @@ class SettingsXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
             return null
         } catch (e: ParserConfigurationException) {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
             return null
         } catch (e: IOException) {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
             return null
         }

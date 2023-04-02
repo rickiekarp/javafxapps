@@ -1,5 +1,6 @@
 package net.rickiekarp.flc.tasks
 
+import javafx.concurrent.Task
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
@@ -10,14 +11,12 @@ import net.rickiekarp.flc.model.Directorylist
 import net.rickiekarp.flc.model.Filelist
 import net.rickiekarp.flc.settings.AppConfiguration
 import net.rickiekarp.flc.view.dialogs.ProgressDialog
-import javafx.concurrent.Task
 import net.rickiekarp.flc.view.layout.MainLayout
-
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.attribute.BasicFileAttributes
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 class ListTask(private var selectedDirectory: File?) : Task<Void>() {
     private var listIdx = 0

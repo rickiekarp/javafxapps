@@ -2,12 +2,10 @@ package net.rickiekarp.core.util
 
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
-
 import java.io.*
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
-import java.util.ArrayList
 import java.util.jar.Attributes
 import java.util.jar.JarFile
 import java.util.jar.Manifest
@@ -62,7 +60,7 @@ object FileUtil {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
         }
     }

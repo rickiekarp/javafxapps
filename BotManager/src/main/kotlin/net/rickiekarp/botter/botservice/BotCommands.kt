@@ -1,10 +1,10 @@
 package net.rickiekarp.botter.botservice
 
+import net.rickiekarp.botter.settings.AppConfiguration
+import net.rickiekarp.botter.view.MainLayout
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.model.ConsoleCommands
 import net.rickiekarp.core.settings.AppCommands
-import net.rickiekarp.botter.settings.AppConfiguration
-import net.rickiekarp.botter.view.MainLayout
 
 /**
  * This class is used to define additional application related console commands.

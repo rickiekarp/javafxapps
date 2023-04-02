@@ -1,15 +1,15 @@
 package net.rickiekarp.botlib.locator
 
-import net.rickiekarp.core.debug.LogFileHandler
+//import org.openqa.selenium.firefox.MarionetteDriver;
+
+import io.appium.java_client.android.AndroidDriver
 import net.rickiekarp.botlib.BotLauncher
 import net.rickiekarp.botlib.PluginConfig
-import io.appium.java_client.android.AndroidDriver
 import net.rickiekarp.botlib.enums.BotType
+import net.rickiekarp.core.debug.LogFileHandler
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
-//import org.openqa.selenium.firefox.MarionetteDriver;
-
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 

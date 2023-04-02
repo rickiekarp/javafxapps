@@ -6,11 +6,8 @@ import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.snakefx.net.SnakeNetworkApi
-
-import java.util.ArrayList
-import java.util.Date
-
 import net.rickiekarp.snakefx.settings.Config.*
+import java.util.*
 
 /**
  * The purpose of the HighscoreManager is to add new highscore entries and to

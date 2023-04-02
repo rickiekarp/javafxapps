@@ -1,8 +1,7 @@
 package net.rickiekarp.snakefx.highscore
 
 import org.codehaus.jackson.annotate.JsonIgnore
-
-import java.util.Date
+import java.util.*
 
 class HighScoreEntry : Comparable<HighScoreEntry> {
 

@@ -1,8 +1,7 @@
 package net.rickiekarp.snakefx.core
 
-import net.rickiekarp.snakefx.view.ViewModel
 import javafx.animation.Animation.Status
-
+import net.rickiekarp.snakefx.view.ViewModel
 import java.util.function.Consumer
 
 /**

@@ -1,12 +1,5 @@
 package net.rickiekarp.core.view
 
-import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.ui.windowmanager.WindowScene
-import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
@@ -20,8 +13,14 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.stage.Stage
-
-import java.awt.*
+import net.rickiekarp.core.AppContext
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.ui.windowmanager.WindowScene
+import net.rickiekarp.core.ui.windowmanager.WindowStage
+import java.awt.Desktop
 import java.io.IOException
 import java.net.URI
 import java.net.URISyntaxException
@@ -127,13 +126,13 @@ class AboutScene {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 } catch (e1: URISyntaxException) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 }
             }

@@ -2,7 +2,6 @@ package net.rickiekarp.core.net.update
 
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
-
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -10,8 +9,7 @@ import java.io.RandomAccessFile
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.ArrayList
-import java.util.Observable
+import java.util.*
 
 // This class downloads a file from a URL.
 class FileDownloader : Observable, Runnable {

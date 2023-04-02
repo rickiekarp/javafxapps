@@ -1,5 +1,7 @@
 package net.rickiekarp.core.settings
 
+import javafx.geometry.Side
+import javafx.scene.paint.Color
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.debug.LogFileHandler
@@ -7,16 +9,12 @@ import net.rickiekarp.core.ui.windowmanager.ThemeSelector
 import net.rickiekarp.core.ui.windowmanager.Window
 import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.core.util.FileUtil
-import javafx.geometry.Side
-import javafx.scene.paint.Color
 import net.rickiekarp.core.view.SettingsScene
-
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.Field
 import java.net.URISyntaxException
-import java.util.LinkedList
-import java.util.Locale
+import java.util.*
 import java.util.jar.JarFile
 
 /**

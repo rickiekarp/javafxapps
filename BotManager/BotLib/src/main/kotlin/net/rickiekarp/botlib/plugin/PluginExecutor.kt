@@ -1,13 +1,12 @@
 package net.rickiekarp.botlib.plugin
 
+import javafx.application.Platform
+import net.rickiekarp.botlib.model.PluginData
+import net.rickiekarp.botlib.runner.BotRunner
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.botlib.model.PluginData
-import net.rickiekarp.botlib.runner.BotRunner
-import javafx.application.Platform
-
 import java.io.File
 import java.net.URLClassLoader
 import java.security.Policy
@@ -56,7 +55,7 @@ object PluginExecutor {
             if (DebugHelper.DEBUGVERSION) {
                 e.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e)
+                ExceptionHandler(e)
             }
         }
 

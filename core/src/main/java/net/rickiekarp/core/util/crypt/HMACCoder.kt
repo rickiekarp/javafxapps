@@ -1,8 +1,8 @@
 package net.rickiekarp.core.util.crypt
 
+import java.security.SignatureException
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import java.security.SignatureException
 
 internal object HMACCoder {
     private const val HMAC_SHA1_ALGORITHM = "HmacSHA1"

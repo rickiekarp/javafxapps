@@ -2,6 +2,7 @@ package net.rickiekarp.core.net.update
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import javafx.application.Platform
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
@@ -10,18 +11,13 @@ import net.rickiekarp.core.model.dto.ApplicationDTO
 import net.rickiekarp.core.net.NetworkApi
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.FileUtil
-import javafx.application.Platform
-
 import java.io.File
 import java.io.IOException
-import java.io.InputStream
 import java.net.URISyntaxException
 import java.net.URL
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.StandardCopyOption
-import java.util.ArrayList
-import java.util.Scanner
+import java.util.*
 
 class UpdateChecker {
 
@@ -55,7 +51,7 @@ class UpdateChecker {
                 if (DebugHelper.DEBUGVERSION) {
                     e.printStackTrace()
                 } else {
-                    Platform.runLater { ExceptionHandler(Thread.currentThread(), e) }
+                    Platform.runLater { ExceptionHandler(e) }
                 }
                 return "no_connection"
             }

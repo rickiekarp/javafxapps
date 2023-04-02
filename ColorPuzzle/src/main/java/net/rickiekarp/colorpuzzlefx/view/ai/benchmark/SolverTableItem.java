@@ -1,7 +1,6 @@
 package net.rickiekarp.colorpuzzlefx.view.ai.benchmark;
 
 import javafx.beans.property.*;
-
 import net.rickiekarp.colorpuzzlefx.ai.Solver;
 
 public class SolverTableItem {

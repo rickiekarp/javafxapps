@@ -1,10 +1,9 @@
 package net.rickiekarp.core.ui.windowmanager
 
-import net.rickiekarp.core.view.MainScene
 import javafx.scene.Node
 import javafx.scene.control.Button
-
-import java.util.Stack
+import net.rickiekarp.core.view.MainScene
+import java.util.*
 
 class WindowStack : Stack<Node>() {
     private var backButton: Button? = null

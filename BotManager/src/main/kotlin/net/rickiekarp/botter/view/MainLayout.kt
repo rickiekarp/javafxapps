@@ -1,15 +1,14 @@
 package net.rickiekarp.botter.view
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.util.parser.JsonParser
-import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.core.view.ChangelogScene
-import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.core.view.MessageDialog
-import net.rickiekarp.core.view.SettingsScene
+import javafx.collections.FXCollections
+import javafx.geometry.Insets
+import javafx.geometry.Pos
+import javafx.scene.Node
+import javafx.scene.control.*
+import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
+import javafx.util.StringConverter
 import net.rickiekarp.botlib.BotConfig
 import net.rickiekarp.botlib.BotLauncher
 import net.rickiekarp.botlib.PluginConfig
@@ -22,22 +21,21 @@ import net.rickiekarp.botlib.plugin.PluginExecutor
 import net.rickiekarp.botter.botservice.BotTask
 import net.rickiekarp.botter.listcell.FoldableListCell
 import net.rickiekarp.botter.settings.AppConfiguration
-import javafx.collections.FXCollections
-import javafx.collections.ListChangeListener
-import javafx.geometry.Insets
-import javafx.geometry.Pos
-import javafx.scene.Node
-import javafx.scene.control.*
-import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
-import javafx.util.StringConverter
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.settings.Configuration
+import net.rickiekarp.core.util.parser.JsonParser
+import net.rickiekarp.core.view.ChangelogScene
+import net.rickiekarp.core.view.MainScene
+import net.rickiekarp.core.view.MessageDialog
+import net.rickiekarp.core.view.SettingsScene
 import net.rickiekarp.core.view.layout.AppLayout
 import org.json.JSONArray
 import org.json.JSONObject
-
 import java.io.File
-import java.util.Base64
+import java.util.*
 
 class MainLayout : AppLayout {
     private val optionBox: HBox
@@ -519,7 +517,7 @@ class MainLayout : AppLayout {
                 if (DebugHelper.DEBUGVERSION) {
                     e.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e)
+                    ExceptionHandler(e)
                 }
             }
         }

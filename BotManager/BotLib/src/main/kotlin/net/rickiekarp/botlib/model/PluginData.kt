@@ -1,11 +1,10 @@
 package net.rickiekarp.botlib.model
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.botlib.enums.BotPlatforms
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
-import javafx.collections.ObservableList
+import net.rickiekarp.botlib.enums.BotPlatforms
+import net.rickiekarp.core.controller.LanguageController
 
 class PluginData(pluginClazz: String?, pluginName: String?, pluginOldVersion: String?, pluginNewVersion: String?, platform: BotPlatforms?) {
 

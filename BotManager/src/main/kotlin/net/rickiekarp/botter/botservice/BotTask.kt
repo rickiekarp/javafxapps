@@ -1,5 +1,15 @@
 package net.rickiekarp.botter.botservice
 
+import javafx.application.Platform
+import javafx.concurrent.Task
+import net.rickiekarp.botlib.BotLauncher
+import net.rickiekarp.botlib.PluginConfig
+import net.rickiekarp.botlib.enums.BotPlatforms
+import net.rickiekarp.botlib.enums.BotType
+import net.rickiekarp.botlib.model.PluginData
+import net.rickiekarp.botlib.net.BotNetworkApi
+import net.rickiekarp.botter.settings.AppConfiguration
+import net.rickiekarp.botter.view.MainLayout
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
@@ -8,19 +18,7 @@ import net.rickiekarp.core.net.NetResponse
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.ui.tray.ToolTrayIcon
 import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.botlib.BotLauncher
-import net.rickiekarp.botlib.PluginConfig
-import net.rickiekarp.botlib.model.PluginData
-import net.rickiekarp.botlib.net.BotNetworkApi
-import net.rickiekarp.botter.settings.AppConfiguration
-import net.rickiekarp.botter.view.MainLayout
-import javafx.application.Platform
-import javafx.concurrent.Task
-import net.rickiekarp.botlib.enums.BotPlatforms
-import net.rickiekarp.botlib.enums.BotType
-
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class BotTask(botLauncher: BotLauncher, private val plugin: PluginData) : Task<Void>() {

@@ -323,7 +323,7 @@ class FilelistController {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
     }

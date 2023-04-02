@@ -2,14 +2,11 @@ package net.rickiekarp.appupdater.updatemanager
 
 import net.rickiekarp.appupdater.UpdateMain
 import net.rickiekarp.appupdater.ui.UpdateCheckerGUI
-
 import java.io.File
 import java.io.IOException
 import java.net.URISyntaxException
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.StandardCopyOption
-import java.util.ArrayList
 
 class UpdateInstaller {
 

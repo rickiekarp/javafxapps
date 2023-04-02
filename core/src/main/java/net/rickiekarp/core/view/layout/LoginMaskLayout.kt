@@ -1,17 +1,18 @@
 package net.rickiekarp.core.view.layout
 
+import javafx.application.Platform
+import javafx.concurrent.Task
+import javafx.geometry.Pos
+import javafx.scene.Node
+import javafx.scene.control.*
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.VBox
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.account.Account
 import net.rickiekarp.core.account.ILoginHandler
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.core.view.MessageDialog
 import net.rickiekarp.core.view.login.AccountScene
-import javafx.application.Platform
-import javafx.concurrent.Task
-import javafx.geometry.Pos
-import javafx.scene.Node
-import javafx.scene.control.*
-import javafx.scene.layout.*
 
 /**
  * Main Login Mask layout class.

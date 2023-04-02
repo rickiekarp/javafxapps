@@ -1,14 +1,5 @@
 package net.rickiekarp.core.view
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.net.update.UpdateChecker
-import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.core.ui.windowmanager.WindowScene
-import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.Button
@@ -17,7 +8,15 @@ import javafx.scene.control.Label
 import javafx.scene.layout.*
 import javafx.stage.Modality
 import javafx.stage.Stage
-
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.net.update.UpdateChecker
+import net.rickiekarp.core.settings.Configuration
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.ui.windowmanager.WindowScene
+import net.rickiekarp.core.ui.windowmanager.WindowStage
 import java.io.IOException
 import java.net.URISyntaxException
 
@@ -176,7 +175,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
                         if (DebugHelper.DEBUGVERSION) {
                             e1.printStackTrace()
                         } else {
-                            ExceptionHandler(Thread.currentThread(), e1)
+                            ExceptionHandler(e1)
                         }
                     }
 
@@ -186,13 +185,13 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 } catch (e1: IOException) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 }
             }
@@ -272,13 +271,13 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 } catch (e1: IOException) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 }
             }

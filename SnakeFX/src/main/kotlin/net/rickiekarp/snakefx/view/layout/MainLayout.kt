@@ -22,7 +22,6 @@ import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
 import net.rickiekarp.core.view.layout.AppLayout
-import net.rickiekarp.snakefx.core.NewGameFunction
 import net.rickiekarp.snakefx.core.SpeedLevel
 import net.rickiekarp.snakefx.highscore.HighScoreEntry
 import net.rickiekarp.snakefx.highscore.HighscoreJsonDao

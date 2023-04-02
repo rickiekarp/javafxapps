@@ -1,9 +1,9 @@
 package net.rickiekarp.appupdater;
 
-import net.rickiekarp.appupdater.ui.UpdateCheckerGUI;
-import net.rickiekarp.appupdater.updatemanager.UpdateInstaller;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import net.rickiekarp.appupdater.ui.UpdateCheckerGUI;
+import net.rickiekarp.appupdater.updatemanager.UpdateInstaller;
 
 public class UpdateMain extends Application {
     private static String[] savedArgs;

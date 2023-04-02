@@ -1,16 +1,16 @@
 package net.rickiekarp.colorpuzzlefx.view.ai.benchmark;
 
 import de.saxsys.mvvmfx.ViewModel;
-import net.rickiekarp.colorpuzzlefx.ai.Solver;
-import net.rickiekarp.colorpuzzlefx.ai.SolverManager;
-import net.rickiekarp.colorpuzzlefx.core.Colors;
-import net.rickiekarp.colorpuzzlefx.core.GameLogic;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import net.rickiekarp.colorpuzzlefx.ai.Solver;
+import net.rickiekarp.colorpuzzlefx.ai.SolverManager;
+import net.rickiekarp.colorpuzzlefx.core.Colors;
+import net.rickiekarp.colorpuzzlefx.core.GameLogic;
 
 import java.util.ArrayList;
 import java.util.Collections;

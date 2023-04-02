@@ -1,17 +1,5 @@
 package net.rickiekarp.botter.view
 
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.control.TextField
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.util.parser.JsonParser
-import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.botlib.BotConfig
-import net.rickiekarp.botlib.PluginConfig
-import net.rickiekarp.botlib.enums.BotType
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -20,8 +8,16 @@ import javafx.scene.control.*
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.*
 import javafx.stage.DirectoryChooser
+import net.rickiekarp.botlib.BotConfig
+import net.rickiekarp.botlib.PluginConfig
+import net.rickiekarp.botlib.enums.BotType
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.settings.Configuration
+import net.rickiekarp.core.util.parser.JsonParser
+import net.rickiekarp.core.view.MainScene
 import org.json.JSONObject
-
 import java.io.File
 import java.util.logging.Level
 import kotlin.math.max

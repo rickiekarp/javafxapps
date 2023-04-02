@@ -1,9 +1,9 @@
 package net.rickiekarp.botlib.net
 
+import net.rickiekarp.botlib.model.PluginData
 import net.rickiekarp.core.net.NetworkAction
 import net.rickiekarp.core.net.NetworkApi
 import net.rickiekarp.core.net.provider.NetworkParameterProvider
-import net.rickiekarp.botlib.model.PluginData
 
 class BotNetworkApi : NetworkApi() {
     companion object {

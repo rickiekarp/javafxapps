@@ -1,6 +1,5 @@
 package net.rickiekarp.snakefx.core;
 
-import net.rickiekarp.snakefx.view.ViewModel;
 import javafx.animation.Animation;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
@@ -8,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
+import net.rickiekarp.snakefx.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

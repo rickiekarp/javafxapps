@@ -1,17 +1,5 @@
 package net.rickiekarp.core.view
 
-import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.AppDatabase
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.model.ChangelogEntry
-import net.rickiekarp.core.net.NetResponse
-import net.rickiekarp.core.net.NetworkApi
-import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.util.parser.XmlParser
-import net.rickiekarp.core.ui.windowmanager.ThemeSelector
-import net.rickiekarp.core.ui.windowmanager.WindowScene
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import javafx.application.Platform
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -23,14 +11,22 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
-import org.w3c.dom.Document
+import net.rickiekarp.core.AppContext
+import net.rickiekarp.core.AppDatabase
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.model.ChangelogEntry
+import net.rickiekarp.core.net.NetResponse
+import net.rickiekarp.core.net.NetworkApi
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.ui.windowmanager.ThemeSelector
+import net.rickiekarp.core.ui.windowmanager.WindowScene
+import net.rickiekarp.core.ui.windowmanager.WindowStage
+import net.rickiekarp.core.util.parser.XmlParser
 import org.w3c.dom.Element
-import org.w3c.dom.NodeList
 import org.xml.sax.SAXException
-
-import javax.xml.parsers.ParserConfigurationException
 import java.io.IOException
-import java.util.ArrayList
+import javax.xml.parsers.ParserConfigurationException
 
 /**
  * This class is used for creating different message dialogs.

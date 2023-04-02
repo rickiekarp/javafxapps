@@ -1,12 +1,5 @@
 package net.rickiekarp.botlib
 
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.util.OSValidator
-import net.rickiekarp.core.view.MessageDialog
-import net.rickiekarp.botlib.model.PluginData
-import net.rickiekarp.botlib.plugin.PluginExecutor
-import net.rickiekarp.botlib.runner.BotRunner
-import net.rickiekarp.botlib.runner.BotRunnerBuilder
 import io.appium.java_client.remote.MobileCapabilityType
 import io.appium.java_client.service.local.AppiumDriverLocalService
 import io.appium.java_client.service.local.AppiumServiceBuilder
@@ -14,13 +7,19 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag
 import javafx.application.Platform
 import net.rickiekarp.botlib.enums.BotPlatforms
 import net.rickiekarp.botlib.enums.BotType
+import net.rickiekarp.botlib.model.PluginData
+import net.rickiekarp.botlib.plugin.PluginExecutor
+import net.rickiekarp.botlib.runner.BotRunner
+import net.rickiekarp.botlib.runner.BotRunnerBuilder
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.util.OSValidator
+import net.rickiekarp.core.view.MessageDialog
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.firefox.internal.ProfilesIni
 import org.openqa.selenium.remote.DesiredCapabilities
-
 import java.io.File
 import java.io.IOException
 

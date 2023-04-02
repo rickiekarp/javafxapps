@@ -1,11 +1,10 @@
 package net.rickiekarp.snakefx.view
 
-import net.rickiekarp.snakefx.core.Direction
-import net.rickiekarp.snakefx.core.SpeedLevel
 import javafx.animation.Animation.Status
 import javafx.beans.property.*
-
-import net.rickiekarp.snakefx.settings.Config.*
+import net.rickiekarp.snakefx.core.Direction
+import net.rickiekarp.snakefx.core.SpeedLevel
+import net.rickiekarp.snakefx.settings.Config.ROW_AND_COLUMN_COUNT
 
 /**
  * This class is the central viewmodel that contains the current state of the

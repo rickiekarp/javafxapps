@@ -1,6 +1,5 @@
 package net.rickiekarp.appupdater.ui
 
-import net.rickiekarp.appupdater.UpdateMain
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.Button
@@ -9,12 +8,9 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
-import net.rickiekarp.core.AppContext
-
+import net.rickiekarp.appupdater.UpdateMain
 import java.io.IOException
-import java.util.jar.Attributes
 import java.util.jar.JarFile
-import java.util.jar.Manifest
 
 class UpdateCheckerGUI : Stage() {
     private var textArea: TextArea? = null

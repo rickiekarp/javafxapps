@@ -1,10 +1,8 @@
 package net.rickiekarp.core.ui.windowmanager
 
-import net.rickiekarp.core.components.button.SidebarButton
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
-
-import java.util.ArrayList
+import net.rickiekarp.core.components.button.SidebarButton
 
 class WindowContentController internal constructor() {
     private val sidebarNodes: MutableList<SidebarButton>

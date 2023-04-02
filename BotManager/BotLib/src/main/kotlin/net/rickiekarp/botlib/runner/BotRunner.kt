@@ -1,8 +1,8 @@
 package net.rickiekarp.botlib.runner
 
-import net.rickiekarp.botlib.model.Credentials
 import javafx.scene.Node
 import javafx.scene.control.Button
+import net.rickiekarp.botlib.model.Credentials
 
 /**
  * This class starts the bot on the defined platform.

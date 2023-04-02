@@ -1,5 +1,6 @@
 package net.rickiekarp.core.settings
 
+import javafx.collections.FXCollections
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
@@ -7,8 +8,6 @@ import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.model.ConsoleCommands
 import net.rickiekarp.core.view.CommandsScene
 import net.rickiekarp.core.view.MessageDialog
-import javafx.collections.FXCollections
-
 import java.io.IOException
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
@@ -59,13 +58,13 @@ class AppCommands {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         } catch (e1: IOException) {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
     }

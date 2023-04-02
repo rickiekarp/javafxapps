@@ -2,11 +2,9 @@ package net.rickiekarp.core.controller
 
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
-
 import java.io.IOException
 import java.io.InputStream
-import java.util.Locale
-import java.util.Properties
+import java.util.*
 
 object LanguageController {
     private var prop: Properties? = null

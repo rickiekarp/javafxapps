@@ -1,9 +1,9 @@
 package net.rickiekarp.snakefx.inject;
 
+import javafx.util.Callback;
 import net.rickiekarp.snakefx.core.*;
 import net.rickiekarp.snakefx.util.KeyboardHandler;
 import net.rickiekarp.snakefx.view.ViewModel;
-import javafx.util.Callback;
 
 import java.util.HashMap;
 import java.util.Map;

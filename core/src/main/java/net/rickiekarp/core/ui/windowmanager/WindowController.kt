@@ -1,18 +1,16 @@
 package net.rickiekarp.core.ui.windowmanager
 
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.view.MainScene
 import javafx.application.Platform
-import javafx.collections.ObservableList
 import javafx.geometry.BoundingBox
 import javafx.geometry.Bounds
-import javafx.geometry.Rectangle2D
 import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.input.MouseEvent
 import javafx.stage.Screen
 import javafx.stage.Stage
 import javafx.stage.WindowEvent
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.view.MainScene
 
 class WindowController internal constructor(private val window: Window) {
     private val DOCK_NONE = 0x0

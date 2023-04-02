@@ -1,15 +1,10 @@
 package net.rickiekarp.sha1pass.view
 
-import net.rickiekarp.sha1pass.settings.AppConfiguration
 import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
-import javafx.scene.control.Label
-import javafx.scene.control.TextField
-import javafx.scene.control.Tooltip
-import javafx.scene.control.CheckBox
-import javafx.scene.control.Button
+import javafx.scene.control.*
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
 import javafx.scene.layout.BorderPane
@@ -23,13 +18,10 @@ import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.components.textfield.CustomTextFieldSkin
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.util.crypt.BCryptCoder
-import net.rickiekarp.core.util.crypt.Base64Coder
-import net.rickiekarp.core.util.crypt.ColorCoder
-import net.rickiekarp.core.util.crypt.SHA1Coder
-import net.rickiekarp.core.util.crypt.HexCoder
+import net.rickiekarp.core.util.crypt.*
 import net.rickiekarp.core.view.AboutScene
 import net.rickiekarp.core.view.layout.AppLayout
+import net.rickiekarp.sha1pass.settings.AppConfiguration
 
 class MainLayout : AppLayout {
     private var isSecure = false
@@ -234,8 +226,8 @@ class MainLayout : AppLayout {
                 status.text = LanguageController.getString("bcrypt_password_copied")
             }
 
-            viewMode.selectedProperty().addListener { _, _, new_val ->
-                if (new_val!!) {
+            viewMode.selectedProperty().addListener { _, _, newVal ->
+                if (newVal!!) {
                     wordBox!!.children.remove(wordMaskTF)
                     wordBox!!.children.add(wordTF)
                     status.text = LanguageController.getString("vs_on")
@@ -255,8 +247,8 @@ class MainLayout : AppLayout {
             sentenceTF!!.textProperty().bindBidirectional(sentenceMaskTF!!.textProperty())
             wordTF!!.textProperty().bindBidirectional(wordMaskTF.textProperty())
 
-            secureMode.selectedProperty().addListener { _, _, new_val ->
-                if (new_val!!) {
+            secureMode.selectedProperty().addListener { _, _, newVal ->
+                if (newVal!!) {
                     isSecure = true
                     viewMode.isDisable = true
                     viewMode.isSelected = false
@@ -274,8 +266,8 @@ class MainLayout : AppLayout {
                 }
             }
 
-            hmacMode.selectedProperty().addListener { _, _, new_val ->
-                if (new_val!!) {
+            hmacMode.selectedProperty().addListener { _, _, newVal ->
+                if (newVal) {
                     hmac = true
                     status.text = LanguageController.getString("hmac_on")
                 } else {
@@ -284,8 +276,8 @@ class MainLayout : AppLayout {
                 }
             }
 
-            complexMode.selectedProperty().addListener { _, _, new_val ->
-                if (new_val!!) {
+            complexMode.selectedProperty().addListener { _, _, newVal ->
+                if (newVal) {
                     complex = true
                     status.text = LanguageController.getString("comp_on")
                 } else {

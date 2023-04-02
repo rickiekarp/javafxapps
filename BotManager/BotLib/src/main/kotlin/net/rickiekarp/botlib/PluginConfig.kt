@@ -1,10 +1,10 @@
 package net.rickiekarp.botlib
 
-import net.rickiekarp.core.settings.LoadSave
+import javafx.collections.ObservableList
 import net.rickiekarp.botlib.enums.BotPlatforms
 import net.rickiekarp.botlib.enums.BotType
 import net.rickiekarp.botlib.plugin.BotSetting
-import javafx.collections.ObservableList
+import net.rickiekarp.core.settings.LoadSave
 
 object PluginConfig {
 

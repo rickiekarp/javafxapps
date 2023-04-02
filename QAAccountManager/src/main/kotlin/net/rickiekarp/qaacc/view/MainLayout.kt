@@ -1,17 +1,5 @@
 package net.rickiekarp.qaacc.view
 
-import net.rickiekarp.core.components.textfield.CustomTextField
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.util.CommonUtil
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
-import net.rickiekarp.core.view.MessageDialog
-import net.rickiekarp.core.view.layout.AppLayout
-import net.rickiekarp.qaacc.factory.AccountXmlFactory
-import net.rickiekarp.qaacc.model.Account
-import net.rickiekarp.qaacc.settings.AppConfiguration
 import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -19,12 +7,23 @@ import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
+import net.rickiekarp.core.components.textfield.CustomTextField
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.util.CommonUtil
+import net.rickiekarp.core.view.MessageDialog
+import net.rickiekarp.core.view.layout.AppLayout
+import net.rickiekarp.qaacc.factory.AccountXmlFactory
+import net.rickiekarp.qaacc.model.Account
+import net.rickiekarp.qaacc.settings.AppConfiguration
 import org.xml.sax.SAXException
-
-import javax.xml.parsers.ParserConfigurationException
-import javax.xml.transform.TransformerException
 import java.io.IOException
 import java.util.logging.Level
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.transform.TransformerException
 
 class MainLayout : AppLayout {
     private var findAccount: Button? = null
@@ -207,25 +206,25 @@ class MainLayout : AppLayout {
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         } catch (e1: IOException) {
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         } catch (e1: SAXException) {
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         } catch (e1: TransformerException) {
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         }
 
@@ -290,7 +289,7 @@ class MainLayout : AppLayout {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 }
             }

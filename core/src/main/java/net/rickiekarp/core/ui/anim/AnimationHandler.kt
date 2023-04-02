@@ -1,6 +1,5 @@
 package net.rickiekarp.core.ui.anim
 
-import net.rickiekarp.core.settings.Configuration
 import javafx.animation.*
 import javafx.beans.property.DoubleProperty
 import javafx.beans.property.SimpleDoubleProperty
@@ -8,6 +7,7 @@ import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.image.ImageView
 import javafx.util.Duration
+import net.rickiekarp.core.settings.Configuration
 
 /**
  *

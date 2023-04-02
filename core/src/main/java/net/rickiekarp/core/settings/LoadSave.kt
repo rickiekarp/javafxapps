@@ -1,8 +1,8 @@
 package net.rickiekarp.core.settings
 
-import net.rickiekarp.core.controller.LanguageController
 import javafx.geometry.Side
 import javafx.scene.paint.Color
+import net.rickiekarp.core.controller.LanguageController
 
 /** Annotation for indicating load/save a field.  */
 @Retention(AnnotationRetention.RUNTIME)

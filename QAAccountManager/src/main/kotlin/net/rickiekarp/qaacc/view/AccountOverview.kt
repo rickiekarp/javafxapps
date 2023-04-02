@@ -1,15 +1,5 @@
 package net.rickiekarp.qaacc.view
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.ui.windowmanager.WindowScene
-import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
-import net.rickiekarp.qaacc.factory.AccountXmlFactory
-import net.rickiekarp.qaacc.model.Account
-import net.rickiekarp.qaacc.settings.AppConfiguration
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
@@ -20,7 +10,16 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
-
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.ui.windowmanager.WindowScene
+import net.rickiekarp.core.ui.windowmanager.WindowStage
+import net.rickiekarp.qaacc.factory.AccountXmlFactory
+import net.rickiekarp.qaacc.model.Account
+import net.rickiekarp.qaacc.settings.AppConfiguration
 import java.net.MalformedURLException
 import java.util.logging.Level
 
@@ -243,7 +242,7 @@ class AccountOverview(projectID: Int) {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
         }

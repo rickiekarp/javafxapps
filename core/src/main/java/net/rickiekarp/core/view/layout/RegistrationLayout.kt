@@ -1,17 +1,19 @@
 package net.rickiekarp.core.view.layout
 
+import javafx.geometry.Pos
+import javafx.scene.Node
+import javafx.scene.control.Button
+import javafx.scene.control.Label
+import javafx.scene.control.PasswordField
+import javafx.scene.control.TextField
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.VBox
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.account.Account
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.net.NetResponse
 import net.rickiekarp.core.net.NetworkApi
 import net.rickiekarp.core.view.MessageDialog
-import javafx.geometry.Pos
-import javafx.scene.Node
-import javafx.scene.control.*
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.VBox
-
 import java.util.logging.Level
 
 /**

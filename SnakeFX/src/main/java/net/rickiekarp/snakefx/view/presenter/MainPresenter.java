@@ -1,7 +1,7 @@
 package net.rickiekarp.snakefx.view.presenter;
 
-import net.rickiekarp.snakefx.core.Grid;
 import javafx.scene.layout.Pane;
+import net.rickiekarp.snakefx.core.Grid;
 
 import java.util.function.Consumer;
 

@@ -2,11 +2,9 @@ package net.rickiekarp.core.debug
 
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.settings.Configuration
-
 import java.io.File
 import java.io.IOException
 import java.net.URISyntaxException
-import java.util.ArrayList
 
 /**
  * This class contains helper functions used for debugging purposes.

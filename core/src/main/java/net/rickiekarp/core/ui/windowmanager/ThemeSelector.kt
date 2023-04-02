@@ -1,13 +1,9 @@
 package net.rickiekarp.core.ui.windowmanager
 
-import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.core.view.CommandsScene
-import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.core.view.SettingsScene
 import javafx.scene.Scene
 import javafx.scene.paint.Color
-
-import java.net.URL
+import net.rickiekarp.core.settings.Configuration
+import net.rickiekarp.core.view.MainScene
 
 object ThemeSelector {
 

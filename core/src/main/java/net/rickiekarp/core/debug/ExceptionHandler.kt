@@ -1,7 +1,5 @@
 package net.rickiekarp.core.debug
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.ui.windowmanager.ThemeSelector
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Scene
@@ -12,8 +10,9 @@ import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.stage.Modality
 import javafx.stage.Stage
-
-import java.awt.*
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.ui.windowmanager.ThemeSelector
+import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 import java.util.logging.Level
 
@@ -21,20 +20,19 @@ import java.util.logging.Level
  * This class is the default uncaught exception handler.
  * It contains the GUI if an exception is thrown
  */
-class ExceptionHandler(thread: Thread, throwable: Throwable) {
+class ExceptionHandler(throwable: Throwable) {
 
     init {
         LogFileHandler.logger.log(Level.SEVERE, getExceptionString(throwable))
-        createExceptionGUI(thread, throwable)
+        createExceptionGUI(throwable)
     }
 
     /**
      * Creates exception gui
      */
-    private fun createExceptionGUI(t: Thread, e: Throwable) {
+    private fun createExceptionGUI(e: Throwable) {
         val modalDialog = Stage()
         modalDialog.title = LanguageController.getString("error")
-        //modalDialog.getIcons().add(ImageLoaderUtil.app_icon);
         modalDialog.initModality(Modality.APPLICATION_MODAL)
         modalDialog.isResizable = true
         modalDialog.setOnCloseRequest { modalDialog.close() }
@@ -123,9 +121,9 @@ class ExceptionHandler(thread: Thread, throwable: Throwable) {
             } catch (e1: IndexOutOfBoundsException) {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 

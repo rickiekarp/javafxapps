@@ -3,12 +3,10 @@ package crypt
 import net.rickiekarp.core.util.crypt.Base64Coder
 import net.rickiekarp.core.util.crypt.ColorCoder
 import net.rickiekarp.core.util.crypt.SHA1Coder
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
 import java.io.UnsupportedEncodingException
 import java.security.NoSuchAlgorithmException
-
-import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class Base64Test {
 

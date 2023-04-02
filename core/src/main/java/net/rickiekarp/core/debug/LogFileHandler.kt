@@ -1,17 +1,17 @@
 package net.rickiekarp.core.debug
 
+import javafx.collections.FXCollections
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.core.view.MessageDialog
-import javafx.collections.FXCollections
-
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.PrintStream
-import java.util.Date
+import java.util.*
 import java.util.logging.*
+import java.util.logging.Formatter
 
 /**
  * This class handles the Logfile behaviour (set up logger, create logfile etc.)
@@ -85,7 +85,7 @@ class LogFileHandler {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 }
 
@@ -150,7 +150,7 @@ class LogFileHandler {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 
@@ -161,7 +161,7 @@ class LogFileHandler {
          * Deletes all logged data
          */
         fun clearLogData() {
-            if (logData.size !== 0) {
+            if (logData.size != 0) {
                 logData.clear()
                 logger.log(Level.INFO, "Logfile cleared!")
             }

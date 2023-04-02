@@ -1,8 +1,7 @@
 package net.rickiekarp.core.ui.windowmanager
 
 import net.rickiekarp.core.debug.LogFileHandler
-
-import java.util.Stack
+import java.util.*
 
 class WindowStageStack : Stack<WindowStage>() {
     val sceneViewStack: WindowStack = WindowStack()

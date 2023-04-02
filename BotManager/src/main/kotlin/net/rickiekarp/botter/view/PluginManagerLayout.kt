@@ -1,21 +1,5 @@
 package net.rickiekarp.botter.view
 
-import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.net.NetResponse
-import net.rickiekarp.core.net.update.FileDownloader
-import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.core.ui.windowmanager.WindowScene
-import net.rickiekarp.core.util.FileUtil
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
-import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.botlib.enums.BotPlatforms
-import net.rickiekarp.botlib.model.PluginData
-import net.rickiekarp.botlib.net.BotNetworkApi
 import javafx.application.Platform
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -26,17 +10,28 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.stage.Stage
-import net.rickiekarp.botter.settings.AppConfiguration
-import net.rickiekarp.core.ui.tray.ToolTrayIcon
+import net.rickiekarp.botlib.enums.BotPlatforms
+import net.rickiekarp.botlib.model.PluginData
+import net.rickiekarp.botlib.net.BotNetworkApi
+import net.rickiekarp.core.AppContext
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.net.NetResponse
+import net.rickiekarp.core.net.update.FileDownloader
+import net.rickiekarp.core.settings.Configuration
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.ui.windowmanager.WindowScene
+import net.rickiekarp.core.ui.windowmanager.WindowStage
+import net.rickiekarp.core.util.FileUtil
+import net.rickiekarp.core.view.MainScene
 import org.json.JSONArray
 import org.json.JSONObject
-
 import java.io.File
 import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 class PluginManagerLayout {
     private var pluginTable: TableView<PluginData>? = null

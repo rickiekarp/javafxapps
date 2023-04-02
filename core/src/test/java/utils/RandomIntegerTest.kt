@@ -1,9 +1,8 @@
 package utils
 
 import net.rickiekarp.core.util.CommonUtil
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 internal class RandomIntegerTest {
 

@@ -1,7 +1,17 @@
 package net.rickiekarp.botter;
 
+import javafx.concurrent.Task;
+import javafx.stage.Stage;
+import net.rickiekarp.botlib.BotConfig;
+import net.rickiekarp.botlib.PluginConfig;
+import net.rickiekarp.botlib.enums.BotPlatforms;
+import net.rickiekarp.botlib.enums.BotType;
+import net.rickiekarp.botlib.model.PluginData;
 import net.rickiekarp.botter.botservice.BotCommands;
 import net.rickiekarp.botter.settings.AppConfiguration;
+import net.rickiekarp.botter.view.BotSetupLayout;
+import net.rickiekarp.botter.view.MainLayout;
+import net.rickiekarp.botter.view.PluginManagerLayout;
 import net.rickiekarp.core.AppContext;
 import net.rickiekarp.core.AppStarter;
 import net.rickiekarp.core.account.ILoginHandler;
@@ -14,16 +24,6 @@ import net.rickiekarp.core.util.FileUtil;
 import net.rickiekarp.core.view.MainScene;
 import net.rickiekarp.core.view.MessageDialog;
 import net.rickiekarp.core.view.layout.LoginMaskLayout;
-import net.rickiekarp.botlib.BotConfig;
-import net.rickiekarp.botlib.PluginConfig;
-import net.rickiekarp.botlib.enums.BotPlatforms;
-import net.rickiekarp.botlib.enums.BotType;
-import net.rickiekarp.botlib.model.PluginData;
-import net.rickiekarp.botter.view.BotSetupLayout;
-import net.rickiekarp.botter.view.MainLayout;
-import net.rickiekarp.botter.view.PluginManagerLayout;
-import javafx.concurrent.Task;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;

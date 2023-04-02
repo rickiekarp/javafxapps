@@ -51,8 +51,10 @@ open class AppStarter : Application() {
 
         //set the default exception handler
         if (!DebugHelper.DEBUGVERSION) {
-            Thread.setDefaultUncaughtExceptionHandler { t, e -> Platform.runLater { ExceptionHandler(t, e) } }
-            Thread.currentThread().uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { thread, throwable -> ExceptionHandler(thread, throwable) }
+            Thread.setDefaultUncaughtExceptionHandler { t, e -> Platform.runLater { ExceptionHandler(e) } }
+            Thread.currentThread().uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { thread, throwable -> ExceptionHandler(
+                throwable
+            ) }
         }
 
         //application related configuration

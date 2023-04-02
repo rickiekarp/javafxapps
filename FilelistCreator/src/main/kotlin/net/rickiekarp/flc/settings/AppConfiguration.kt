@@ -1,9 +1,9 @@
 package net.rickiekarp.flc.settings
 
+import javafx.collections.FXCollections
 import net.rickiekarp.core.settings.LoadSave
 import net.rickiekarp.flc.model.Directorylist
 import net.rickiekarp.flc.model.Filelist
-import javafx.collections.FXCollections
 
 class AppConfiguration {
 

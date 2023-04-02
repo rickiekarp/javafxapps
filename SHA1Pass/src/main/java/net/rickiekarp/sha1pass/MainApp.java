@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 import net.rickiekarp.core.AppStarter;
 import net.rickiekarp.sha1pass.settings.AppConfiguration;
 import net.rickiekarp.sha1pass.view.MainLayout;
+import org.jetbrains.annotations.NotNull;
 
 public class MainApp extends AppStarter {
 
@@ -16,7 +17,7 @@ public class MainApp extends AppStarter {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(@NotNull Stage stage) {
         setMainClazz(MainApp.class);
         setConfigClazz(AppConfiguration.class);
 

@@ -6,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
         classpath "org.openjfx:javafx-plugin:0.0.13"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1"
     }
@@ -29,13 +29,14 @@ allprojects {
         jcenter()
     }
 
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     dependencies {
         testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
-        /* uncomment for cross-platform jar: */
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
     }
 
     test {
@@ -45,17 +46,6 @@ allprojects {
             // standard out or error is shown
             // in Gradle output.
             showStandardStreams = true
-
-            // Or we use events method:
-            // events 'standard_out', 'standard_error'
-
-            // Or set property events:
-            // events = ['standard_out', 'standard_error']
-
-            // Instead of string values we can
-            // use enum values:
-            // events org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
-            //        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
         }
     }
 

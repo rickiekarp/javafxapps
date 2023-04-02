@@ -1,7 +1,6 @@
 package net.rickiekarp.colorpuzzlefx.view.ai.solver;
 
-import net.rickiekarp.colorpuzzlefx.ai.SolverManager;
-import net.rickiekarp.colorpuzzlefx.view.ai.benchmark.BenchmarkViewPopup;
+import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,12 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
-
-import de.saxsys.mvvmfx.ViewModel;
 import net.rickiekarp.colorpuzzlefx.ai.Solver;
+import net.rickiekarp.colorpuzzlefx.ai.SolverManager;
 import net.rickiekarp.colorpuzzlefx.core.ColorProfile;
 import net.rickiekarp.colorpuzzlefx.core.Colors;
 import net.rickiekarp.colorpuzzlefx.core.GameLogic;
+import net.rickiekarp.colorpuzzlefx.view.ai.benchmark.BenchmarkViewPopup;
 
 import java.util.Optional;
 

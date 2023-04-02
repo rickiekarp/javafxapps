@@ -5,12 +5,10 @@ import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.util.crypt.ColorCoder
 import net.rickiekarp.core.util.crypt.HexCoder
 import net.rickiekarp.core.util.crypt.SHA1Coder
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
 import java.io.UnsupportedEncodingException
 import java.security.NoSuchAlgorithmException
-
-import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class HexTest {
 
@@ -48,14 +46,14 @@ internal class HexTest {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
                 return
             } catch (e1: NoSuchAlgorithmException) {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
                 return
             }

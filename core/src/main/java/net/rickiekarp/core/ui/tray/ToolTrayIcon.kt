@@ -1,13 +1,12 @@
 package net.rickiekarp.core.ui.tray
 
+import javafx.application.Platform
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.view.MainScene
-import javafx.application.Platform
-
-import javax.imageio.ImageIO
-import java.awt.*
+import java.awt.AWTException
 import java.io.IOException
-import java.io.InputStream
+import javax.imageio.ImageIO
+import kotlin.system.exitProcess
 
 class ToolTrayIcon {
     private var trayIcon: java.awt.TrayIcon? = null
@@ -42,12 +41,12 @@ class ToolTrayIcon {
             trayIcon!!.toolTip = "Giveaway Bot"
 
             // if the user double-clicks on the tray icon, show the main app stage.
-            trayIcon!!.addActionListener { event -> Platform.runLater { this.showStage() } }
+            trayIcon!!.addActionListener { _ -> Platform.runLater { this.showStage() } }
 
             // if the user selects the default menu item (which includes the app name),
             // show the main app stage.
             val openItem = java.awt.MenuItem(AppContext.context.applicationName)
-            openItem.addActionListener { event -> Platform.runLater { this.showStage() } }
+            openItem.addActionListener { _ -> Platform.runLater { this.showStage() } }
 
             // the convention for tray icons seems to be to set the default icon for opening
             // the application stage in a bold font.
@@ -59,7 +58,7 @@ class ToolTrayIcon {
             // and select the exit option, this will shutdown JavaFX and remove the
             // tray icon (removing the tray icon will also shut down AWT).
             val exitItem = java.awt.MenuItem("Exit")
-            exitItem.addActionListener { event -> System.exit(0) }
+            exitItem.addActionListener { _ -> exitProcess(0) }
 
             // setup the popup menu for the application.
             val popup = java.awt.PopupMenu()
@@ -108,10 +107,8 @@ class ToolTrayIcon {
      * Shows the application stage and ensures that it is brought ot the front of all stages.
      */
     private fun showStage() {
-        if (MainScene.mainScene.windowScene!!.win!!.windowStage != null) {
-            MainScene.mainScene.windowScene!!.win!!.windowStage.stage!!.show()
-            MainScene.mainScene.windowScene!!.win!!.windowStage.stage!!.toFront()
-        }
+        MainScene.mainScene.windowScene!!.win.windowStage.stage.show()
+        MainScene.mainScene.windowScene!!.win.windowStage.stage.toFront()
     }
 
     companion object {

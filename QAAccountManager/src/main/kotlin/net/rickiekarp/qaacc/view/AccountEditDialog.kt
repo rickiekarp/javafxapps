@@ -1,17 +1,5 @@
 package net.rickiekarp.qaacc.view
 
-import net.rickiekarp.core.components.textfield.CustomTextField
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.ui.windowmanager.WindowScene
-import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.ui.windowmanager.ImageLoader
-import net.rickiekarp.core.view.MessageDialog
-import net.rickiekarp.qaacc.factory.AccountXmlFactory
-import net.rickiekarp.qaacc.model.Account
-import net.rickiekarp.qaacc.settings.AppConfiguration
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
@@ -20,13 +8,24 @@ import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.*
 import javafx.stage.Stage
+import net.rickiekarp.core.components.textfield.CustomTextField
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.ui.windowmanager.ImageLoader
+import net.rickiekarp.core.ui.windowmanager.WindowScene
+import net.rickiekarp.core.ui.windowmanager.WindowStage
+import net.rickiekarp.core.view.MessageDialog
+import net.rickiekarp.qaacc.factory.AccountXmlFactory
+import net.rickiekarp.qaacc.model.Account
+import net.rickiekarp.qaacc.settings.AppConfiguration
 import org.xml.sax.SAXException
-
-import javax.xml.parsers.ParserConfigurationException
-import javax.xml.transform.TransformerException
 import java.io.IOException
 import java.net.MalformedURLException
 import java.util.logging.Level
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.transform.TransformerException
 
 class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, selectedIdx: Int, selectedItem: Account?) {
     private var accEditScene: WindowScene? = null
@@ -159,25 +158,25 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         } catch (e1: ParserConfigurationException) {
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         } catch (e1: IOException) {
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         } catch (e1: SAXException) {
                             if (DebugHelper.DEBUGVERSION) {
                                 e1.printStackTrace()
                             } else {
-                                ExceptionHandler(Thread.currentThread(), e1)
+                                ExceptionHandler(e1)
                             }
                         }
 
@@ -215,7 +214,7 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
                         if (DebugHelper.DEBUGVERSION) {
                             e1.printStackTrace()
                         } else {
-                            ExceptionHandler(Thread.currentThread(), e1)
+                            ExceptionHandler(e1)
                         }
                     }
 

@@ -8,9 +8,9 @@ import net.rickiekarp.snakefx.highscore.HighscoreManager;
 import net.rickiekarp.snakefx.inject.DependencyInjector;
 import net.rickiekarp.snakefx.settings.AppConfiguration;
 import net.rickiekarp.snakefx.util.KeyboardHandler;
+import net.rickiekarp.snakefx.view.ViewModel;
 import net.rickiekarp.snakefx.view.layout.MainLayout;
 import net.rickiekarp.snakefx.view.presenter.MainPresenter;
-import net.rickiekarp.snakefx.view.ViewModel;
 
 public class MainApp extends AppStarter {
 

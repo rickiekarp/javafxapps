@@ -1,9 +1,9 @@
 package net.rickiekarp.snakefx.core;
 
 
-import net.rickiekarp.snakefx.view.ViewModel;
 import javafx.animation.Animation.Status;
 import javafx.animation.Timeline;
+import net.rickiekarp.snakefx.view.ViewModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

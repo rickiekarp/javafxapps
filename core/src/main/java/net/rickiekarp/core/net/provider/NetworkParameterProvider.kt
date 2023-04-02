@@ -1,9 +1,7 @@
 package net.rickiekarp.core.net.provider
 
 import net.rickiekarp.core.net.NetworkAction
-
-import java.util.LinkedHashMap
-import java.util.Locale
+import java.util.*
 
 class NetworkParameterProvider private constructor() : NetworkAction.IParameterProvider {
     private val mParameterMap = LinkedHashMap<String, Any>()

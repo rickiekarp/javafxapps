@@ -3,9 +3,7 @@ package net.rickiekarp.snakefx.highscore
 import org.codehaus.jackson.map.ObjectMapper
 import org.codehaus.jackson.map.SerializationConfig.Feature
 import org.codehaus.jackson.map.type.TypeFactory
-
 import java.io.IOException
-import java.util.Collections
 
 /**
  * DAO implementation for [HighScoreEntry] that is using a JSON for persistence.

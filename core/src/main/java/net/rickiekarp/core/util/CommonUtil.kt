@@ -1,8 +1,7 @@
 package net.rickiekarp.core.util
 
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Random
+import java.util.*
 
 object CommonUtil {
 

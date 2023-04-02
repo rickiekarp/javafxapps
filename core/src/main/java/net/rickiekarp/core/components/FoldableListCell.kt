@@ -1,12 +1,14 @@
 package net.rickiekarp.core.components
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.model.SettingEntry
-import javafx.scene.control.*
+import javafx.scene.control.Label
+import javafx.scene.control.ListCell
+import javafx.scene.control.ListView
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Paint
 import javafx.scene.shape.SVGPath
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.model.SettingEntry
 
 class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<SettingEntry>() {
 

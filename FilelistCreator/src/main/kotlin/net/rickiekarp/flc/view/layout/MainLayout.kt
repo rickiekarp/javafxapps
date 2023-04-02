@@ -1,20 +1,5 @@
 package net.rickiekarp.flc.view.layout
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.settings.Configuration
-import net.rickiekarp.core.ui.anim.AnimationHandler
-import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.core.view.layout.AppLayout
-import net.rickiekarp.flc.controller.FilelistController
-import net.rickiekarp.flc.model.Directorylist
-import net.rickiekarp.flc.model.Filelist
-import net.rickiekarp.flc.model.FilelistFormats
-import net.rickiekarp.core.model.SettingEntry
-import net.rickiekarp.flc.settings.AppConfiguration
-import net.rickiekarp.flc.tasks.FilelistPreviewTask
-import net.rickiekarp.flc.tasks.ListTask
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
@@ -28,13 +13,27 @@ import javafx.scene.input.KeyCode
 import javafx.scene.layout.*
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
-import net.rickiekarp.core.view.AboutScene
-import net.rickiekarp.core.view.SettingsScene
-import net.rickiekarp.flc.tasks.FileSizeTask
-
-import java.text.DecimalFormatSymbols
-import java.util.Collections
 import net.rickiekarp.core.components.FoldableListCell
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.model.SettingEntry
+import net.rickiekarp.core.settings.Configuration
+import net.rickiekarp.core.ui.anim.AnimationHandler
+import net.rickiekarp.core.view.AboutScene
+import net.rickiekarp.core.view.MainScene
+import net.rickiekarp.core.view.SettingsScene
+import net.rickiekarp.core.view.layout.AppLayout
+import net.rickiekarp.flc.controller.FilelistController
+import net.rickiekarp.flc.model.Directorylist
+import net.rickiekarp.flc.model.Filelist
+import net.rickiekarp.flc.model.FilelistFormats
+import net.rickiekarp.flc.settings.AppConfiguration
+import net.rickiekarp.flc.tasks.FileSizeTask
+import net.rickiekarp.flc.tasks.FilelistPreviewTask
+import net.rickiekarp.flc.tasks.ListTask
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 class MainLayout : AppLayout {
     override val layout: Node

@@ -10,7 +10,12 @@ import net.rickiekarp.qaacc.view.BugReportSettings
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.xml.sax.SAXException
-
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.net.MalformedURLException
+import java.net.URISyntaxException
+import java.util.logging.Level
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.OutputKeys
@@ -18,12 +23,6 @@ import javax.xml.transform.TransformerException
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.net.MalformedURLException
-import java.net.URISyntaxException
-import java.util.logging.Level
 
 object ProjectXmlFactory {
 
@@ -126,7 +125,7 @@ object ProjectXmlFactory {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 
@@ -136,7 +135,7 @@ object ProjectXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
 
@@ -303,7 +302,7 @@ object ProjectXmlFactory {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 
@@ -349,25 +348,25 @@ object ProjectXmlFactory {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             } catch (e1: SAXException) {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             } catch (e1: IOException) {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             } catch (e1: TransformerException) {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 
@@ -422,7 +421,7 @@ object ProjectXmlFactory {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 

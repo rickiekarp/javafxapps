@@ -1,11 +1,11 @@
 package net.rickiekarp.flc.tasks
 
+import javafx.concurrent.Task
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.view.MessageDialog
 import net.rickiekarp.flc.controller.FilelistController
-import javafx.concurrent.Task
 import net.rickiekarp.flc.view.layout.MainLayout
 
 class FilelistPreviewTask : Task<Void>() {

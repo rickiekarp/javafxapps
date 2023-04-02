@@ -13,21 +13,18 @@ import net.rickiekarp.qaacc.view.BugReportSettings
 import net.rickiekarp.qaacc.view.MainLayout
 import org.w3c.dom.*
 import org.xml.sax.SAXException
-
-import javax.xml.parsers.DocumentBuilder
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
-import javax.xml.transform.Transformer
-import javax.xml.transform.TransformerConfigurationException
-import javax.xml.transform.TransformerException
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.net.MalformedURLException
 import java.util.logging.Level
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.transform.TransformerConfigurationException
+import javax.xml.transform.TransformerException
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
 
 object AccountXmlFactory {
 
@@ -93,7 +90,7 @@ object AccountXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
 
@@ -151,25 +148,25 @@ object AccountXmlFactory {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 } catch (e1: TransformerException) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 } catch (e1: IOException) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 } catch (e1: SAXException) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
                     } else {
-                        ExceptionHandler(Thread.currentThread(), e1)
+                        ExceptionHandler(e1)
                     }
                 }
             }
@@ -216,7 +213,7 @@ object AccountXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
 
@@ -260,7 +257,7 @@ object AccountXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
 
@@ -298,7 +295,7 @@ object AccountXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
 
@@ -360,7 +357,7 @@ object AccountXmlFactory {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 
@@ -381,7 +378,7 @@ object AccountXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
 
@@ -426,7 +423,7 @@ object AccountXmlFactory {
                 if (DebugHelper.DEBUGVERSION) {
                     e1.printStackTrace()
                 } else {
-                    ExceptionHandler(Thread.currentThread(), e1)
+                    ExceptionHandler(e1)
                 }
             }
 
@@ -435,7 +432,7 @@ object AccountXmlFactory {
             if (DebugHelper.DEBUGVERSION) {
                 e1.printStackTrace()
             } else {
-                ExceptionHandler(Thread.currentThread(), e1)
+                ExceptionHandler(e1)
             }
         }
 

@@ -1,11 +1,10 @@
 package net.rickiekarp.core.util.crypt
 
 import okhttp3.internal.and
-import kotlin.experimental.or
-import kotlin.experimental.xor
-
 import java.io.UnsupportedEncodingException
 import java.security.SecureRandom
+import kotlin.experimental.or
+import kotlin.experimental.xor
 
 /**
  * BCryptCoder implements OpenBSD-style Blowfish password hashing using

@@ -1,10 +1,9 @@
 package net.rickiekarp.flc.model
 
-import net.rickiekarp.core.controller.LanguageController
-import net.rickiekarp.flc.controller.FilelistController
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
-
+import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.flc.controller.FilelistController
 import java.io.File
 
 /**

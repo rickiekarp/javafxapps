@@ -1,7 +1,7 @@
 package net.rickiekarp.qaacc.model
 
-import net.rickiekarp.qaacc.view.AccountEditDialog
 import javafx.beans.property.SimpleStringProperty
+import net.rickiekarp.qaacc.view.AccountEditDialog
 
 class Account(aName: String, aMail: String, aLevel: String, aAlli: String) {
     private val name: SimpleStringProperty = SimpleStringProperty(aName)

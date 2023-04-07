@@ -12,8 +12,8 @@ import javafx.stage.Modality
 import javafx.stage.Stage
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.ui.windowmanager.ThemeSelector
-import java.awt.Toolkit
-import java.awt.datatransfer.StringSelection
+import net.rickiekarp.core.util.ClipboardUtil
+import net.rickiekarp.core.util.CommonUtil
 import java.util.logging.Level
 
 /**
@@ -79,18 +79,12 @@ class ExceptionHandler(throwable: Throwable) {
         //action listener
         copy.setOnAction {
             status.isVisible = true
-            setStringToClipboard(exTF.text)
+            ClipboardUtil.setStringToClipboard(exTF.text)
             status.style = "-fx-text-fill: #55c4fe;"
             status.text = LanguageController.getString("exception_copied")
         }
 
         exTF.text = getExceptionString(e)
-    }
-
-    /** Copy string to clipboard  */
-    private fun setStringToClipboard(stringContent: String) {
-        val stringSelection = StringSelection(stringContent)
-        Toolkit.getDefaultToolkit().systemClipboard.setContents(stringSelection, null)
     }
 
     companion object {

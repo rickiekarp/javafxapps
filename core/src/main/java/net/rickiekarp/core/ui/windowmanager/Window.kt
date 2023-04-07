@@ -83,14 +83,12 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
     }
 
     init {
-
         create(windowStage, st, windowType)
     }
 
     fun create(stag: WindowStage, st: StageStyle, winType: Int) {
         stageStyle = st
 
-        // Properties
         maximizeProperty = SimpleBooleanProperty(false)
         maximizeProperty.addListener { ov, t, t1 -> controller!!.maximizeOrRestore() }
         minimizeProperty = SimpleBooleanProperty(false)
@@ -104,7 +102,7 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         controller = WindowController(this)
         contentController = WindowContentController()
 
-        //set default values if there is not config.xml and the values have not been set
+        //set default values if there is no config.xml and the values have not been set
         if (colorTheme == null) {
             colorTheme = "black"
         }
@@ -123,9 +121,9 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         dsNotFocused = DropShadow(BlurType.THREE_PASS_BOX, Configuration.shadowColorNotFocused, SHADOW_WIDTH.toDouble(), 0.0, 0.0, 0.0)
 
         //set highlight/focus color
-        clientArea.style = "-fx-accent: $colorTheme;-fx-focus-color: $colorTheme;"
+        clientArea.style = "-fx-accent: $colorTheme; -fx-focus-color: $colorTheme;"
 
-        style = "-fx-background-color:transparent" //J8
+        style = "-fx-background-color:transparent"
 
         // UI part of the decoration
         val vbox = VBox()
@@ -140,12 +138,12 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
                 val blurPane = StackPane()
                 blurPane.style = "-fx-background-color: #1d1d1d;"
                 blurPane.isVisible = false
-                blurPane.setOnMouseClicked { event -> toggleSideBar() }
+                blurPane.setOnMouseClicked { _ -> toggleSideBar() }
 
                 //create fadeIn/fadeOut transitions
                 AnimationHandler.stackFadeIn = AnimationHandler.fade(blurPane, 200, 0.0, 0.8)
                 AnimationHandler.stackFadeOut = AnimationHandler.fade(blurPane, 200, 0.8, 0.0)
-                AnimationHandler.stackFadeOut!!.setOnFinished { event -> blurPane.isVisible = false }
+                AnimationHandler.stackFadeOut!!.setOnFinished { _ -> blurPane.isVisible = false }
 
                 //add slide handler for sidebar
                 AnimationHandler.addSlideHandlers(stag.stage.width)
@@ -157,11 +155,9 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
             }
         }
 
+        vbox.style = "-fx-background-color: #1d1d1d;"
         vbox.children.addAll(stageDecoration, contentStack)
 
-        /*
-         * Resize rectangle
-         */
         resizeRect = Rectangle()
         resizeRect!!.fill = null
         resizeRect!!.strokeWidth = RESIZE_PADDING.toDouble()

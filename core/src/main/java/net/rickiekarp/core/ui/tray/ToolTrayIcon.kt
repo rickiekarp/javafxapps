@@ -3,7 +3,6 @@ package net.rickiekarp.core.ui.tray
 import javafx.application.Platform
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.view.MainScene
-import java.awt.AWTException
 import java.io.IOException
 import javax.imageio.ImageIO
 import kotlin.system.exitProcess
@@ -55,7 +54,7 @@ class ToolTrayIcon {
             openItem.font = boldFont
 
             // to really exit the application, the user must go to the system tray icon
-            // and select the exit option, this will shutdown JavaFX and remove the
+            // and select the exit option, this will shut down JavaFX and remove the
             // tray icon (removing the tray icon will also shut down AWT).
             val exitItem = java.awt.MenuItem("Exit")
             exitItem.addActionListener { _ -> exitProcess(0) }
@@ -78,11 +77,10 @@ class ToolTrayIcon {
      * Sets up a system tray icon for the application.
      */
     fun addAppToTray() {
-
         // add the application tray icon to the system tray.
         try {
             systemTray!!.add(trayIcon!!)
-        } catch (e: AWTException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 

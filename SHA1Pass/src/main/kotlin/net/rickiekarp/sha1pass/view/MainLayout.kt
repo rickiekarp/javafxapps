@@ -18,6 +18,7 @@ import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.components.textfield.CustomTextFieldSkin
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.util.ClipboardUtil
 import net.rickiekarp.core.util.crypt.*
 import net.rickiekarp.core.view.AboutScene
 import net.rickiekarp.core.view.layout.AppLayout
@@ -261,7 +262,7 @@ class MainLayout : AppLayout {
                     wordTF!!.text = ""
                     peekTF!!.text = "Peek"
                     colorBtn.isDisable = false
-                    setStringToClipboard("")
+                    ClipboardUtil.setStringToClipboard("")
                     status.text = LanguageController.getString("sm_off")
                 }
             }
@@ -335,13 +336,13 @@ class MainLayout : AppLayout {
 
     private fun applyComplex(data: String) {
         //copy encoded string to clipboard and set the peek TextField text
-        setStringToClipboard(data + AppConfiguration.comp_string)
+        ClipboardUtil.setStringToClipboard(data + AppConfiguration.comp_string)
         peekText(data + AppConfiguration.comp_string)
     }
 
     private fun copyPassword(hashedPass: String) {
         //copy encoded string to clipboard and set the peek TextField text
-        setStringToClipboard(hashedPass)
+        ClipboardUtil.setStringToClipboard(hashedPass)
         peekText(hashedPass)
     }
 
@@ -381,16 +382,6 @@ class MainLayout : AppLayout {
         } else {
             peekTF!!.text = s.substring(0, 4)
         }
-    }
-
-    /**
-     * Copies the given string to the clipboard
-     * @param stringContent String to copy
-     */
-    private fun setStringToClipboard(stringContent: String) {
-        val content = ClipboardContent()
-        content.putString(stringContent)
-        Clipboard.getSystemClipboard().setContent(content)
     }
 
     override val layout: Node

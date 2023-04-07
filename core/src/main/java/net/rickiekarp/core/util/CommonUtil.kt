@@ -1,5 +1,6 @@
 package net.rickiekarp.core.util
 
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,5 +39,16 @@ object CommonUtil {
     fun randInt(min: Int, max: Int): Int {
         val rand = Random()
         return rand.nextInt(max - min + 1) + min
+    }
+
+    /**
+     * Uses the ProcessBuilder to open a website using the x-www-browser command
+     */
+    fun openWebpage(url: String?) {
+        try {
+            ProcessBuilder("x-www-browser", url).start()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 }

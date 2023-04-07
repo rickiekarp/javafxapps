@@ -37,9 +37,6 @@ private constructor(stage: WindowStage, stageStyle: StageStyle, root: Region, wi
         if (Configuration.useSystemBorders) {
             root.prefHeight = stage.stage.height
             root.prefWidth = stage.stage.width
-
-            //add custom button style for settings/about scene button
-            //            root.getStylesheets().add("com/rkarp/resources/ui/components/button/ButtonStyle.css");
         } else {
             win = Window(stage, root, stageStyle, winType)
             super.setRoot(win)

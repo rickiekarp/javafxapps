@@ -20,10 +20,10 @@ import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
-import java.awt.Desktop
+import net.rickiekarp.core.util.CommonUtil
 import java.io.IOException
-import java.net.URI
 import java.net.URISyntaxException
+
 
 /**
  * About Stage GUI.
@@ -32,30 +32,19 @@ class AboutScene {
     private var grid: GridPane? = null
     private var grid2: GridPane? = null
     private var controls: HBox? = null
-    private val WEBSITE = "www.rickiekarp.net"
 
-
-    private//padding top, left, bottom, right
-    //padding top, left, bottom, right
-    //grid2.setMaxWidth(250);
-    //add Grids to VBox Layout
-    //add components
-    //padding top, left, bottom, right
-    //add vbox & controls pane to borderpane layout
-    //TODO: fix the urlBtn for Linux systems
-    val content: BorderPane
+    private val content: BorderPane
         get() {
 
             val borderpane = BorderPane()
             borderpane.style = "-fx-background-color: #1d1d1d;"
 
-            val hbox = HBox()
+            val hBox = HBox()
+            hBox.alignment = Pos.CENTER_LEFT
 
             grid = GridPane()
             grid2 = GridPane()
             controls = HBox()
-
-            hbox.alignment = Pos.CENTER_LEFT
 
             val separator2 = Separator()
             separator2.orientation = Orientation.VERTICAL
@@ -73,9 +62,10 @@ class AboutScene {
             grid2!!.padding = Insets(20.0, 15.0, 0.0, 20.0)
 
             HBox.setHgrow(grid2, Priority.ALWAYS)
-            hbox.children.add(0, grid)
-            hbox.children.add(1, separator2)
-            hbox.children.add(2, grid2)
+            hBox.children.add(0, grid)
+            hBox.children.add(1, separator2)
+            hBox.children.add(2, grid2)
+
             val title = Label(AppContext.context.applicationName)
             title.style = "-fx-font-size: 16pt;"
             GridPane.setHalignment(title, HPos.CENTER)
@@ -115,13 +105,13 @@ class AboutScene {
             controls!!.padding = Insets(10.0, 7.0, 10.0, 7.0)
             controls!!.spacing = 10.0
             controls!!.alignment = Pos.CENTER_RIGHT
-            borderpane.center = hbox
+            borderpane.center = hBox
             borderpane.bottom = controls
 
-            clBtn.setOnAction { e -> ChangelogScene() }
-            urlBtn.setOnAction { e ->
+            clBtn.setOnAction { _ -> ChangelogScene() }
+            urlBtn.setOnAction { _ ->
                 try {
-                    Desktop.getDesktop().browse(URI(WEBSITE))
+                    CommonUtil.openWebpage(website)
                 } catch (e1: IOException) {
                     if (DebugHelper.DEBUGVERSION) {
                         e1.printStackTrace()
@@ -149,16 +139,12 @@ class AboutScene {
         infoStage.title = LanguageController.getString("about") + " " + AppContext.context.applicationName
         infoStage.icons.add(ImageLoader.getAppIconSmall())
         infoStage.isResizable = false
-        //infoStage.setMinWidth(500); infoStage.setMinHeight(320);
         infoStage.width = 500.0
         infoStage.height = 320.0
 
         val contentVbox = BorderPane()
-
-        // The UI (Client Area) to display
         contentVbox.center = content
 
-        // The Window as a Scene
         val aboutWindow = WindowScene(WindowStage("about", infoStage), contentVbox, 1)
 
         infoStage.scene = aboutWindow
@@ -183,5 +169,9 @@ class AboutScene {
             grid2!!.style = null
             controls!!.style = null
         }
+    }
+
+    companion object {
+        private val website = "https://rickiekarp.net"
     }
 }

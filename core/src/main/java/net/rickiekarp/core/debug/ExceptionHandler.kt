@@ -13,7 +13,6 @@ import javafx.stage.Stage
 import net.rickiekarp.core.controller.LanguageController
 import net.rickiekarp.core.ui.windowmanager.ThemeSelector
 import net.rickiekarp.core.util.ClipboardUtil
-import net.rickiekarp.core.util.CommonUtil
 import java.util.logging.Level
 
 /**

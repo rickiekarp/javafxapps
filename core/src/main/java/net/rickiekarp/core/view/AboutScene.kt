@@ -96,9 +96,6 @@ class AboutScene {
             GridPane.setConstraints(copyright, 0, 1)
             grid2!!.children.add(copyright)
 
-            val clBtn = Button(LanguageController.getString("changelog"))
-            controls!!.children.add(clBtn)
-
             val urlBtn = Button(LanguageController.getString("website"))
             controls!!.children.add(urlBtn)
 
@@ -108,7 +105,6 @@ class AboutScene {
             borderpane.center = hBox
             borderpane.bottom = controls
 
-            clBtn.setOnAction { _ -> ChangelogScene() }
             urlBtn.setOnAction { _ ->
                 try {
                     CommonUtil.openWebpage(website)

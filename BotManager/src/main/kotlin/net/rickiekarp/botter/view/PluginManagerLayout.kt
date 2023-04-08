@@ -38,15 +38,10 @@ class PluginManagerLayout {
     private var status: Label? = null
     private var progressIndicator: ProgressIndicator? = null
 
-
-    private//padding top, left, bottom, right
-    //add vbox & controls pane to borderpane layout
-    val content: BorderPane
+    private val content: BorderPane
         get() {
             val borderpane = BorderPane()
             borderpane.style = "-fx-background-color: #1d1d1d;"
-
-            val controls = HBox()
 
             val statusBox = HBox(10.0)
             statusBox.alignment = Pos.BOTTOM_RIGHT
@@ -60,7 +55,7 @@ class PluginManagerLayout {
 
 
             pluginTable = TableView()
-            pluginTable!!.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
+            pluginTable!!.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             pluginTable!!.placeholder = Label(LanguageController.getString("no_plugin_found"))
             GridPane.setConstraints(pluginTable, 0, 1)
             GridPane.setHgrow(pluginTable, Priority.ALWAYS)
@@ -68,8 +63,8 @@ class PluginManagerLayout {
             pluginTable!!.fixedCellSize = 40.0
             pluginTable!!.items = PluginData.pluginData
 
+            val controls = HBox()
             controls.children.addAll(statusBox)
-
             controls.padding = Insets(10.0, 7.0, 10.0, 7.0)
             controls.spacing = 10.0
             controls.alignment = Pos.CENTER_RIGHT
@@ -97,18 +92,9 @@ class PluginManagerLayout {
         Thread {
             //list all plugins where a new version needs to be fetched
             val toFetchVersion = ArrayList<PluginData>()
-            for (i in 0 until PluginData.pluginData.size) {
-                if (PluginData.pluginData[i].getPluginNewVersion() == null) {
-                    toFetchVersion.add(PluginData.pluginData[i])
-                    PluginData.pluginData[i].setPluginNewVersion(LanguageController.getString("fetching"))
-                }
-            }
-
             if (toFetchVersion.size > 0 || PluginData.pluginData.size == 0) {
                 pluginTable!!.refresh()
-                val response = NetResponse.getResponseString(AppContext.context.networkApi.runNetworkAction(BotNetworkApi.requestPlugins()))
-
-                when (response) {
+                when (val response = NetResponse.getResponseString(AppContext.context.networkApi.runNetworkAction(BotNetworkApi.requestPlugins()))) {
                     "no_connection", "file_not_found" -> {
                         Platform.runLater { setLoadingBar(LanguageController.getString("no_connection"), false) }
                     }

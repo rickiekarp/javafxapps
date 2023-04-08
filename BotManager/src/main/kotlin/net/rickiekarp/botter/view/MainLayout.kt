@@ -27,10 +27,8 @@ import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.parser.JsonParser
-import net.rickiekarp.core.view.ChangelogScene
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.core.view.MessageDialog
-import net.rickiekarp.core.view.SettingsScene
 import net.rickiekarp.core.view.layout.AppLayout
 import org.json.JSONArray
 import org.json.JSONObject
@@ -88,8 +86,7 @@ class MainLayout : AppLayout {
             return node
         }
 
-    private//SETTINGS LIST
-    val settingsNode: ListView<BotSetting>
+    private val settingsNode: ListView<BotSetting>
         get() {
             listView = ListView()
             PluginConfig.settingsList = FXCollections.observableArrayList()
@@ -98,39 +95,12 @@ class MainLayout : AppLayout {
             )
             listView!!.items = PluginConfig.settingsList
 
-            listView!!.setCellFactory { lv -> FoldableListCell(listView!!) }
+            listView!!.setCellFactory { _ -> FoldableListCell(listView!!) }
 
             if (DebugHelper.DEBUGVERSION) {
                 listView!!.style = "-fx-background-color: gray"
             }
             return listView!!
-        }
-
-
-    val generalSection: VBox
-        get() {
-
-            val content = VBox()
-            content.spacing = 5.0
-
-            val btn_settings = Button()
-            btn_settings.tooltip = Tooltip(LanguageController.getString("settings"))
-            btn_settings.styleClass.add("decoration-button-settings")
-
-            val btn_about = Button()
-            btn_about.tooltip = Tooltip(LanguageController.getString("changelog"))
-            btn_about.styleClass.add("decoration-button-about")
-
-            btn_settings.setOnAction { event -> SettingsScene() }
-            btn_about.setOnAction { event -> ChangelogScene() }
-
-            val hbox = HBox()
-            hbox.padding = Insets(0.0, 0.0, 0.0, listView!!.width / 4)
-            hbox.spacing = 5.0
-            hbox.children.addAll(btn_settings, btn_about)
-
-            content.children.addAll(hbox)
-            return content
         }
 
     private val timerSection: VBox
@@ -166,9 +136,7 @@ class MainLayout : AppLayout {
             return content
         }
 
-    private//ActionListener
-            /*RandomStringUtils.randomAlphanumeric(16) +*///if the plugin json can not be found earlier, add a new entry
-    val credentialsSection: VBox
+    private val credentialsSection: VBox
         get() {
             LogFileHandler.logger.info("Loading credentials section")
             val content = VBox()
@@ -184,34 +152,32 @@ class MainLayout : AppLayout {
             content.children.addAll(loginLabel, loginTF, passwordLabel, passTF)
 
             val deviceJson = arrayOf(JsonParser.readJsonFromFile(File(Configuration.config.configDirFile.toString() + File.separator + "plugins" + File.separator + "credentials.json")))
-            if (deviceJson[0] != null) {
-                val jsonArray = deviceJson[0].getJSONArray("credentials")
-                var cJson: JSONObject
-                for (i in 0 until jsonArray.length()) {
-                    cJson = jsonArray.getJSONObject(i)
-                    if (cJson.getString("primaryKey") == modCBox.selectionModel.selectedItem.pluginName.get()) {
-                        loginTF.text = cJson.getString("login")
+            val jsonArray = deviceJson[0].getJSONArray("credentials")
+            var cJson: JSONObject
+            for (i in 0 until jsonArray.length()) {
+                cJson = jsonArray.getJSONObject(i)
+                if (cJson.getString("primaryKey") == modCBox.selectionModel.selectedItem.pluginName.get()) {
+                    loginTF.text = cJson.getString("login")
 
-                        val encodedPass = cJson.getString("password")
-                        val trimmedPass = encodedPass.substring(16)
-                        val bytes: ByteArray
-                        try {
-                            bytes = trimmedPass.toByteArray(charset("UTF-8"))
-                            val decoded = Base64.getDecoder().decode(bytes)
-                            val decodedString = String(decoded)
-                            passTF.text = decodedString
-                            modCBox.selectionModel.selectedItem.pluginCredentials = Credentials(loginTF.text, decodedString)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-
-                        content.children.add(deleteButton)
-                        break
+                    val encodedPass = cJson.getString("password")
+                    val trimmedPass = encodedPass.substring(16)
+                    val bytes: ByteArray
+                    try {
+                        bytes = trimmedPass.toByteArray(charset("UTF-8"))
+                        val decoded = Base64.getDecoder().decode(bytes)
+                        val decodedString = String(decoded)
+                        passTF.text = decodedString
+                        modCBox.selectionModel.selectedItem.pluginCredentials = Credentials(loginTF.text, decodedString)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
+
+                    content.children.add(deleteButton)
+                    break
                 }
             }
 
-            deleteButton.setOnAction { event ->
+            deleteButton.setOnAction { _ ->
                 val jsonArray = deviceJson[0].getJSONArray("credentials")
                 for (i in 0 until jsonArray.length()) {
                     if (jsonArray.getJSONObject(i).getString("primaryKey") == modCBox.selectionModel.selectedItem.pluginName.get()) {
@@ -226,62 +192,45 @@ class MainLayout : AppLayout {
                 content.children.remove(deleteButton)
                 content.children.remove(saveButton)
             }
-            loginTF.setOnKeyReleased { event ->
+            loginTF.setOnKeyReleased { _ ->
                 if (!content.children.contains(saveButton)) {
                     content.children.add(saveButton)
                 }
             }
-            passTF.setOnKeyReleased { event ->
+            passTF.setOnKeyReleased { _ ->
                 if (!content.children.contains(saveButton)) {
                     content.children.add(saveButton)
                 }
             }
 
-            saveButton.setOnAction { event ->
+            saveButton.setOnAction { _ ->
                 if (loginTF.text.isEmpty() || passTF.text.isEmpty()) {
                     MessageDialog(1, "Please enter your full login details!", 450, 200)
                 } else {
-                    val jsonArray: JSONArray
                     val login = loginTF.text
                     val pass = Base64.getEncoder().encodeToString(passTF.text.toByteArray())
-                    if (deviceJson[0] == null) {
-                        val newDeviceJson = JSONObject()
-                        jsonArray = JSONArray()
-                        newDeviceJson.put("credentials", jsonArray)
+                    var addEntry = true
+                    val jsonArray: JSONArray = deviceJson[0].getJSONArray("credentials")
+                    var currentCredentials: JSONObject
+                    for (i in 0 until jsonArray.length()) {
+                        currentCredentials = jsonArray.getJSONObject(i)
+                        if (jsonArray.getJSONObject(i).getString("primaryKey") == modCBox.selectionModel.selectedItem.pluginName.get()) {
+                            currentCredentials.put("login", login)
+                            currentCredentials.put("password", pass)
+                            addEntry = false
+                            break
+                        }
+                    }
 
+                    if (addEntry) {
                         val credentialsJson = JSONObject()
                         credentialsJson.put("primaryKey", modCBox.selectionModel.selectedItem.pluginName)
                         credentialsJson.put("login", login)
                         credentialsJson.put("password", pass)
                         jsonArray.put(credentialsJson)
-
-                        JsonParser.writeJsonObjectToFile(newDeviceJson, File(Configuration.config.configDirFile.toString() + File.separator + "plugins"), "credentials.json")
-                        deviceJson[0] = newDeviceJson
-                        content.children.remove(saveButton)
-                    } else {
-                        var addEntry = true
-                        jsonArray = deviceJson[0].getJSONArray("credentials")
-                        var currentCredentials: JSONObject
-                        for (i in 0 until jsonArray.length()) {
-                            currentCredentials = jsonArray.getJSONObject(i)
-                            if (jsonArray.getJSONObject(i).getString("primaryKey") == modCBox.selectionModel.selectedItem.pluginName.get()) {
-                                currentCredentials.put("login", login)
-                                currentCredentials.put("password", pass)
-                                addEntry = false
-                                break
-                            }
-                        }
-
-                        if (addEntry) {
-                            val credentialsJson = JSONObject()
-                            credentialsJson.put("primaryKey", modCBox.selectionModel.selectedItem.pluginName)
-                            credentialsJson.put("login", login)
-                            credentialsJson.put("password", pass)
-                            jsonArray.put(credentialsJson)
-                        }
-
-                        JsonParser.writeJsonObjectToFile(deviceJson[0], File(Configuration.config.configDirFile.toString() + File.separator + "plugins"), "credentials.json")
                     }
+
+                    JsonParser.writeJsonObjectToFile(deviceJson[0], File(Configuration.config.configDirFile.toString() + File.separator + "plugins"), "credentials.json")
 
                     modCBox.selectionModel.selectedItem.pluginCredentials = Credentials(loginTF.text, passTF.text)
                     setStatus("neutral", LanguageController.getString("browser_info_updated"))
@@ -313,13 +262,11 @@ class MainLayout : AppLayout {
             }
 
             val deviceJson = arrayOf(JsonParser.readJsonFromFile(File(BotConfig.modulesDirFile.toString() + File.separator + "devices" + File.separator + modCBox.selectionModel.selectedItem.pluginType!!.getDisplayableType().toLowerCase() + ".json")))
-            if (deviceJson[0] != null) {
-                for (bot in BotType.Bot.values()) {
-                    if (BotType.Bot.valueOf(deviceJson[0].getString("browser")) == bot && bot.botPlatform == BotPlatforms.WEB) {
-                        browserSelector.selectionModel.select(bot)
-                        PluginConfig.botType = bot
-                        break
-                    }
+            for (bot in BotType.Bot.values()) {
+                if (BotType.Bot.valueOf(deviceJson[0].getString("browser")) == bot && bot.botPlatform == BotPlatforms.WEB) {
+                    browserSelector.selectionModel.select(bot)
+                    PluginConfig.botType = bot
+                    break
                 }
             }
 
@@ -332,14 +279,8 @@ class MainLayout : AppLayout {
 
             }
 
-            saveButton.setOnAction { event ->
-                if (deviceJson[0] == null) {
-                    deviceJson[0] = JSONObject()
-                    deviceJson[0].put("browser", browserSelector.selectionModel.selectedItem)
-                } else {
-                    deviceJson[0].put("browser", browserSelector.selectionModel.selectedItem)
-                }
-
+            saveButton.setOnAction { _ ->
+                deviceJson[0].put("browser", browserSelector.selectionModel.selectedItem)
                 JsonParser.writeJsonObjectToFile(deviceJson[0], File(BotConfig.modulesDirFile.toString() + File.separator + "devices"), modCBox.selectionModel.selectedItem.pluginType!!.getDisplayableType().toLowerCase() + ".json")
                 setStatus("neutral", LanguageController.getString("device_info_updated"))
                 saveButton.isVisible = false
@@ -364,34 +305,23 @@ class MainLayout : AppLayout {
             val verTF = TextField()
             val deviceSerialTF = TextField()
 
-            val deviceJson = arrayOf(JsonParser.readJsonFromFile(File(BotConfig.modulesDirFile.toString() + File.separator + "devices" + File.separator + modCBox.selectionModel.selectedItem.pluginType!!.getDisplayableType().toLowerCase() + ".json")))
-            if (deviceJson[0] != null) {
-                nameTF.text = deviceJson[0].getJSONObject("1").getString("name")
-                verTF.text = deviceJson[0].getJSONObject("1").getString("version")
-                deviceSerialTF.text = deviceJson[0].getJSONObject("1").getString("serial")
-                updateAndroidDeviceInfo(nameTF.text, verTF.text, deviceSerialTF.text)
-            }
+            val deviceJson = arrayOf(JsonParser.readJsonFromFile(File(BotConfig.modulesDirFile.toString() + File.separator + "devices" + File.separator + modCBox.selectionModel.selectedItem.pluginType!!.getDisplayableType().lowercase() + ".json")))
+            nameTF.text = deviceJson[0].getJSONObject("1").getString("name")
+            verTF.text = deviceJson[0].getJSONObject("1").getString("version")
+            deviceSerialTF.text = deviceJson[0].getJSONObject("1").getString("serial")
+            updateAndroidDeviceInfo(nameTF.text, verTF.text, deviceSerialTF.text)
 
             val saveButton = Button(LanguageController.getString("saveCfg"))
             saveButton.isVisible = false
-            nameTF.setOnKeyReleased { event -> saveButton.isVisible = true }
-            verTF.setOnKeyReleased { event -> saveButton.isVisible = true }
-            deviceSerialTF.setOnKeyReleased { event -> saveButton.isVisible = true }
+            nameTF.setOnKeyReleased { _ -> saveButton.isVisible = true }
+            verTF.setOnKeyReleased { _ -> saveButton.isVisible = true }
+            deviceSerialTF.setOnKeyReleased { _ -> saveButton.isVisible = true }
 
 
-            saveButton.setOnAction { event ->
-                if (deviceJson[0] == null) {
-                    deviceJson[0] = JSONObject()
-                    val deviceObj = JSONObject()
-                    deviceObj.put("name", nameTF.text)
-                    deviceObj.put("version", verTF.text)
-                    deviceObj.put("serial", deviceSerialTF.text)
-                    deviceJson[0].put("1", deviceObj)
-                } else {
-                    deviceJson[0].getJSONObject("1").put("name", nameTF.text)
-                    deviceJson[0].getJSONObject("1").put("version", verTF.text)
-                    deviceJson[0].getJSONObject("1").put("serial", deviceSerialTF.text)
-                }
+            saveButton.setOnAction { _ ->
+                deviceJson[0].getJSONObject("1").put("name", nameTF.text)
+                deviceJson[0].getJSONObject("1").put("version", verTF.text)
+                deviceJson[0].getJSONObject("1").put("serial", deviceSerialTF.text)
 
                 JsonParser.writeJsonObjectToFile(deviceJson[0], File(BotConfig.modulesDirFile.toString() + File.separator + "devices"), modCBox.selectionModel.selectedItem.pluginType!!.getDisplayableType().toLowerCase() + ".json")
                 updateAndroidDeviceInfo(nameTF.text, verTF.text, deviceSerialTF.text)
@@ -420,14 +350,10 @@ class MainLayout : AppLayout {
         optionBox.padding = Insets(5.0, 0.0, 5.0, 5.0)
 
         val moduleBox = VBox()
-        val asgmBox = VBox()
 
         modCBox = ComboBox()
         modCBox.promptText = "none"
         modCBox.minWidth = 175.0
-        //        for (int i = 0; i < PluginData.pluginData.size(); i++) {
-        //            modCBox.getItems().add(PluginData.pluginData.get(i));
-        //        }
 
         //selected value showed in combo box
         modCBox.setConverter(object : StringConverter<PluginData>() {
@@ -440,25 +366,11 @@ class MainLayout : AppLayout {
             }
         })
 
-//        PluginData.pluginData.addListener({ change ->
-//            change.next()
-//            if (change.wasAdded()) {
-//                if (PluginData.pluginData[change.getFrom()].pluginOldVersion != null) {
-//                    //add plugin to module combobox if it doesn't exist already
-//                    if (!modCBox.items.contains(PluginData.pluginData[change.getFrom()])) {
-//                        modCBox.items.add(PluginData.pluginData[change.getFrom()])
-//                    }
-//                }
-//            }
-//        } as ListChangeListener<PluginData>)
-
-
         runBtn = Button("Run")
         runBtn.isDisable = true
 
         stopBtn = Button("Stop")
         stopBtn.isDisable = true
-
 
         timeBox = VBox()
         timeBox.isVisible = false
@@ -473,7 +385,7 @@ class MainLayout : AppLayout {
         timeBox.children.addAll(timeL, timeRemainL)
 
         moduleBox.children.add(modCBox)
-        optionBox.children.addAll(moduleBox, asgmBox, runBtn, stopBtn, timeBox)
+        optionBox.children.addAll(moduleBox, runBtn, stopBtn, timeBox)
 
         //ActionListener
         modCBox.valueProperty().addListener { ov, t, t1 ->

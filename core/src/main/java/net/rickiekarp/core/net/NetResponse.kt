@@ -3,18 +3,12 @@ package net.rickiekarp.core.net
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
-import org.w3c.dom.Document
-import org.xml.sax.InputSource
-import org.xml.sax.SAXException
 import java.io.*
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 
 class NetResponse {
 
     companion object {
-        fun getResponseString(inputStream: InputStream?): String? {
-            var inputLine: String
+        fun getResponseString(inputStream: InputStream?): String {
             val response = StringBuilder()
 
             val `in`: BufferedReader
@@ -42,14 +36,13 @@ class NetResponse {
         }
 
         @Throws(IOException::class)
-        fun getResponseString(r: Response): String? {
+        fun getResponseString(r: Response): String {
             val inputStream = r.body!!.byteStream()
             return getResponseString(inputStream)
         }
 
         private fun getResponseByteArray(inputStream: InputStream?): ByteArray {
             val bos = ByteArrayOutputStream()
-            var len: Int
             val buffer = ByteArray(4096)
             try {
                 val len = inputStream!!.read(buffer)
@@ -66,28 +59,15 @@ class NetResponse {
 
         fun getResponseJson(inputStream: InputStream?): JSONObject? {
             val responseString = getResponseString(inputStream)
-            try {
-                return JSONObject(responseString)
+            return try {
+                JSONObject(responseString)
             } catch (e: JSONException) {
-                return null
+                null
             }
         }
 
-        fun getResponseResultAsBoolean(`in`: InputStream?, key: String): Boolean {
-            return getResponseJson(`in`)!!.getBoolean(key)
-        }
-
-        /**
-         * Converts a given XML String to a DOM Object and returns the document
-         */
-        @Throws(SAXException::class, ParserConfigurationException::class, IOException::class)
-        fun getResponseXml(inputStream: InputStream): Document {
-            val factory = DocumentBuilderFactory.newInstance()
-            val builder = factory.newDocumentBuilder()
-            return builder.parse(InputSource(StringReader(getResponseString(inputStream))))
+        fun getResponseResultAsBoolean(inputStream: InputStream?, key: String): Boolean {
+            return getResponseJson(inputStream)!!.getBoolean(key)
         }
     }
-
-
-
 }

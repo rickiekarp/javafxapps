@@ -19,14 +19,10 @@ import java.util.concurrent.TimeUnit
  * A handler to add a layer of abstraction between network layer and implementation
  */
 internal class ConnectionHandler {
-    private val mHttpClient: OkHttpClient
-
-    init {
-        mHttpClient = OkHttpClient.Builder()
-                .connectTimeout(MAX_CONNECTION_TIMEOUT_MILLISECONDS.toLong(), TimeUnit.MILLISECONDS)
-                .readTimeout(MAX_DATA_TRANSFER_TIMEOUT_MILLISECONDS.toLong(), TimeUnit.MILLISECONDS)
-                .build()
-    }
+    private val mHttpClient: OkHttpClient = OkHttpClient.Builder()
+            .connectTimeout(MAX_CONNECTION_TIMEOUT_MILLISECONDS.toLong(), TimeUnit.MILLISECONDS)
+            .readTimeout(MAX_DATA_TRANSFER_TIMEOUT_MILLISECONDS.toLong(), TimeUnit.MILLISECONDS)
+            .build()
 
     fun requestInputStream(networkAction: NetworkAction): InputStream? {
         val response = request(networkAction) ?: return null
@@ -34,14 +30,13 @@ internal class ConnectionHandler {
     }
 
     fun request(networkAction: NetworkAction): Response? {
-        try {
+        return try {
             val hostUrl = URL(Configuration.host + networkAction.hostUrl)
-            return performRequest(hostUrl, networkAction)
+            performRequest(hostUrl, networkAction)
         } catch (e: Exception) {
             e.printStackTrace()
-            return null
+            null
         }
-
     }
 
     @Throws(IOException::class)
@@ -69,7 +64,6 @@ internal class ConnectionHandler {
         val request = builder.build()
         LogFileHandler.logger.info(request.method + ": " + decodedUrl)
         //printRequestHeaders(request);
-        //printRequestBody(request);
 
         return try {
             val response = mHttpClient.newCall(request).execute()
@@ -139,34 +133,12 @@ internal class ConnectionHandler {
     private fun decodeUrlToString(url: URL): String {
         val port: String
         val portInt = url.port
-        if (portInt != NO_PORT) {
-            port = ":$portInt"
+        port = if (portInt != NO_PORT) {
+            ":$portInt"
         } else {
-            port = ""
+            ""
         }
         return url.protocol + "://" + url.host + port + url.path
-    }
-
-    private fun bodyToString(request: Request): String? {
-        //		try {
-        //			final Request copy = request.newBuilder().build();
-        //			final Buffer buffer = new Buffer();
-        //			copy.body().writeTo(buffer);
-        //			return buffer.readUtf8();
-        //		} catch (final IOException e) {
-        //			e.printStackTrace();
-        //			return null;
-        //		}
-        return null
-    }
-
-    private fun printRequestBody(request: Request) {
-        if (request.method == "POST") {
-            println()
-            println("Request body:")
-            println(bodyToString(request))
-            println()
-        }
     }
 
     private fun printRequestHeaders(request: Request) {
@@ -188,14 +160,14 @@ internal class ConnectionHandler {
     }
 
     companion object {
-        private val API_STRING = "/"
+        private const val API_STRING = "/"
         private val MEDIA_TYPE_MARKDOWN = "application/json".toMediaTypeOrNull()
-        private val MAX_CONNECTION_TIMEOUT_MILLISECONDS = 15000
-        private val MAX_DATA_TRANSFER_TIMEOUT_MILLISECONDS = 40000
-        private val NO_PORT = -1
-        private val UTF_8 = "UTF-8"
-        private val HEADER_USER_AGENT = "User-Agent"
-        private val HEADER_AUTHORIZATION = "Authorization"
-        private val RESPONSE_ERROR_CODE_SERVER_UNAVAILABLE = 503
+        private const val MAX_CONNECTION_TIMEOUT_MILLISECONDS = 15000
+        private const val MAX_DATA_TRANSFER_TIMEOUT_MILLISECONDS = 40000
+        private const val NO_PORT = -1
+        private const val UTF_8 = "UTF-8"
+        private const val HEADER_USER_AGENT = "User-Agent"
+        private const val HEADER_AUTHORIZATION = "Authorization"
+        private const val RESPONSE_ERROR_CODE_SERVER_UNAVAILABLE = 503
     }
 }

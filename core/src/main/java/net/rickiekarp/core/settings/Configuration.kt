@@ -23,11 +23,9 @@ import java.util.jar.JarFile
 class Configuration
 /**
  * Initialize configuration.
- * @param fileName the filename
+ * @param configFileName the filename
  */
-(
-        /** config file  */
-        internal val configFileName: String, clazz: Class<*>) {
+(internal val configFileName: String, clazz: Class<*>) {
     var settingsXmlFactory: SettingsXmlFactory? = null
         private set
 
@@ -73,9 +71,9 @@ class Configuration
 
         //check if config file exists
         if (!File(config.configDirFile.toString() + File.separator + configFileName).exists()) {
-            var isDirectoryCreated = Configuration.config.configDirFile.exists()
+            var isDirectoryCreated = config.configDirFile.exists()
             if (!isDirectoryCreated) {
-                isDirectoryCreated = Configuration.config.configDirFile.mkdir()
+                isDirectoryCreated = config.configDirFile.mkdir()
             }
             if (isDirectoryCreated) {
                 settingsXmlFactory!!.createConfigXML()
@@ -143,10 +141,6 @@ class Configuration
                         val s = settingsXmlFactory!!.getElementValue(n, clazz)
                         f.set(this, Side.valueOf(s!!))
                     } else if (f.type.isEnum) {
-                        var s = settingsXmlFactory!!.getElementValue(n, clazz)
-                        if (s == null) {
-                            s = "NONE"
-                        }
                         f.set(this, f.type)
                     } else {
                         LogFileHandler.logger.warning("Field type '" + f.type + "' not found!")

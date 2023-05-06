@@ -3,7 +3,7 @@ package net.rickiekarp.core.settings
 import javafx.geometry.Side
 import javafx.scene.paint.Color
 import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.ui.windowmanager.ThemeSelector
 import net.rickiekarp.core.ui.windowmanager.Window
@@ -84,7 +84,7 @@ class Configuration
         loadProperties(this.javaClass)
 
         //set current Locale
-        LanguageController.setCurrentLocale()
+        LocalizationProvider.setCurrentLocale()
 
         //sets up the logger
         LogFileHandler.setupLogger()
@@ -213,9 +213,7 @@ class Configuration
                         } else if (f.type == Side::class.java) {
                             f.set(this, fields0[i].get(LoadSave::class.java))
                             break
-                        }//Side
-                        //Color
-                        //Boolean
+                        }
                     }
                 }
             }

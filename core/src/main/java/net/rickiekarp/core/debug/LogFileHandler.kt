@@ -1,7 +1,7 @@
 package net.rickiekarp.core.debug
 
 import javafx.collections.FXCollections
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.core.view.MessageDialog
@@ -82,7 +82,7 @@ class LogFileHandler {
                 try {
                     fh = FileHandler(Configuration.config.logsDirFile.path + File.separator + getLogFileName())
                 } catch (e1: IOException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
@@ -135,7 +135,7 @@ class LogFileHandler {
                         writeLog()
                     }
                 } else {
-                    MessageDialog(0, LanguageController.getString("logFile_created_fail") + " " + LanguageController.getString("no_logData_desc"), 450, 220)
+                    MessageDialog(0, LocalizationProvider.getString("logFile_created_fail") + " " + LocalizationProvider.getString("no_logData_desc"), 450, 220)
                 }
             }
         }
@@ -147,7 +147,7 @@ class LogFileHandler {
                 logData.forEach( { ps.print(it) })
                 ps.close()
             } catch (e1: FileNotFoundException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
@@ -171,7 +171,7 @@ class LogFileHandler {
          * Deletes all logged data
          */
         fun getLogSize() {
-            MessageDialog(1, LanguageController.getString("log_size_current") + " " + logData.size, 450, 220)
+            MessageDialog(1, LocalizationProvider.getString("log_size_current") + " " + logData.size, 450, 220)
         }
 
         /**

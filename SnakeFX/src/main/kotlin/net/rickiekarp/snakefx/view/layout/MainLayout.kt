@@ -14,7 +14,7 @@ import javafx.stage.Modality
 import javafx.stage.Stage
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.components.FoldableListCell
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.model.SettingEntry
 import net.rickiekarp.core.net.NetResponse
@@ -157,18 +157,18 @@ class MainLayout(val mainPresenter: MainPresenter, private val viewModel: ViewMo
             table.placeholder = Label("No Highscore yet")
 
 
-            val id = TableColumn<HighScoreEntry, String>(LanguageController.getString("rank"))
+            val id = TableColumn<HighScoreEntry, String>(LocalizationProvider.getString("rank"))
             id.cellValueFactory = PropertyValueFactory("ranking")
             id.minWidth = 60.0
 
-            val name = TableColumn<HighScoreEntry, String>(LanguageController.getString("name"))
+            val name = TableColumn<HighScoreEntry, String>(LocalizationProvider.getString("name"))
             name.cellValueFactory = PropertyValueFactory("name")
 
-            val points = TableColumn<HighScoreEntry, String>(LanguageController.getString("points"))
+            val points = TableColumn<HighScoreEntry, String>(LocalizationProvider.getString("points"))
             points.cellValueFactory = PropertyValueFactory("points")
             points.minWidth = 80.0
 
-            val date = TableColumn<HighScoreEntry, String>(LanguageController.getString("date"))
+            val date = TableColumn<HighScoreEntry, String>(LocalizationProvider.getString("date"))
             date.cellValueFactory = PropertyValueFactory("dateAdded")
 
             table.columns.addAll(id, name, points, date)
@@ -237,7 +237,7 @@ class MainLayout(val mainPresenter: MainPresenter, private val viewModel: ViewMo
         modalDialog.isResizable = false
         modalDialog.width = width.toDouble()
         modalDialog.height = height.toDouble()
-        modalDialog.title = LanguageController.getString("highscore")
+        modalDialog.title = LocalizationProvider.getString("highscore")
 
         val bool = BooleanArray(1)
 
@@ -250,18 +250,18 @@ class MainLayout(val mainPresenter: MainPresenter, private val viewModel: ViewMo
         optionHBox.alignment = Pos.CENTER
         optionHBox.padding = Insets(5.0, 0.0, 15.0, 0.0)
 
-        val label = Label(LanguageController.getString(msg))
+        val label = Label(LocalizationProvider.getString(msg))
         label.padding = Insets(20.0, 0.0, 10.0, 20.0)
         label.isWrapText = true
 
         val points = Label("Points: " + viewModel.points.get())
         points.padding = Insets(0.0, 0.0, 15.0, 20.0)
 
-        val nameLabel = Label(LanguageController.getString("name"))
+        val nameLabel = Label(LocalizationProvider.getString("name"))
         val textfield = TextField()
         textfield.promptText = "Name"
 
-        val yesButton = Button(LanguageController.getString("ok"))
+        val yesButton = Button(LocalizationProvider.getString("ok"))
         yesButton.setOnAction { event ->
             if (!highscoreManager.isNameValid(textfield.text)) {
                 nameLabel.text = "Name is invalid!"

@@ -1,7 +1,7 @@
 package net.rickiekarp.flc.tasks
 
 import javafx.concurrent.Task
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.util.FileUtil
@@ -99,7 +99,7 @@ class ListTask(private var selectedDirectory: File?) : Task<Void>() {
             progressDialog.close()
             LogFileHandler.logger.info("close.progressDialog")
 
-            MainLayout.mainLayout.setStatus("neutral", LanguageController.getString("ready"))
+            MainLayout.mainLayout.setStatus("neutral", LocalizationProvider.getString("ready"))
 
             LogFileHandler.logger.info("fileScan.COMPLETE - " + AppConfiguration.fileData.size + " files / " + AppConfiguration.dirData.size + " folders scanned!")
 
@@ -118,14 +118,14 @@ class ListTask(private var selectedDirectory: File?) : Task<Void>() {
             progressDialog.close()
             LogFileHandler.logger.info("close.progressDialog")
 
-            MainLayout.mainLayout.setStatus("neutral", LanguageController.getString("filescan_cancelled"))
+            MainLayout.mainLayout.setStatus("neutral", LocalizationProvider.getString("filescan_cancelled"))
             LogFileHandler.logger.info("fileScan.cancelled")
         }
 
         this.setOnFailed {
             DebugHelper.profile("stop", "ListTask")
             progressDialog.close()
-            MessageDialog(0, LanguageController.getString("unknownError"), 450, 220)
+            MessageDialog(0, LocalizationProvider.getString("unknownError"), 450, 220)
             LogFileHandler.logger.info("fileScan.failed")
         }
 

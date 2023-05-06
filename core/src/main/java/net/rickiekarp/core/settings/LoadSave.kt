@@ -2,7 +2,7 @@ package net.rickiekarp.core.settings
 
 import javafx.geometry.Side
 import javafx.scene.paint.Color
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 
 /** Annotation for indicating load/save a field.  */
 @Retention(AnnotationRetention.RUNTIME)
@@ -12,7 +12,7 @@ annotation class LoadSave {
         /** settings defaults  */
         @JvmField val host = "https://api.rickiekarp.net/"
         @JvmField val updateChannel = 0
-        @JvmField val language = LanguageController.locale
+        @JvmField val language = LocalizationProvider.locale
         @JvmField val themeState = 0
         @JvmField val colorScheme = 0
         @JvmField val animations = true

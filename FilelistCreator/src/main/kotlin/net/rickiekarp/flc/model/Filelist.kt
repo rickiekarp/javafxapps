@@ -2,7 +2,7 @@ package net.rickiekarp.flc.model
 
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.flc.controller.FilelistController
 import java.io.File
 
@@ -25,9 +25,9 @@ class Filelist(aName: String, aType: String, aPath: String, aSize: Long, aCreati
 
     init {
         if (hidden) {
-            this.isHidden = SimpleStringProperty(LanguageController.getString("yes"))
+            this.isHidden = SimpleStringProperty(LocalizationProvider.getString("yes"))
         } else {
-            this.isHidden = SimpleStringProperty(LanguageController.getString("no"))
+            this.isHidden = SimpleStringProperty(LocalizationProvider.getString("no"))
         }
     }
 

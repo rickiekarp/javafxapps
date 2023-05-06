@@ -1,6 +1,6 @@
 package net.rickiekarp.qaacc.factory
 
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -87,14 +87,14 @@ object AccountXmlFactory {
         try {
             transformer.transform(source, result)
         } catch (e1: TransformerException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)
             }
         }
 
-        MainLayout.status.text = LanguageController.getString("accSaved")
+        MainLayout.status.text = LocalizationProvider.getString("accSaved")
         LogFileHandler.logger.log(Level.INFO, "File created in " + dataDir.path.toString() + "!")
     }
 
@@ -142,28 +142,28 @@ object AccountXmlFactory {
                     transformer.transform(source, result)
 
                     LogFileHandler.logger.log(Level.INFO, nList.length.toString() + " accounts stored in " + AppConfiguration.projectData[projID].getProjectXML() + "!")
-                    MainLayout.status.setText(LanguageController.getString("accSaved"))
+                    MainLayout.status.setText(LocalizationProvider.getString("accSaved"))
 
                 } catch (e1: ParserConfigurationException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
                     }
                 } catch (e1: TransformerException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
                     }
                 } catch (e1: IOException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
                     }
                 } catch (e1: SAXException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
@@ -210,7 +210,7 @@ object AccountXmlFactory {
         } catch (e1: FileNotFoundException) {
             LogFileHandler.logger.log(Level.INFO, "Accounts file could not be found!")
         } catch (e1: Exception) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)
@@ -232,7 +232,7 @@ object AccountXmlFactory {
 
             if (nList.length == 0) {
                 BugReportSettings.accountCB.isDisable = true
-                BugReportSettings.accountCB.setValue(LanguageController.getString("no_account_found"))
+                BugReportSettings.accountCB.setValue(LocalizationProvider.getString("no_account_found"))
             } else {
                 for (temp in 0 until nList.length) {
 
@@ -252,9 +252,9 @@ object AccountXmlFactory {
             }
         } catch (e: FileNotFoundException) {
             BugReportSettings.accountCB.isDisable = true
-            BugReportSettings.accountCB.value = LanguageController.getString("xml_not_found")
+            BugReportSettings.accountCB.value = LocalizationProvider.getString("xml_not_found")
         } catch (e1: Exception) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)
@@ -292,7 +292,7 @@ object AccountXmlFactory {
             LogFileHandler.logger.log(Level.WARNING, "account index error!")
             AppConfiguration.projectData[projectID].setProjectAccBookmarkIdx(-1)
         } catch (e1: Exception) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)
@@ -352,9 +352,9 @@ object AccountXmlFactory {
             try {
                 transformer.transform(source, result)
                 AccountOverview.status.style = "-fx-text-fill: red;"
-                AccountOverview.status.text = LanguageController.getString("accDeleted")
+                AccountOverview.status.text = LocalizationProvider.getString("accDeleted")
             } catch (e1: TransformerException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
@@ -370,12 +370,12 @@ object AccountXmlFactory {
                 AccountOverview.delAcc.isDisable = true
             }
             if (nList.length == 1) {
-                AccountOverview.accCount.text = "1 " + LanguageController.getString("acc_loaded")
+                AccountOverview.accCount.text = "1 " + LocalizationProvider.getString("acc_loaded")
             } else {
-                AccountOverview.accCount.text = nList.length.toString() + " " + LanguageController.getString("accs_loaded")
+                AccountOverview.accCount.text = nList.length.toString() + " " + LocalizationProvider.getString("accs_loaded")
             }
         } catch (e1: Exception) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)
@@ -409,7 +409,7 @@ object AccountXmlFactory {
             try {
                 transformer.transform(source, result)
                 AccountOverview.status.style = "-fx-text-fill: #55c4fe;"
-                AccountOverview.status.text = LanguageController.getString("accSaved")
+                AccountOverview.status.text = LocalizationProvider.getString("accSaved")
                 LogFileHandler.logger.log(
                         Level.INFO,
                         "{" + i + ","
@@ -420,7 +420,7 @@ object AccountXmlFactory {
                                 + "} - success!"
                 )
             } catch (e1: TransformerException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
@@ -429,7 +429,7 @@ object AccountXmlFactory {
 
         } catch (e1: Exception) {
             AccountOverview.accCount.text = "ERROR"
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)

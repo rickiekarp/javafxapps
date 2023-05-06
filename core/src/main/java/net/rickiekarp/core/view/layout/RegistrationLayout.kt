@@ -10,11 +10,8 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.account.Account
-import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.net.NetResponse
 import net.rickiekarp.core.net.NetworkApi
 import net.rickiekarp.core.view.MessageDialog
-import java.util.logging.Level
 
 /**
  * Main Login Mask layout class.
@@ -33,7 +30,6 @@ internal class RegistrationLayout {
         main.spacing = 20.0
         main.alignment = Pos.CENTER
         grid = GridPane()
-        //grid.setGridLinesVisible(true);
         grid.alignment = Pos.CENTER
         grid.hgap = 10.0
         grid.vgap = 10.0
@@ -53,11 +49,10 @@ internal class RegistrationLayout {
         grid.add(password, 1, 2)
 
         val registerButton = Button("Submit")
-        registerButton.setOnAction { arg0 ->
-            if (!username.text.isEmpty() && !password.text.isEmpty()) {
+        registerButton.setOnAction { _ ->
+            if (username.text.isNotEmpty() && password.text.isNotEmpty()) {
                 val account = Account(username.text, password.text)
-                val inputStream = AppContext.context.networkApi.runNetworkAction(NetworkApi.requestCreateAccount(account))
-                val responseJson = NetResponse.getResponseJson(inputStream)
+                AppContext.context.networkApi.runNetworkAction(NetworkApi.requestCreateAccount(account))
             } else {
                 MessageDialog(0, "Enter account details!", 400, 200)
             }
@@ -65,20 +60,5 @@ internal class RegistrationLayout {
 
         main.children.add(grid)
         main.children.add(registerButton)
-    }
-
-    private fun requestLogin(account: Account): Boolean {
-        val tokenAction = AppContext.context.networkApi.requestResponse(
-                NetworkApi.requestAccessToken(account)
-        )
-
-        LogFileHandler.logger.log(Level.INFO, tokenAction!!.code.toString())
-        return when (tokenAction.code) {
-            200 -> {
-                AppContext.context.accountManager.account = account
-                true
-            }
-            else -> false
-        }
     }
 }

@@ -1,6 +1,6 @@
 package net.rickiekarp.flc.controller
 
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.util.CommonUtil
@@ -26,8 +26,9 @@ class FilelistController {
             if (canShowHeader) {
                 sb.append("FileList\n")
                 sb.append("-----------------------------------------------\n")
-                sb.append(LanguageController.getString("fcreation")).append(": ").append(CommonUtil.getDate("dd.MM.yyyy")).append(" ").append(LanguageController.getString("at")).append(" ").append(CommonUtil.getTime("HH:mm")).append("\n")
-                sb.append(LanguageController.getString("fpath")).append(": ").append(MainLayout.pathTF.text).append("\n")
+                sb.append(LocalizationProvider.getString("fcreation")).append(": ").append(CommonUtil.getDate("dd.MM.yyyy")).append(" ").append(
+                    LocalizationProvider.getString("at")).append(" ").append(CommonUtil.getTime("HH:mm")).append("\n")
+                sb.append(LocalizationProvider.getString("fpath")).append(": ").append(MainLayout.pathTF.text).append("\n")
                 sb.append("-----------------------------------------------\n\n")
             }
 
@@ -137,11 +138,11 @@ class FilelistController {
                             totalSize += AppConfiguration.dirData[i].fileSizeInDir
                         }
                         sb.append(AppConfiguration.fileData.size)
-                                .append(" ").append(LanguageController.getString("files")).append("; ")
+                                .append(" ").append(LocalizationProvider.getString("files")).append("; ")
                                 .append(totalSize).append(" Bytes")
                     } else {
                         sb.append(AppConfiguration.dirData[0].filesInDir)
-                                .append(" ").append(LanguageController.getString("files")).append("; ")
+                                .append(" ").append(LocalizationProvider.getString("files")).append("; ")
                                 .append(AppConfiguration.dirData[0].fileSizeInDir).append(" Bytes")
                     }
                 }
@@ -214,7 +215,7 @@ class FilelistController {
                             sb.append(separatorLine)
                             sb.append("\n")
                             sb.append(AppConfiguration.dirData[pos1].filesInDir)
-                                    .append(" ").append(LanguageController.getString("files")).append("; ")
+                                    .append(" ").append(LocalizationProvider.getString("files")).append("; ")
                                     .append(AppConfiguration.dirData[pos1].fileSizeInDir).append(" Bytes")
 
                             sb.append("\n\n")
@@ -228,7 +229,7 @@ class FilelistController {
                         totalSize += AppConfiguration.dirData[i].fileSizeInDir
                     }
                     sb.append(AppConfiguration.fileData.size)
-                            .append(" ").append(LanguageController.getString("files")).append("; ")
+                            .append(" ").append(LocalizationProvider.getString("files")).append("; ")
                             .append(totalSize).append(" Bytes")
                 }
             }
@@ -320,7 +321,7 @@ class FilelistController {
             }
             fileWriter.close()
         } catch (e1: IOException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)

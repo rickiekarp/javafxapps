@@ -6,7 +6,7 @@ import javafx.scene.control.ListView
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Paint
 import javafx.scene.shape.SVGPath
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.model.SettingEntry
 
@@ -19,12 +19,12 @@ class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<Set
             val vbox = VBox()
             graphic = vbox
 
-            val labelHeader = Label(LanguageController.getString(item!!.title!!))
+            val labelHeader = Label(LocalizationProvider.getString(item!!.title!!))
             labelHeader.graphicTextGap = 10.0
             labelHeader.id = "tableview-columnheader-default-bg"
             labelHeader.prefWidth = list!!.width - 40
             labelHeader.prefHeight = 30.0
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 labelHeader.style = "-fx-background-color: gray;"
             }
 

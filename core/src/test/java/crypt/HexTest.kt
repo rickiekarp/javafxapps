@@ -43,14 +43,14 @@ internal class HexTest {
             try {
                 actual = HexCoder.bytesToHex(SHA1Coder.getSHA1(ColorCoder.colorArray[i].toString()))
             } catch (e1: UnsupportedEncodingException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
                 }
                 return
             } catch (e1: NoSuchAlgorithmException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)

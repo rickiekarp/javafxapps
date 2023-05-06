@@ -2,11 +2,11 @@ package net.rickiekarp.qaacc;
 
 import javafx.stage.Stage;
 import net.rickiekarp.core.AppStarter;
-import net.rickiekarp.core.controller.AppLaunch;
+import net.rickiekarp.core.controller.IAppLauncher;
 import net.rickiekarp.qaacc.settings.AppConfiguration;
 import net.rickiekarp.qaacc.view.MainLayout;
 
-public class MainApp extends AppStarter implements AppLaunch {
+public class MainApp extends AppStarter implements IAppLauncher {
 
     /**
      * Main Method

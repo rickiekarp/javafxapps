@@ -44,7 +44,7 @@ private constructor(stage: WindowStage, stageStyle: StageStyle, root: Region, wi
             // Transparent scene and stage
             stage.stage.initStyle(stageStyle)
 
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 super.setFill(Color.SLATEGRAY)
             } else {
                 super.setFill(Color.TRANSPARENT)

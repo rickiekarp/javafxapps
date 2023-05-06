@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import net.rickiekarp.botlib.enums.BotPlatforms
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 
 class PluginData(pluginClazz: String?, pluginName: String?, pluginOldVersion: String?, pluginNewVersion: String?, platform: BotPlatforms?) {
 
@@ -61,7 +61,7 @@ class PluginData(pluginClazz: String?, pluginName: String?, pluginOldVersion: St
     fun setNewEditButtonName(): String? {
         //if local plugin does not exist, show download button
         if (pluginOldVersion.get() == null) {
-            return LanguageController.getString("download")
+            return LocalizationProvider.getString("download")
         } else if (pluginNewVersion.get() == null) {
             //show nothing
 
@@ -69,7 +69,7 @@ class PluginData(pluginClazz: String?, pluginName: String?, pluginOldVersion: St
         } else {
             try {
                 if (Integer.parseInt(pluginNewVersion.get().replace(".", "")) > Integer.parseInt(pluginOldVersion.get().replace(".", ""))) {
-                    return LanguageController.getString("update")
+                    return LocalizationProvider.getString("update")
                 }
             } catch (e: NumberFormatException) {
                 return null

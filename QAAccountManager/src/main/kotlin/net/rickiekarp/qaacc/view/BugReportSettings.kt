@@ -9,7 +9,7 @@ import javafx.scene.layout.ColumnConstraints
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
@@ -76,7 +76,7 @@ class BugReportSettings(projectID: Int) {
                 try {
                     AccountXmlFactory.readAccountNameFromXML(projectID)
                 } catch (e1: MalformedURLException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
@@ -115,7 +115,7 @@ class BugReportSettings(projectID: Int) {
         cfgInnerGrid.vgap = 15.0
 
         //add components
-        val tmplCfg = TitledPane(LanguageController.getString("settings"), cfgInnerGrid)
+        val tmplCfg = TitledPane(LocalizationProvider.getString("settings"), cfgInnerGrid)
         tmplCfg.isCollapsible = false
         GridPane.setConstraints(tmplCfg, 0, 0)
         cfgGrid.children.add(tmplCfg)
@@ -144,7 +144,7 @@ class BugReportSettings(projectID: Int) {
         GridPane.setConstraints(serverCB, 1, 2)
         cfgInnerGrid.children.add(serverCB)
 
-        val langTP = Label(LanguageController.getString("language"))
+        val langTP = Label(LocalizationProvider.getString("language"))
         GridPane.setConstraints(langTP, 0, 3)
         langTP.prefWidth = 95.0
         cfgInnerGrid.children.add(langTP)
@@ -166,14 +166,14 @@ class BugReportSettings(projectID: Int) {
         tmplTA!!.minHeight = 320.0
         tmplTA!!.style = "-fx-font-size: 12pt;"
 
-        val tmplPrev = TitledPane("Template " + LanguageController.getString("preview"), tmplTA)
+        val tmplPrev = TitledPane("Template " + LocalizationProvider.getString("preview"), tmplTA)
         tmplPrev.isCollapsible = false
         GridPane.setConstraints(tmplPrev, 0, 0)
         prevGrid.children.add(tmplPrev)
 
         val status = Label()
-        val saveCfg = Button(LanguageController.getString("saveCfg"))
-        val copyTemplate = Button(LanguageController.getString("template_copy"))
+        val saveCfg = Button(LocalizationProvider.getString("saveCfg"))
+        val copyTemplate = Button(LocalizationProvider.getString("template_copy"))
         controls.children.addAll(status, saveCfg, copyTemplate)
 
         controls.padding = Insets(15.0, 12.0, 15.0, 12.0)  //padding top, left, bottom, right
@@ -219,7 +219,7 @@ class BugReportSettings(projectID: Int) {
         copyTemplate.setOnAction { event ->
             AppConfiguration.setStringToClipboard(tmplTA!!.text)
             status.style = "-fx-text-fill: #55c4fe;"
-            status.text = LanguageController.getString("template_copied")
+            status.text = LocalizationProvider.getString("template_copied")
         }
 
         browserTF.setOnKeyReleased { ke -> populateBugTemplate(pjState) }
@@ -265,10 +265,10 @@ class BugReportSettings(projectID: Int) {
             if (AppConfiguration.projectData[projectInt].getProjectAccBookmarkName() == "") {
                 accName = ""
                 orAny = ""
-            } else if (AppConfiguration.projectData[projectInt].getProjectAccBookmarkName() == LanguageController.getString("xml_not_found")) {
+            } else if (AppConfiguration.projectData[projectInt].getProjectAccBookmarkName() == LocalizationProvider.getString("xml_not_found")) {
                 accName = ""
                 orAny = ""
-            } else if (AppConfiguration.projectData[projectInt].getProjectAccBookmarkName() == LanguageController.getString("no_account_found")) {
+            } else if (AppConfiguration.projectData[projectInt].getProjectAccBookmarkName() == LocalizationProvider.getString("no_account_found")) {
                 accName = ""
                 orAny = ""
             } else {
@@ -306,14 +306,14 @@ class BugReportSettings(projectID: Int) {
             val projectID = AppConfiguration.pjState
 
             if (projectID == -1) {
-                MessageDialog(0, LanguageController.getString("project_not_selected"), 350, 220)
+                MessageDialog(0, LocalizationProvider.getString("project_not_selected"), 350, 220)
             } else {
                 try {
                     AccountXmlFactory.getFavAccName(projectID)
                     AppConfiguration.setStringToClipboard(AppConfiguration.onCopyBugtemplate(projectID))
-                    MainLayout.status.text = LanguageController.getString("template_copied")
+                    MainLayout.status.text = LocalizationProvider.getString("template_copied")
                 } catch (e1: Exception) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)

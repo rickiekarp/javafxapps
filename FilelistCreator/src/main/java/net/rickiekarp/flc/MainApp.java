@@ -2,12 +2,12 @@ package net.rickiekarp.flc;
 
 import javafx.stage.Stage;
 import net.rickiekarp.core.AppStarter;
-import net.rickiekarp.core.controller.AppLaunch;
+import net.rickiekarp.core.controller.IAppLauncher;
 import net.rickiekarp.flc.controller.FileCommands;
 import net.rickiekarp.flc.settings.AppConfiguration;
 import net.rickiekarp.flc.view.layout.MainLayout;
 
-public class MainApp extends AppStarter implements AppLaunch {
+public class MainApp extends AppStarter implements IAppLauncher {
 
     /**
      * Main Method

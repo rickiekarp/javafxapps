@@ -52,7 +52,7 @@ object PluginExecutor {
             authorizedPlugin = authorizedLoader.loadClass(plugin.pluginClazz.get()).newInstance() as Plugin
             Platform.runLater { authorizedPlugin.run() }
         } catch (e: Exception) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)

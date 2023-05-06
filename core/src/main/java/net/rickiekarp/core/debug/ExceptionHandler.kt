@@ -10,7 +10,7 @@ import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.stage.Modality
 import javafx.stage.Stage
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ThemeSelector
 import net.rickiekarp.core.util.ClipboardUtil
 import java.util.logging.Level
@@ -31,7 +31,7 @@ class ExceptionHandler(throwable: Throwable) {
      */
     private fun createExceptionGUI(e: Throwable) {
         val modalDialog = Stage()
-        modalDialog.title = LanguageController.getString("error")
+        modalDialog.title = LocalizationProvider.getString("error")
         modalDialog.initModality(Modality.APPLICATION_MODAL)
         modalDialog.isResizable = true
         modalDialog.setOnCloseRequest { modalDialog.close() }
@@ -54,7 +54,7 @@ class ExceptionHandler(throwable: Throwable) {
         status.isVisible = false
         controls.children.add(status)
 
-        val copy = Button(LanguageController.getString("copy"))
+        val copy = Button(LocalizationProvider.getString("copy"))
         controls.children.add(copy)
 
         //set layout
@@ -80,7 +80,7 @@ class ExceptionHandler(throwable: Throwable) {
             status.isVisible = true
             ClipboardUtil.setStringToClipboard(exTF.text)
             status.style = "-fx-text-fill: #55c4fe;"
-            status.text = LanguageController.getString("exception_copied")
+            status.text = LocalizationProvider.getString("exception_copied")
         }
 
         exTF.text = getExceptionString(e)
@@ -112,7 +112,7 @@ class ExceptionHandler(throwable: Throwable) {
             try {
                 throw IndexOutOfBoundsException("TEST")
             } catch (e1: IndexOutOfBoundsException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                     ExceptionHandler(e1)
                 } else {

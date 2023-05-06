@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -44,7 +44,7 @@ class AccountOverview(projectID: Int) {
 
     private fun create(projectID: Int) {
         val overviewStage = Stage()
-        overviewStage.title = AppConfiguration.projectData[projectID].getProjectName() + " - " + LanguageController.getString("account_manager")
+        overviewStage.title = AppConfiguration.projectData[projectID].getProjectName() + " - " + LocalizationProvider.getString("account_manager")
         overviewStage.icons.add(ImageLoader.getAppIcon())
         overviewStage.isResizable = true
         overviewStage.width = 770.0
@@ -91,15 +91,15 @@ class AccountOverview(projectID: Int) {
 
         tableview = TableView()
         tableview.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
-        tableview.placeholder = Label(LanguageController.getString("no_account_found"))
+        tableview.placeholder = Label(LocalizationProvider.getString("no_account_found"))
 
 
-        val column1 = TableColumn<Account, Any>(LanguageController.getString("name"))
+        val column1 = TableColumn<Account, Any>(LocalizationProvider.getString("name"))
         column1.setCellValueFactory(PropertyValueFactory("accName"))
-        val column2 = TableColumn<Account, Any>(LanguageController.getString("mail"))
+        val column2 = TableColumn<Account, Any>(LocalizationProvider.getString("mail"))
         column2.isVisible = false
         column2.setCellValueFactory(PropertyValueFactory("accMail"))
-        val column3 = TableColumn<Account, Any>(LanguageController.getString("level"))
+        val column3 = TableColumn<Account, Any>(LocalizationProvider.getString("level"))
         column3.isVisible = false
         column3.setCellValueFactory(PropertyValueFactory("accLevel"))
         val column4 = TableColumn<Account, Any>()
@@ -130,7 +130,7 @@ class AccountOverview(projectID: Int) {
         AnchorPane.setTopAnchor(header, 5.0)
         AnchorPane.setLeftAnchor(header, 10.0)
 
-        val nameL = Label(LanguageController.getString("name"))
+        val nameL = Label(LocalizationProvider.getString("name"))
         GridPane.setConstraints(nameL, 0, 0)
         gridpane.children.add(nameL)
 
@@ -138,7 +138,7 @@ class AccountOverview(projectID: Int) {
         GridPane.setConstraints(nameTF, 1, 0)
         gridpane.children.add(nameTF)
 
-        val mailL = Label(LanguageController.getString("mail"))
+        val mailL = Label(LocalizationProvider.getString("mail"))
         GridPane.setConstraints(mailL, 0, 1)
         gridpane.children.add(mailL)
 
@@ -147,7 +147,7 @@ class AccountOverview(projectID: Int) {
         GridPane.setConstraints(mailTF, 1, 1)
         gridpane.children.add(mailTF)
 
-        val lvL = Label(LanguageController.getString("level"))
+        val lvL = Label(LocalizationProvider.getString("level"))
         GridPane.setConstraints(lvL, 0, 2)
         gridpane.children.add(lvL)
 
@@ -169,29 +169,29 @@ class AccountOverview(projectID: Int) {
         AnchorPane.setBottomAnchor(accCount, 75.0)
         AnchorPane.setRightAnchor(accCount, 250.0)
 
-        status = Label(LanguageController.getString("ready"))
+        status = Label(LocalizationProvider.getString("ready"))
         anchor2.children.add(2, status)
         AnchorPane.setBottomAnchor(status, 75.0)
         AnchorPane.setRightAnchor(status, 60.0)
 
-        val newAcc = Button(LanguageController.getString("create"))
+        val newAcc = Button(LocalizationProvider.getString("create"))
         controls.children.add(newAcc)
 
-        editAcc = Button(LanguageController.getString("edit"))
+        editAcc = Button(LocalizationProvider.getString("edit"))
         controls.children.add(editAcc)
 
-        delAcc = Button(LanguageController.getString("delete"))
+        delAcc = Button(LocalizationProvider.getString("delete"))
         controls.children.add(delAcc)
 
         //set project specific names
         when (projectID) {
             2 -> {
-                alliL.text = LanguageController.getString("cooperative")
-                column4.setText(LanguageController.getString("cooperative"))
+                alliL.text = LocalizationProvider.getString("cooperative")
+                column4.setText(LocalizationProvider.getString("cooperative"))
             }
             else -> {
-                alliL.text = LanguageController.getString("alliance")
-                column4.setText(LanguageController.getString("alliance"))
+                alliL.text = LocalizationProvider.getString("alliance")
+                column4.setText(LocalizationProvider.getString("alliance"))
             }
         }
 
@@ -203,12 +203,12 @@ class AccountOverview(projectID: Int) {
         if (AppConfiguration.accountData.size == 0) {
             editAcc.isDisable = true
             delAcc.isDisable = true
-            accCount.text = "0 " + LanguageController.getString("accs_loaded")
+            accCount.text = "0 " + LocalizationProvider.getString("accs_loaded")
         } else if (AppConfiguration.accountData.size == 1) {
-            accCount.text = "1 " + LanguageController.getString("acc_loaded")
+            accCount.text = "1 " + LocalizationProvider.getString("acc_loaded")
             tableview.selectionModel.select(0)
         } else {
-            accCount.text = AppConfiguration.accountData.size.toString() + " " + LanguageController.getString("accs_loaded")
+            accCount.text = AppConfiguration.accountData.size.toString() + " " + LocalizationProvider.getString("accs_loaded")
             tableview.selectionModel.select(0)
         }
 
@@ -239,7 +239,7 @@ class AccountOverview(projectID: Int) {
                     tableview.selectionModel.select(selectedIndex)
                 }
             } catch (e1: MalformedURLException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)

@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.Modality
 import javafx.stage.Stage
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.ThemeSelector
 import net.rickiekarp.core.ui.windowmanager.WindowScene
@@ -33,7 +33,7 @@ class AccountScene {
         stage.height = (height + 50).toDouble()
         stage.minWidth = width.toDouble()
         stage.minHeight = height.toDouble()
-        stage.title = LanguageController.getString("account")
+        stage.title = LocalizationProvider.getString("account")
         stage.initModality(Modality.APPLICATION_MODAL)
         val windowStage = WindowStage("account", stage)
 

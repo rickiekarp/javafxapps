@@ -14,7 +14,7 @@ import net.rickiekarp.botlib.enums.BotPlatforms
 import net.rickiekarp.botlib.model.PluginData
 import net.rickiekarp.botlib.net.BotNetworkApi
 import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -56,7 +56,7 @@ class PluginManagerLayout {
 
             pluginTable = TableView()
             pluginTable!!.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
-            pluginTable!!.placeholder = Label(LanguageController.getString("no_plugin_found"))
+            pluginTable!!.placeholder = Label(LocalizationProvider.getString("no_plugin_found"))
             GridPane.setConstraints(pluginTable, 0, 1)
             GridPane.setHgrow(pluginTable, Priority.ALWAYS)
 
@@ -87,7 +87,7 @@ class PluginManagerLayout {
     }
 
     private fun loadRemotePlugins() {
-        setLoadingBar(LanguageController.getString("loading"), true)
+        setLoadingBar(LocalizationProvider.getString("loading"), true)
 
         Thread {
             //list all plugins where a new version needs to be fetched
@@ -96,7 +96,7 @@ class PluginManagerLayout {
                 pluginTable!!.refresh()
                 when (val response = NetResponse.getResponseString(AppContext.context.networkApi.runNetworkAction(BotNetworkApi.requestPlugins()))) {
                     "no_connection", "file_not_found" -> {
-                        Platform.runLater { setLoadingBar(LanguageController.getString("no_connection"), false) }
+                        Platform.runLater { setLoadingBar(LocalizationProvider.getString("no_connection"), false) }
                     }
                     else -> {
                         val pluginArray = JSONArray(response)
@@ -128,8 +128,8 @@ class PluginManagerLayout {
 
             //set version to 'no version found' for plugins without remote version
             for (i in 0 until PluginData.pluginData.size) {
-                if (PluginData.pluginData[i].getPluginNewVersion() == LanguageController.getString("fetching")) {
-                    PluginData.pluginData[i].setPluginNewVersion(LanguageController.getString("no_version_found"))
+                if (PluginData.pluginData[i].getPluginNewVersion() == LocalizationProvider.getString("fetching")) {
+                    PluginData.pluginData[i].setPluginNewVersion(LocalizationProvider.getString("no_version_found"))
                 }
             }
 
@@ -140,7 +140,7 @@ class PluginManagerLayout {
 
     private fun create() {
         val pluginStage = Stage()
-        pluginStage.title = LanguageController.getString("pluginmanager")
+        pluginStage.title = LocalizationProvider.getString("pluginmanager")
         pluginStage.icons.add(ImageLoader.getAppIconSmall())
         pluginStage.isResizable = true
         //infoStage.setMinWidth(500); infoStage.setMinHeight(320);
@@ -170,11 +170,11 @@ class PluginManagerLayout {
     }
 
     private fun setupTable() {
-        val pluginName = TableColumn<PluginData, String>(LanguageController.getString("name"))
-        val type = TableColumn<PluginData, String>(LanguageController.getString("type"))
-        val pluginVersion = TableColumn<PluginData, String>(LanguageController.getString("oldVersion"))
-        val newVersion = TableColumn<PluginData, String>(LanguageController.getString("newVersion"))
-        val download = TableColumn<PluginData, Any>(LanguageController.getString("download"))
+        val pluginName = TableColumn<PluginData, String>(LocalizationProvider.getString("name"))
+        val type = TableColumn<PluginData, String>(LocalizationProvider.getString("type"))
+        val pluginVersion = TableColumn<PluginData, String>(LocalizationProvider.getString("oldVersion"))
+        val newVersion = TableColumn<PluginData, String>(LocalizationProvider.getString("newVersion"))
+        val download = TableColumn<PluginData, Any>(LocalizationProvider.getString("download"))
 
         pluginName.cellValueFactory = PropertyValueFactory("pluginName")
         type.cellValueFactory = PropertyValueFactory("pluginType")
@@ -210,7 +210,7 @@ class PluginManagerLayout {
             try {
                 fileDownloader = FileDownloader(URL(Configuration.host + "files/apps/" + AppContext.context.contextIdentifier + "/download/plugins/" + PluginData.pluginData[tableRow.index].pluginName + ".jar"))
             } catch (e: MalformedURLException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e.printStackTrace()
                 } else {
                     LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e))
@@ -235,7 +235,7 @@ class PluginManagerLayout {
                 }
 
                 Platform.runLater {
-                    downloadButton.text = LanguageController.getString("install")
+                    downloadButton.text = LocalizationProvider.getString("install")
                     downloadButton.setOnAction { actionEvent -> installPlugin() }
                     graphic = downloadButton
                 }
@@ -260,7 +260,7 @@ class PluginManagerLayout {
 
                 updateLocalPluginData(Configuration.config.pluginDirFile.toString() + File.separator + PluginData.pluginData[tableRow.index].pluginName + ".jar")
 
-                Platform.runLater { graphic = Label(LanguageController.getString("ready")) }
+                Platform.runLater { graphic = Label(LocalizationProvider.getString("ready")) }
             }.start()
         }
 
@@ -272,7 +272,7 @@ class PluginManagerLayout {
                 updatedData.setPluginClazz(manifestValues[0])
                 updatedData.setPluginOldVersion(manifestValues[1])
             } catch (e: IOException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e.printStackTrace()
                 } else {
                     LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e))

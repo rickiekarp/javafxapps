@@ -42,7 +42,7 @@ class SettingsXmlFactory {
                 createElement(doc, f.name, getFieldValueString(f))
             }
         } catch (e: Exception) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)
@@ -75,7 +75,7 @@ class SettingsXmlFactory {
             val result = StreamResult(Configuration.config.configDirFile.toString() + File.separator + Configuration.config.configFileName)
             transformer.transform(source, result)
         } catch (e: TransformerException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)
@@ -93,7 +93,7 @@ class SettingsXmlFactory {
                 f.get(LoadSave::class)
             }
         } catch (e: IllegalAccessException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)
@@ -161,7 +161,7 @@ class SettingsXmlFactory {
                 val result = StreamResult(Configuration.config.configDirFile.toString() + File.separator + Configuration.config.configFileName)
                 transformer.transform(source, result)
             } catch (e1: TransformerException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
@@ -228,21 +228,21 @@ class SettingsXmlFactory {
             doc.documentElement.normalize()
             return doc.getElementsByTagName(nodeName)
         } catch (e: SAXException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)
             }
             return null
         } catch (e: ParserConfigurationException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)
             }
             return null
         } catch (e: IOException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)

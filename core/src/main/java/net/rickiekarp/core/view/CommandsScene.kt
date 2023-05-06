@@ -6,7 +6,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.layout.*
 import javafx.stage.Stage
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.AppCommands
@@ -32,7 +32,7 @@ class CommandsScene {
         commandsStage.height = (200 + AppCommands.commandsList.size * 35).toDouble()
         commandsStage.minWidth = 620.0
         commandsStage.minHeight = (180 + AppCommands.commandsList.size * 35).toDouble()
-        commandsStage.title = LanguageController.getString("commands")
+        commandsStage.title = LocalizationProvider.getString("commands")
 
         val contentVbox = VBox()
 
@@ -75,7 +75,7 @@ class CommandsScene {
             grid.children.add(commandDescLabel)
         }
 
-        val okButton = Button(LanguageController.getString("close"))
+        val okButton = Button(LocalizationProvider.getString("close"))
         controls.children.add(okButton)
 
         grid.alignment = Pos.BASELINE_CENTER

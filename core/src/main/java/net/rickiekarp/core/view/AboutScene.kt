@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.stage.Stage
 import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
@@ -85,18 +85,18 @@ class AboutScene {
             GridPane.setConstraints(version, 0, 2)
             grid!!.children.add(version)
 
-            val description = Label(LanguageController.getString("desc"))
+            val description = Label(LocalizationProvider.getString("desc"))
             description.setMaxSize(350.0, 200.0)
             description.isWrapText = true
             GridPane.setConstraints(description, 0, 0)
             grid2!!.children.add(description)
 
-            val copyright = Label(LanguageController.getString("copyright"))
+            val copyright = Label(LocalizationProvider.getString("copyright"))
             copyright.style = "-fx-font-size: 10pt;"
             GridPane.setConstraints(copyright, 0, 1)
             grid2!!.children.add(copyright)
 
-            val urlBtn = Button(LanguageController.getString("website"))
+            val urlBtn = Button(LocalizationProvider.getString("website"))
             controls!!.children.add(urlBtn)
 
             controls!!.padding = Insets(10.0, 7.0, 10.0, 7.0)
@@ -109,13 +109,13 @@ class AboutScene {
                 try {
                     CommonUtil.openWebpage(website)
                 } catch (e1: IOException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
                     }
                 } catch (e1: URISyntaxException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
@@ -132,7 +132,7 @@ class AboutScene {
 
     private fun create() {
         val infoStage = Stage()
-        infoStage.title = LanguageController.getString("about") + " " + AppContext.context.applicationName
+        infoStage.title = LocalizationProvider.getString("about") + " " + AppContext.context.applicationName
         infoStage.icons.add(ImageLoader.getAppIconSmall())
         infoStage.isResizable = false
         infoStage.width = 500.0

@@ -16,8 +16,8 @@ import net.rickiekarp.core.AppContext;
 import net.rickiekarp.core.AppStarter;
 import net.rickiekarp.core.account.ILoginHandler;
 import net.rickiekarp.core.components.button.SidebarButton;
-import net.rickiekarp.core.controller.AppLaunch;
-import net.rickiekarp.core.controller.LanguageController;
+import net.rickiekarp.core.controller.IAppLauncher;
+import net.rickiekarp.core.provider.LocalizationProvider;
 import net.rickiekarp.core.debug.LogFileHandler;
 import net.rickiekarp.core.settings.Configuration;
 import net.rickiekarp.core.util.FileUtil;
@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class MainApp extends AppStarter implements AppLaunch, ILoginHandler {
+public class MainApp extends AppStarter implements IAppLauncher, ILoginHandler {
 
     /**
      * Main Method
@@ -78,7 +78,7 @@ public class MainApp extends AppStarter implements AppLaunch, ILoginHandler {
 
         //disable settings and bot setup views if no config file is present
         if (!isConfigLoaded()) {
-            new MessageDialog(0, LanguageController.getString("config_not_found"), 500, 250);
+            new MessageDialog(0, LocalizationProvider.getString("config_not_found"), 500, 250);
             MainScene.Companion.getMainScene().getWindowScene().getWin().getSidebarButtonBox().getChildren().get(0).setDisable(true);
             MainScene.Companion.getMainScene().getWindowScene().getWin().getSidebarButtonBox().getChildren().get(1).setDisable(true);
         }

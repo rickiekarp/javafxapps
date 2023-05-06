@@ -6,32 +6,25 @@ import net.rickiekarp.core.view.MainScene
 import java.util.*
 
 class WindowStack : Stack<Node>() {
-    private var backButton: Button? = null
+    private lateinit var backButton: Button
 
     override fun push(item: Node): Node {
-        //System.out.println("Push " + item);
         addElement(item)
         MainScene.mainScene.borderPane.center = item
         if (this.size == 2) {
             initializeBackButton()
-            MainScene.mainScene.windowScene!!.win.titlebarButtonBox.children.add(backButton)
+            MainScene.mainScene.windowScene!!.win.titleBarButtonBox.children.add(backButton)
         }
         return item
     }
 
-    override fun pop(): Node {
-        //System.out.print("pop -> " + this.peek());
-        return super.pop()
-    }
-
     private fun initializeBackButton() {
         backButton = Button("Back")
-        backButton!!.setOnAction { event ->
+        backButton.setOnAction { _ ->
             this.pop()
             MainScene.mainScene.borderPane.center = super.peek()
             if (this.size == 1) {
-                MainScene.mainScene.windowScene!!.win.titlebarButtonBox.children.remove(backButton)
-                backButton = null
+                MainScene.mainScene.windowScene!!.win.titleBarButtonBox.children.remove(backButton)
             }
         }
     }

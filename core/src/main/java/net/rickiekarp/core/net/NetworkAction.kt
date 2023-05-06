@@ -64,14 +64,14 @@ class NetworkAction internal constructor(builder: Builder) {
             return xmlSource
         } catch (e: SocketTimeoutException) {
             LogFileHandler.logger.warning("Connection timed out!")
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e))
             }
         } catch (e1: IOException) {
             LogFileHandler.logger.warning("Can not connect to: " + programURL!!)
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e1))
@@ -191,14 +191,14 @@ class NetworkAction internal constructor(builder: Builder) {
                     return xmlSource
                 } catch (e: SocketTimeoutException) {
                     LogFileHandler.logger.warning("Connection timed out!")
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e.printStackTrace()
                     } else {
                         LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e))
                     }
                 } catch (e1: IOException) {
                     LogFileHandler.logger.warning("Can not connect to: " + programURL!!)
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e1))

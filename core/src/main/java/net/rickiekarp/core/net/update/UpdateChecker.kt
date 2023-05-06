@@ -48,7 +48,7 @@ class UpdateChecker {
                 return version
             } catch (e: IOException) {
                 LogFileHandler.logger.warning("Can not connect to: " + javaurl!!)
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e.printStackTrace()
                 } else {
                     Platform.runLater { ExceptionHandler(e) }

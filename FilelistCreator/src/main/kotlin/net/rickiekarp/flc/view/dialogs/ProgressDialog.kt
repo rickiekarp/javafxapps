@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.WindowEvent
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
@@ -35,7 +35,7 @@ class ProgressDialog : Stage() {
         this.isResizable = false
         this.width = width.toDouble()
         this.height = height.toDouble()
-        this.title = LanguageController.getString("inprogress")
+        this.title = LocalizationProvider.getString("inprogress")
 
         // The UI (Client Area) to display
         val borderpane = BorderPane()
@@ -49,12 +49,12 @@ class ProgressDialog : Stage() {
         controls.padding = Insets(10.0, 7.0, 10.0, 7.0)  //padding top, left, bottom, right
 
         // Components
-        val label = Label(LanguageController.getString("scanning"))
+        val label = Label(LocalizationProvider.getString("scanning"))
 
         val loadBar = ProgressBar(0.0)
         loadBar.progress = ProgressIndicator.INDETERMINATE_PROGRESS
 
-        val abort = Button(LanguageController.getString("abort"))
+        val abort = Button(LocalizationProvider.getString("abort"))
 
         // Add components to layout
         vbox.children.addAll(label, loadBar)

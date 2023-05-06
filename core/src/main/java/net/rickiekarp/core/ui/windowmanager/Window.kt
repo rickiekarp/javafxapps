@@ -26,7 +26,7 @@ import javafx.stage.Screen
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import net.rickiekarp.core.components.button.SidebarButton
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.AppCommands
@@ -61,11 +61,13 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         private set
     var contentController: WindowContentController? = null
         private set
-    private var resizeRect: Rectangle? = null
+
+    private lateinit var resizeRect: Rectangle
+
     internal lateinit var maximizeProperty: SimpleBooleanProperty
     private var minimizeProperty: SimpleBooleanProperty? = null
     private var closeProperty: SimpleBooleanProperty? = null
-    val titlebarButtonBox: HBox
+    val titleBarButtonBox: HBox
         get() = contentController!!.titlebarButtonBox!!
     val sidebarButtonBox: VBox?
         get() = contentController!!.sidebarButtonBox
@@ -90,11 +92,11 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         stageStyle = st
 
         maximizeProperty = SimpleBooleanProperty(false)
-        maximizeProperty.addListener { ov, t, t1 -> controller!!.maximizeOrRestore() }
+        maximizeProperty.addListener { _, _, _ -> controller!!.maximizeOrRestore() }
         minimizeProperty = SimpleBooleanProperty(false)
-        minimizeProperty!!.addListener { ov, t, t1 -> controller!!.minimize() }
+        minimizeProperty!!.addListener { _, _, _ -> controller!!.minimize() }
         closeProperty = SimpleBooleanProperty(false)
-        closeProperty!!.addListener { ov, t, t1 -> controller!!.close() }
+        closeProperty!!.addListener { _, _, _ -> controller!!.close() }
 
         sideBarHeightProperty = SimpleDoubleProperty(stag.stage.height)
 
@@ -155,15 +157,15 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
             }
         }
 
-        vbox.style = "-fx-background-color: #1d1d1d;"
+        vbox.style = "-fx-background-color: #2b2a2a;"
         vbox.children.addAll(stageDecoration, contentStack)
 
         resizeRect = Rectangle()
-        resizeRect!!.fill = null
-        resizeRect!!.strokeWidth = RESIZE_PADDING.toDouble()
-        resizeRect!!.strokeType = StrokeType.INSIDE
-        resizeRect!!.stroke = Configuration.decorationColor
-        controller!!.setStageResizableWith(stag.stage, resizeRect!!, RESIZE_PADDING, SHADOW_WIDTH)
+        resizeRect.fill = null
+        resizeRect.strokeWidth = RESIZE_PADDING.toDouble()
+        resizeRect.strokeType = StrokeType.INSIDE
+        resizeRect.stroke = Configuration.decorationColor
+        controller!!.setStageResizableWith(stag.stage, resizeRect, RESIZE_PADDING, SHADOW_WIDTH)
 
         buildDockFeedbackStage()
 
@@ -189,7 +191,7 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
      * Sets the color of the window decoration & resize Rectangle
      */
     fun setDecorationColor() {
-        resizeRect!!.stroke = Configuration.decorationColor
+        resizeRect.stroke = Configuration.decorationColor
         stageDecoration!!.style = "-fx-background-color: " + ThemeSelector.getColorHexString(Configuration.decorationColor!!)
     }
 
@@ -239,7 +241,7 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         AnchorPane.setLeftAnchor(leftBox, 5.0)
         menuAnchor.children.add(leftBox)
 
-        contentController!!.setTitlebarRightButtonBox(HBox())
+        contentController!!.setTitleBarRightButtonBox(HBox())
         val titlebar = contentController!!.titlebarButtonBox
         titlebar!!.alignment = Pos.BASELINE_CENTER
         titlebar.nodeOrientation = NodeOrientation.RIGHT_TO_LEFT
@@ -278,12 +280,12 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
 
         //define minimize/maximize/close button
         val btn_close = Button()
-        btn_close.tooltip = Tooltip(LanguageController.getString("close"))
+        btn_close.tooltip = Tooltip(LocalizationProvider.getString("close"))
         btn_close.styleClass.add("decoration-button-close")
         btn_close.setOnAction { event -> switchClose() }
 
         val btn_minimize = Button()
-        btn_minimize.tooltip = Tooltip(LanguageController.getString("minimize"))
+        btn_minimize.tooltip = Tooltip(LocalizationProvider.getString("minimize"))
         btn_minimize.styleClass.add("decoration-button-minimize")
         btn_minimize.setOnAction { event -> switchMinimize() }
 
@@ -302,7 +304,7 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
 
         if (stage.isResizable) {
             val btn_maximize = Button()
-            btn_maximize.tooltip = Tooltip(LanguageController.getString("maximize"))
+            btn_maximize.tooltip = Tooltip(LocalizationProvider.getString("maximize"))
             btn_maximize.styleClass.add("decoration-button-maximize")
 
             btn_maximize.setOnAction { event -> switchMaximize() }
@@ -321,16 +323,16 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
                     btn_maximize.styleClass.remove("decoration-button-maximize")
                     btn_maximize.styleClass.add("decoration-button-restore")
 
-                    if (tooltip.text == LanguageController.getString("maximize")) {
-                        tooltip.text = LanguageController.getString("restore")
+                    if (tooltip.text == LocalizationProvider.getString("maximize")) {
+                        tooltip.text = LocalizationProvider.getString("restore")
                     }
 
                 } else {
                     btn_maximize.styleClass.remove("decoration-button-restore")
                     btn_maximize.styleClass.add("decoration-button-maximize")
 
-                    if (tooltip.text == LanguageController.getString("restore")) {
-                        tooltip.text = LanguageController.getString("maximize")
+                    if (tooltip.text == LocalizationProvider.getString("restore")) {
+                        tooltip.text = LocalizationProvider.getString("maximize")
                     }
                 }
             }
@@ -338,7 +340,7 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         }
 
         //DEBUG COLORS AND DEV BUTTON
-        if (DebugHelper.DEBUGVERSION) {
+        if (DebugHelper.DEBUG) {
             leftBox.style = "-fx-background-color: gray"
             titlebar.style = "-fx-background-color: red"
             //            titlebarRightButtonBox.getChildren().add(btn_dev);
@@ -363,13 +365,13 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         clipShape.xProperty().bind(AnimationHandler.xPosMenu)
         clipShape.heightProperty().bind(sideBarHeightProperty)
 
-        val btnCfg = SidebarButton(LanguageController.getString("settings"))
+        val btnCfg = SidebarButton(LocalizationProvider.getString("settings"))
         btnCfg.setOnAction { e ->
             SettingsScene()
             toggleSideBar()
         }
 
-        val btnAbout = SidebarButton(LanguageController.getString("about"))
+        val btnAbout = SidebarButton(LocalizationProvider.getString("about"))
         btnAbout.setOnAction { e ->
             AboutScene()
             toggleSideBar()
@@ -383,7 +385,7 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         AnchorPane.setTopAnchor(sidebar, 0.0)
 
         console = TextField()
-        console!!.tooltip = Tooltip(LanguageController.getString("console_input_desc"))
+        console!!.tooltip = Tooltip(LocalizationProvider.getString("console_input_desc"))
         console!!.setPrefSize(AnimationHandler.menuWidth - 10, 30.0)
         console!!.style = "-fx-accent: $colorTheme;-fx-focus-color: $colorTheme;"
         console!!.setOnKeyPressed { ke ->
@@ -513,10 +515,10 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
                 stageDecoration!!.layoutX = SHADOW_WIDTH.toDouble()
                 stageDecoration!!.layoutY = SHADOW_WIDTH.toDouble()
             } else if (node === resizeRect) {
-                resizeRect!!.width = w - SHADOW_WIDTH * 2
-                resizeRect!!.height = h - SHADOW_WIDTH * 2
-                resizeRect!!.layoutX = SHADOW_WIDTH.toDouble()
-                resizeRect!!.layoutY = SHADOW_WIDTH.toDouble()
+                resizeRect.width = w - SHADOW_WIDTH * 2
+                resizeRect.height = h - SHADOW_WIDTH * 2
+                resizeRect.layoutX = SHADOW_WIDTH.toDouble()
+                resizeRect.layoutY = SHADOW_WIDTH.toDouble()
             } else {
                 node.resize(w - (SHADOW_WIDTH * 2).toDouble() - (RESIZE_PADDING * 2).toDouble(), h - (SHADOW_WIDTH * 2).toDouble() - (RESIZE_PADDING * 2).toDouble())
                 node.layoutX = (SHADOW_WIDTH + RESIZE_PADDING).toDouble()

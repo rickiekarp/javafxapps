@@ -1,7 +1,7 @@
 package net.rickiekarp.core
 
 import net.rickiekarp.core.account.AccountManager
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.net.NetworkApi
 import net.rickiekarp.core.settings.Configuration
@@ -17,7 +17,7 @@ class AppContext protected constructor(val contextIdentifier: String, val networ
     var internalVersion: String? = null
 
     val applicationName: String
-        get() = LanguageController.getString(contextIdentifier)
+        get() = LocalizationProvider.getString(contextIdentifier)
 
     val versionNumber: String?
         get() {

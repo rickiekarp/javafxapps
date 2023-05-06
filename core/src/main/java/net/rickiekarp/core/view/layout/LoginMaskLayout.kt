@@ -164,7 +164,7 @@ class LoginMaskLayout {
         MainScene.mainScene.borderPane.center = this.maskNode
 
         //remove account menu from title bar
-        MainScene.mainScene.windowScene!!.win.titlebarButtonBox.children.removeAt(MainScene.mainScene.windowScene!!.win.titlebarButtonBox.children.size - 1)
+        MainScene.mainScene.windowScene!!.win.titleBarButtonBox.children.removeAt(MainScene.mainScene.windowScene!!.win.titleBarButtonBox.children.size - 1)
     }
 
     fun addAccountMenu(loginHandler: ILoginHandler) {
@@ -179,7 +179,7 @@ class LoginMaskLayout {
         }
 
         val menuButton = MenuButton(AppContext.context.accountManager.account!!.user, null, menuItem1, menuItem2)
-        MainScene.mainScene.windowScene!!.win.titlebarButtonBox.children.addAll(menuButton)
+        MainScene.mainScene.windowScene!!.win.titleBarButtonBox.children.addAll(menuButton)
     }
 
     private fun getUsername(): String {

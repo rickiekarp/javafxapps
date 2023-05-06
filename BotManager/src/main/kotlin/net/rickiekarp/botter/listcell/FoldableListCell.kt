@@ -24,7 +24,7 @@ class FoldableListCell(private val list: ListView<*>) : ListCell<BotSetting>() {
             labelHeader.id = "tableview-columnheader-default-bg"
             labelHeader.prefWidth = list.width - 40
             labelHeader.prefHeight = 30.0
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 labelHeader.style = "-fx-background-color: gray;"
             }
 

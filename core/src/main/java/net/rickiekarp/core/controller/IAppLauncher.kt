@@ -1,5 +1,5 @@
 package net.rickiekarp.core.controller
 
-interface AppLaunch {
+interface IAppLauncher {
     fun postLaunch()
 }

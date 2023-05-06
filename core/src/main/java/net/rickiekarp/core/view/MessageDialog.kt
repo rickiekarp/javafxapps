@@ -8,7 +8,7 @@ import javafx.scene.control.Label
 import javafx.scene.layout.*
 import javafx.stage.Modality
 import javafx.stage.Stage
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -42,7 +42,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             modalDialog.isResizable = false
             modalDialog.width = width.toDouble()
             modalDialog.height = height.toDouble()
-            modalDialog.title = LanguageController.getString(title)
+            modalDialog.title = LocalizationProvider.getString(title)
 
             //Layout
             val contentPane = BorderPane()
@@ -82,7 +82,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             modalDialog.isResizable = false
             modalDialog.width = width.toDouble()
             modalDialog.height = height.toDouble()
-            modalDialog.title = LanguageController.getString("confirm")
+            modalDialog.title = LocalizationProvider.getString("confirm")
 
             val bool = BooleanArray(1)
 
@@ -97,17 +97,17 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             optionHBox.padding = Insets(5.0, 0.0, 15.0, 0.0)
 
             //components
-            val label = Label(LanguageController.getString(msg))
+            val label = Label(LocalizationProvider.getString(msg))
             label.isWrapText = true
             label.padding = Insets(20.0, 10.0, 10.0, 20.0)
 
-            val yesButton = Button(LanguageController.getString("yes"))
+            val yesButton = Button(LocalizationProvider.getString("yes"))
             yesButton.setOnAction { event ->
                 bool[0] = true
                 modalDialog.close()
             }
 
-            val noButton = Button(LanguageController.getString("no"))
+            val noButton = Button(LocalizationProvider.getString("no"))
             noButton.setOnAction { event ->
                 bool[0] = false
                 modalDialog.close()
@@ -146,7 +146,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             modalDialog.isResizable = false
             modalDialog.width = width.toDouble()
             modalDialog.height = height.toDouble()
-            modalDialog.title = LanguageController.getString("restartApp")
+            modalDialog.title = LocalizationProvider.getString("restartApp")
 
             val bool = BooleanArray(1)
 
@@ -161,18 +161,18 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             optionHBox.padding = Insets(5.0, 0.0, 15.0, 0.0)
 
             //components
-            val label = Label(LanguageController.getString(msg))
+            val label = Label(LocalizationProvider.getString(msg))
             label.isWrapText = true
             label.padding = Insets(20.0, 10.0, 10.0, 20.0)
 
-            val yesButton = Button(LanguageController.getString("yes"))
+            val yesButton = Button(LocalizationProvider.getString("yes"))
             yesButton.setOnAction { event ->
                 try {
                     //save settings
                     try {
                         Configuration.config.save()
                     } catch (e1: Exception) {
-                        if (DebugHelper.DEBUGVERSION) {
+                        if (DebugHelper.DEBUG) {
                             e1.printStackTrace()
                         } else {
                             ExceptionHandler(e1)
@@ -182,13 +182,13 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
                     //restart
                     DebugHelper.restartApplication()
                 } catch (e1: URISyntaxException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
                     }
                 } catch (e1: IOException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
@@ -196,7 +196,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
                 }
             }
 
-            val noButton = Button(LanguageController.getString("restartLater"))
+            val noButton = Button(LocalizationProvider.getString("restartLater"))
             noButton.setOnAction { event ->
                 bool[0] = false
                 modalDialog.close()
@@ -235,7 +235,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             modalDialog.isResizable = false
             modalDialog.width = width.toDouble()
             modalDialog.height = height.toDouble()
-            modalDialog.title = LanguageController.getString("installUpdate")
+            modalDialog.title = LocalizationProvider.getString("installUpdate")
 
             val borderpane = BorderPane()
 
@@ -249,15 +249,15 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             optionHBox.spacing = 10.0
 
             //components
-            val label = Label(LanguageController.getString("update_desc"))
+            val label = Label(LocalizationProvider.getString("update_desc"))
             label.isWrapText = true
             label.padding = Insets(20.0, 10.0, 10.0, 20.0)
 
-            val remember = CheckBox(LanguageController.getString("hideThis"))
+            val remember = CheckBox(LocalizationProvider.getString("hideThis"))
             remember.isDisable = true
             remember.setOnAction { event1 -> println(remember.isSelected) }
 
-            val yesButton = Button(LanguageController.getString("yes"))
+            val yesButton = Button(LocalizationProvider.getString("yes"))
             yesButton.setOnAction { event ->
                 try {
                     //remove tray icon before installing update
@@ -268,13 +268,13 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
                     //                }
                     UpdateChecker.installUpdate()
                 } catch (e1: URISyntaxException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
                     }
                 } catch (e1: IOException) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
@@ -282,7 +282,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
                 }
             }
 
-            val noButton = Button(LanguageController.getString("no"))
+            val noButton = Button(LocalizationProvider.getString("no"))
             noButton.setOnAction { event -> modalDialog.close() }
 
             //        if (DebugHelper.isDebugVersion()) {

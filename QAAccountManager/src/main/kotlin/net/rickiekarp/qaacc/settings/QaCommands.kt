@@ -1,6 +1,6 @@
 package net.rickiekarp.qaacc.settings
 
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.model.ConsoleCommands
 import net.rickiekarp.core.settings.AppCommands
 
@@ -12,10 +12,10 @@ class QaCommands {
     @Throws(NoSuchMethodException::class)
     fun addCommands() {
         AppCommands.commandsList.addAll(
-                ConsoleCommands("/addProject", "NAME", LanguageController.getString("addProject_desc")) {
+                ConsoleCommands("/addProject", "NAME", LocalizationProvider.getString("addProject_desc")) {
                     addProject("dummyProject")
                 },
-                ConsoleCommands("/botAccount", "PROJECT NAME AMOUNT", LanguageController.getString("addAccounts_desc")) {
+                ConsoleCommands("/botAccount", "PROJECT NAME AMOUNT", LocalizationProvider.getString("addAccounts_desc")) {
                     addAccounts("dummyAccount")
                 }
         )

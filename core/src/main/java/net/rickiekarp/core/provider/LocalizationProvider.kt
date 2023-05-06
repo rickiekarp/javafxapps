@@ -1,4 +1,4 @@
-package net.rickiekarp.core.controller
+package net.rickiekarp.core.provider
 
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
@@ -6,7 +6,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.*
 
-object LanguageController {
+object LocalizationProvider {
     private var prop: Properties? = null
 
     val currentLocale: Int

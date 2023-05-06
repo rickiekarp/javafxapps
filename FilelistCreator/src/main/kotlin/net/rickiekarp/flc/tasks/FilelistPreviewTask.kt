@@ -1,7 +1,7 @@
 package net.rickiekarp.flc.tasks
 
 import javafx.concurrent.Task
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.view.MessageDialog
@@ -18,12 +18,12 @@ class FilelistPreviewTask : Task<Void>() {
     }
 
     init {
-        this.setOnRunning { MainLayout.mainLayout.setStatus("neutral", LanguageController.getString("status_build_fileList")) }
+        this.setOnRunning { MainLayout.mainLayout.setStatus("neutral", LocalizationProvider.getString("status_build_fileList")) }
 
         this.setOnSucceeded {
             MainLayout.previewTA.text = listStr
             DebugHelper.profile("stop", "FilelistPreviewTask")
-            MainLayout.mainLayout.setStatus("neutral", LanguageController.getString("ready"))
+            MainLayout.mainLayout.setStatus("neutral", LocalizationProvider.getString("ready"))
             listStr = null
             System.gc()
         }
@@ -32,7 +32,7 @@ class FilelistPreviewTask : Task<Void>() {
             DebugHelper.profile("stop", "FilelistPreviewTask")
             listStr = null
             System.gc()
-            MessageDialog(0, LanguageController.getString("unknownError"), 450, 220)
+            MessageDialog(0, LocalizationProvider.getString("unknownError"), 450, 220)
             LogFileHandler.logger.info("filePreview.failed")
         }
 

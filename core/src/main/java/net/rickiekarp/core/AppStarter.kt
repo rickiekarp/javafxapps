@@ -5,7 +5,7 @@ import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.scene.input.KeyEvent
 import javafx.stage.Stage
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.settings.Configuration
@@ -43,14 +43,14 @@ open class AppStarter : Application() {
         } else {
             //if the config file can not be created, set settings anyway
             Configuration.language = LoadSave.language
-            LanguageController.setCurrentLocale()
+            LocalizationProvider.setCurrentLocale()
         }
 
         //load language properties file
-        LanguageController.loadLangFile(mainClazz!!.classLoader.getResourceAsStream("language_packs/language_" + Configuration.CURRENT_LOCALE + ".properties"))
+        LocalizationProvider.loadLangFile(mainClazz!!.classLoader.getResourceAsStream("language_packs/language_" + Configuration.CURRENT_LOCALE + ".properties"))
 
         //set the default exception handler
-        if (!DebugHelper.DEBUGVERSION) {
+        if (!DebugHelper.DEBUG) {
             Thread.setDefaultUncaughtExceptionHandler { t, e -> Platform.runLater { ExceptionHandler(e) } }
             Thread.currentThread().uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { thread, throwable -> ExceptionHandler(
                 throwable
@@ -85,7 +85,7 @@ open class AppStarter : Application() {
 
         //disable settings view if no config file is present
         if (!isConfigLoaded) {
-            MessageDialog(0, LanguageController.getString("config_not_found"), 500, 250)
+            MessageDialog(0, LocalizationProvider.getString("config_not_found"), 500, 250)
             MainScene.mainScene.windowScene!!.win.sidebarButtonBox!!.children[0].isDisable = true
         }
     }

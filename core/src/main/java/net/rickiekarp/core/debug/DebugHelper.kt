@@ -10,12 +10,12 @@ import java.net.URISyntaxException
  * This class contains helper functions used for debugging purposes.
  */
 object DebugHelper {
-    val DEBUGVERSION = false
+    const val DEBUG = false
     private var startTime: Long = 0
 
     val isDebugVersion: Boolean
         get() {
-            if (DEBUGVERSION) {
+            if (DEBUG) {
                 return true
             } else {
                 if (Configuration.debugState) {
@@ -34,7 +34,6 @@ object DebugHelper {
         LogFileHandler.logger.config("PROGRAM_LANGUAGE={" + Configuration.language + "," + Configuration.CURRENT_LOCALE.toString() + "}")
         LogFileHandler.logger.config("SYSTEM_TRAY=" + Configuration.showTrayIcon)
         LogFileHandler.logger.config("HOST=" + Configuration.host)
-        //LogFileHandler.logger.config("CORE_AMOUNT={" + Runtime.getRuntime().availableProcessors() + "}");
     }
 
     fun profile(state: String, name: String) {

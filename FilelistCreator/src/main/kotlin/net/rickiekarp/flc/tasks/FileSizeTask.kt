@@ -2,7 +2,7 @@ package net.rickiekarp.flc.tasks
 
 import javafx.application.Platform
 import javafx.concurrent.Task
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.view.MessageDialog
@@ -29,7 +29,7 @@ class FileSizeTask : Task<Void>() {
 
     init {
 
-        this.setOnRunning { MainLayout.mainLayout.setStatus("neutral", LanguageController.getString("status_fileSizeUnitChange")) }
+        this.setOnRunning { MainLayout.mainLayout.setStatus("neutral", LocalizationProvider.getString("status_fileSizeUnitChange")) }
 
         this.setOnSucceeded {
             DebugHelper.profile("stop", "FileSizeTask")
@@ -38,7 +38,7 @@ class FileSizeTask : Task<Void>() {
 
         this.setOnFailed {
             DebugHelper.profile("stop", "FileSizeTask")
-            MessageDialog(0, LanguageController.getString("unknownError"), 450, 220)
+            MessageDialog(0, LocalizationProvider.getString("unknownError"), 450, 220)
             LogFileHandler.logger.info("fileSizeTask.failed")
         }
 

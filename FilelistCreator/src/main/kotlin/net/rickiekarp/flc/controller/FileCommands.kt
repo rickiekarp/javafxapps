@@ -1,6 +1,6 @@
 package net.rickiekarp.flc.controller
 
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.model.ConsoleCommands
 import net.rickiekarp.core.settings.AppCommands
 import net.rickiekarp.core.util.CommonUtil
@@ -13,7 +13,7 @@ import net.rickiekarp.flc.view.layout.MainLayout
 class FileCommands {
     @Throws(NoSuchMethodException::class)
     fun addFileCommands() {
-        AppCommands.commandsList.add(ConsoleCommands("/selectRandomFile", "", LanguageController.getString("desc_file_select_random")) {
+        AppCommands.commandsList.add(ConsoleCommands("/selectRandomFile", "", LocalizationProvider.getString("desc_file_select_random")) {
             selectRandomFile()
         })
     }

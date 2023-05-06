@@ -2,7 +2,7 @@ package net.rickiekarp.botter.botservice
 
 import net.rickiekarp.botter.settings.AppConfiguration
 import net.rickiekarp.botter.view.MainLayout
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.model.ConsoleCommands
 import net.rickiekarp.core.settings.AppCommands
 
@@ -14,7 +14,7 @@ class BotCommands {
     @Throws(NoSuchMethodException::class)
     fun addBotCommands() {
         AppCommands.commandsList.add(
-                ConsoleCommands("/setInterval", "<minutes>", LanguageController.getString("timer_desc")) {
+                ConsoleCommands("/setInterval", "<minutes>", LocalizationProvider.getString("timer_desc")) {
                     setInterval("30") // set fixed interval until parameters are supported
                 })
     }

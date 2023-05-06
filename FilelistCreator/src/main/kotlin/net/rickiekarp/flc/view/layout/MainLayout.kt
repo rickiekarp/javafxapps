@@ -14,7 +14,7 @@ import javafx.scene.layout.*
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import net.rickiekarp.core.components.FoldableListCell
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.model.SettingEntry
@@ -51,11 +51,11 @@ class MainLayout : AppLayout {
         content.spacing = 5.0
 
         val btn_settings = Button()
-        btn_settings.tooltip = Tooltip(LanguageController.getString("settings"))
+        btn_settings.tooltip = Tooltip(LocalizationProvider.getString("settings"))
         btn_settings.styleClass.add("decoration-button-settings")
 
         val btn_about = Button()
-        btn_about.tooltip = Tooltip(LanguageController.getString("about"))
+        btn_about.tooltip = Tooltip(LocalizationProvider.getString("about"))
         btn_about.styleClass.add("decoration-button-about")
 
         btn_settings.setOnAction { event -> SettingsScene() }
@@ -74,12 +74,12 @@ class MainLayout : AppLayout {
         val content = VBox()
         content.spacing = 5.0
 
-        val option2_desc = Label(LanguageController.getString(description))
+        val option2_desc = Label(LocalizationProvider.getString(description))
         option2_desc.isWrapText = true
         option2_desc.style = "-fx-font-size: 9pt;"
         option2_desc.maxWidth = 175.0
 
-        val filename = CheckBox(LanguageController.getString("name"))
+        val filename = CheckBox(LocalizationProvider.getString("name"))
         filename.isSelected = true
         FilelistController.option[0] = true
         filename.setOnAction { event ->
@@ -90,7 +90,7 @@ class MainLayout : AppLayout {
             }
         }
 
-        val type = CheckBox(LanguageController.getString("ftype"))
+        val type = CheckBox(LocalizationProvider.getString("ftype"))
         type.isSelected = false
         FilelistController.option[1] = false
         type.setOnAction { event ->
@@ -101,7 +101,7 @@ class MainLayout : AppLayout {
             }
         }
 
-        val path = CheckBox(LanguageController.getString("fpath"))
+        val path = CheckBox(LocalizationProvider.getString("fpath"))
         path.isSelected = true
         FilelistController.option[2] = true
         path.setOnAction { event ->
@@ -112,7 +112,7 @@ class MainLayout : AppLayout {
             }
         }
 
-        val size = CheckBox(LanguageController.getString("fsize"))
+        val size = CheckBox(LocalizationProvider.getString("fsize"))
         size.isSelected = true
         FilelistController.option[3] = true
         size.setOnAction { event ->
@@ -123,7 +123,7 @@ class MainLayout : AppLayout {
             }
         }
 
-        val created = CheckBox(LanguageController.getString("fcreation"))
+        val created = CheckBox(LocalizationProvider.getString("fcreation"))
         created.isSelected = false
         FilelistController.option[4] = false
         created.setOnAction { event ->
@@ -134,7 +134,7 @@ class MainLayout : AppLayout {
             }
         }
 
-        val changed = CheckBox(LanguageController.getString("fmodif"))
+        val changed = CheckBox(LocalizationProvider.getString("fmodif"))
         changed.isSelected = true
         FilelistController.option[5] = true
         changed.setOnAction { event ->
@@ -145,7 +145,7 @@ class MainLayout : AppLayout {
             }
         }
 
-        val lastAccess = CheckBox(LanguageController.getString("faccessed"))
+        val lastAccess = CheckBox(LocalizationProvider.getString("faccessed"))
         lastAccess.isSelected = false
         FilelistController.option[6] = false
         lastAccess.setOnAction { event ->
@@ -156,7 +156,7 @@ class MainLayout : AppLayout {
             }
         }
 
-        val hidden = CheckBox(LanguageController.getString("fhidden"))
+        val hidden = CheckBox(LocalizationProvider.getString("fhidden"))
         hidden.isSelected = false
         FilelistController.option[7] = false
         hidden.setOnAction { event ->
@@ -175,16 +175,16 @@ class MainLayout : AppLayout {
         val content = VBox()
         content.spacing = 5.0
 
-        val option1_desc = Label(LanguageController.getString(description))
+        val option1_desc = Label(LocalizationProvider.getString(description))
         option1_desc.isWrapText = true
         option1_desc.style = "-fx-font-size: 9pt;"
         option1_desc.maxWidth = 175.0
 
-        val option = Label(LanguageController.getString("grouping"))
-        val option1 = Label(LanguageController.getString("unit"))
+        val option = Label(LocalizationProvider.getString("grouping"))
+        val option1 = Label(LocalizationProvider.getString("unit"))
 
         val cbox_sorting = ComboBox<String>()
-        cbox_sorting.items.addAll(LanguageController.getString("none"), LanguageController.getString("folder"))
+        cbox_sorting.items.addAll(LocalizationProvider.getString("none"), LocalizationProvider.getString("folder"))
         cbox_sorting.selectionModel.select(0)
         cbox_sorting.minWidth = 100.0
 
@@ -193,10 +193,10 @@ class MainLayout : AppLayout {
         cbox_unit.selectionModel.select(FilelistController.UNIT_IDX)
         cbox_unit.minWidth = 100.0
 
-        val header = CheckBox(LanguageController.getString("headerShow"))
+        val header = CheckBox(LocalizationProvider.getString("headerShow"))
         header.isSelected = FilelistController.canShowHeader
 
-        val empty = CheckBox(LanguageController.getString("emptyFolderShow"))
+        val empty = CheckBox(LocalizationProvider.getString("emptyFolderShow"))
         empty.isSelected = true
 
         cbox_sorting.valueProperty().addListener { ov, t, t1 ->
@@ -272,37 +272,37 @@ class MainLayout : AppLayout {
         pathTF.isEditable = false
         fileGrid.children.add(pathTF)
 
-        val btn_browse = Button(LanguageController.getString("browse"))
+        val btn_browse = Button(LocalizationProvider.getString("browse"))
         fileGrid.children.add(btn_browse)
 
-        val subFolderBox = CheckBox(LanguageController.getString("inclSubdir")) //cb_subFolders.setSelected(subDirs);
+        val subFolderBox = CheckBox(LocalizationProvider.getString("inclSubdir")) //cb_subFolders.setSelected(subDirs);
         subFolderBox.isSelected = AppConfiguration.subFolderCheck
         fileGrid.children.add(subFolderBox)
 
         //FILE TABLE
         fileTable = TableView()
         //fileTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        fileTable.placeholder = Label(LanguageController.getString("no_file_found"))
+        fileTable.placeholder = Label(LocalizationProvider.getString("no_file_found"))
         fileTable.setItems(null) //fixes NullPointerException when using arrow keys in empty table
         fileGrid.children.add(fileTable)
 
 
-        val nameColumn = TableColumn<Filelist, String>(LanguageController.getString("name"))
+        val nameColumn = TableColumn<Filelist, String>(LocalizationProvider.getString("name"))
         nameColumn.setCellValueFactory(PropertyValueFactory("filename"))
         nameColumn.prefWidth = 175.0
         fileColumn.add(nameColumn)
 
-        val fTypeColumn = TableColumn<Filelist, String>(LanguageController.getString("ftype"))
+        val fTypeColumn = TableColumn<Filelist, String>(LocalizationProvider.getString("ftype"))
         fTypeColumn.setCellValueFactory(PropertyValueFactory("filetype"))
         fTypeColumn.prefWidth = 100.0
         fileColumn.add(fTypeColumn)
 
-        val fPathColumn = TableColumn<Filelist, String>(LanguageController.getString("fpath"))
+        val fPathColumn = TableColumn<Filelist, String>(LocalizationProvider.getString("fpath"))
         fPathColumn.setCellValueFactory(PropertyValueFactory("filepath"))
         fPathColumn.prefWidth = 180.0
         fileColumn.add(fPathColumn)
 
-        val fSizeColumn = TableColumn<Filelist, String>(LanguageController.getString("fsize"))
+        val fSizeColumn = TableColumn<Filelist, String>(LocalizationProvider.getString("fsize"))
         fSizeColumn.setCellValueFactory { p ->
             if (p.value != null) {
                 SimpleStringProperty(p.value.getSize().toString() + " " + AppConfiguration.unitList[FilelistController.UNIT_IDX])
@@ -313,22 +313,22 @@ class MainLayout : AppLayout {
         fSizeColumn.prefWidth = 75.0
         fileColumn.add(fSizeColumn)
 
-        val fCreationColumn = TableColumn<Filelist, String>(LanguageController.getString("fcreation"))
+        val fCreationColumn = TableColumn<Filelist, String>(LocalizationProvider.getString("fcreation"))
         fCreationColumn.setCellValueFactory(PropertyValueFactory("creationDate"))
         fCreationColumn.prefWidth = 175.0
         fileColumn.add(fCreationColumn)
 
-        val fmodifColumn = TableColumn<Filelist, String>(LanguageController.getString("fmodif"))
+        val fmodifColumn = TableColumn<Filelist, String>(LocalizationProvider.getString("fmodif"))
         fmodifColumn.setCellValueFactory(PropertyValueFactory("lastModif"))
         fmodifColumn.prefWidth = 175.0
         fileColumn.add(fmodifColumn)
 
-        val faccessed = TableColumn<Filelist, String>(LanguageController.getString("faccessed"))
+        val faccessed = TableColumn<Filelist, String>(LocalizationProvider.getString("faccessed"))
         faccessed.setCellValueFactory(PropertyValueFactory("lastAccessDate"))
         faccessed.prefWidth = 175.0
         fileColumn.add(faccessed)
 
-        val fhidden = TableColumn<Filelist, String>(LanguageController.getString("fhidden")) //column8.setVisible(false);
+        val fhidden = TableColumn<Filelist, String>(LocalizationProvider.getString("fhidden")) //column8.setVisible(false);
         fhidden.setCellValueFactory(PropertyValueFactory("isHidden"))
         fileColumn.add(fhidden)
 
@@ -338,7 +338,7 @@ class MainLayout : AppLayout {
         //DIRECTORY TABLE
         dirTable = TableView()
         dirTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
-        dirTable.placeholder = Label(LanguageController.getString("no_dir_found"))
+        dirTable.placeholder = Label(LocalizationProvider.getString("no_dir_found"))
         dirTable.setItems(null) //fixes NullPointerException when using arrow keys in empty table
         fileGrid.children.add(dirTable)
 
@@ -347,15 +347,15 @@ class MainLayout : AppLayout {
         otherSymbols.decimalSeparator = ','
         otherSymbols.groupingSeparator = '.'
 
-        val tcolumn1 = TableColumn<Directorylist, String>(LanguageController.getString("name"))
+        val tcolumn1 = TableColumn<Directorylist, String>(LocalizationProvider.getString("name"))
         tcolumn1.setCellValueFactory(PropertyValueFactory("dir"))
-        val tcolumn2 = TableColumn<Directorylist, Int>(LanguageController.getString("filesTotal"))
+        val tcolumn2 = TableColumn<Directorylist, Int>(LocalizationProvider.getString("filesTotal"))
         tcolumn2.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.getFilesTotal()).asObject() }
-        val tcolumn3 = TableColumn<Directorylist, Int>(LanguageController.getString("filesindir"))
+        val tcolumn3 = TableColumn<Directorylist, Int>(LocalizationProvider.getString("filesindir"))
         tcolumn3.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.filesInDir).asObject() }
-        val tcolumn4 = TableColumn<Directorylist, Int>(LanguageController.getString("foldersInAmount"))
+        val tcolumn4 = TableColumn<Directorylist, Int>(LocalizationProvider.getString("foldersInAmount"))
         tcolumn4.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.foldersInDir).asObject() }
-        val tcolumn5 = TableColumn<Directorylist, String>(LanguageController.getString("fsize"))
+        val tcolumn5 = TableColumn<Directorylist, String>(LocalizationProvider.getString("fsize"))
         tcolumn5.setCellValueFactory { p ->
             if (p.value != null) {
                 SimpleStringProperty(p.value.fileSizeInDir.toString() + " B")
@@ -371,11 +371,11 @@ class MainLayout : AppLayout {
         previewTA.minHeight = 200.0
         fileGrid.children.add(previewTA)
 
-        val btn_remove = Button(LanguageController.getString("removeFile"))
+        val btn_remove = Button(LocalizationProvider.getString("removeFile"))
 
-        btn_removeAll = Button(LanguageController.getString("removeAllFiles"))
+        btn_removeAll = Button(LocalizationProvider.getString("removeAllFiles"))
 
-        val fileunit = Label(LanguageController.getString("unit"))
+        val fileunit = Label(LocalizationProvider.getString("unit"))
         GridPane.setConstraints(fileunit, 0, 2)
         GridPane.setHalignment(fileunit, HPos.RIGHT)
 
@@ -406,7 +406,7 @@ class MainLayout : AppLayout {
         saveControls.children.add(status)
 
         cbox_saveFormat = ComboBox()
-        btn_saveFileList = Button(LanguageController.getString("saveList"))
+        btn_saveFileList = Button(LocalizationProvider.getString("saveList"))
 
         AnchorPane.setLeftAnchor(fileControls, 5.0)
         AnchorPane.setBottomAnchor(fileControls, 6.0)
@@ -439,13 +439,13 @@ class MainLayout : AppLayout {
         mainContent.bottom = controls
 
         btn_browse.setOnAction { event ->
-            status!!.text = LanguageController.getString("files_loading")
+            status!!.text = LocalizationProvider.getString("files_loading")
 
             val directoryChooser = DirectoryChooser()
             val selectedDirectory = directoryChooser.showDialog(MainScene.mainScene.windowScene!!.window)
 
             if (selectedDirectory == null) {
-                status!!.text = LanguageController.getString("no_dir_selected")
+                status!!.text = LocalizationProvider.getString("no_dir_selected")
             } else {
 
                 //clear all data
@@ -544,9 +544,9 @@ class MainLayout : AppLayout {
         subFolderBox.setOnAction { event ->
             AppConfiguration.subFolderCheck = subFolderBox.isSelected
             if (subFolderBox.isSelected) {
-                status!!.text = LanguageController.getString("incl_sub_on")
+                status!!.text = LocalizationProvider.getString("incl_sub_on")
             } else {
-                status!!.text = LanguageController.getString("incl_sub_off")
+                status!!.text = LocalizationProvider.getString("incl_sub_off")
             }
         }
 
@@ -562,10 +562,10 @@ class MainLayout : AppLayout {
 
             if (file != null) {
                 FilelistController.flController!!.saveToFile(file, fileformatIDx)
-                AnimationHandler.statusFade(status!!, "success", LanguageController.getString("save_filelist_success"))
+                AnimationHandler.statusFade(status!!, "success", LocalizationProvider.getString("save_filelist_success"))
                 LogFileHandler.logger.info("save.filelist:Success")
             } else {
-                AnimationHandler.statusFade(status!!, "neutral", LanguageController.getString("save_filelist_fail"))
+                AnimationHandler.statusFade(status!!, "neutral", LocalizationProvider.getString("save_filelist_fail"))
                 LogFileHandler.logger.info("save.filelist:Fail")
             }
         }
@@ -623,16 +623,16 @@ class MainLayout : AppLayout {
 
             if (AppConfiguration.fileData.size > 0) {
                 FilelistPreviewTask()
-                status!!.text = LanguageController.getString("remove_file_success")
+                status!!.text = LocalizationProvider.getString("remove_file_success")
             } else {
-                status!!.text = LanguageController.getString("clear_filelist_success")
+                status!!.text = LocalizationProvider.getString("clear_filelist_success")
             }
         } else if (dirTable.selectionModel.isSelected(dirTable.selectionModel.selectedIndex)) {
             removeFolder()
             if (AppConfiguration.dirData.size > 0) {
-                status!!.text = LanguageController.getString("remove_folder_success")
+                status!!.text = LocalizationProvider.getString("remove_folder_success")
             } else {
-                status!!.text = LanguageController.getString("clear_filelist_success")
+                status!!.text = LocalizationProvider.getString("clear_filelist_success")
             }
         }
     }
@@ -680,7 +680,7 @@ class MainLayout : AppLayout {
         ListTask.listTask.resetTask()
         fileControls.children.remove(btn_removeAll)
         saveControls.children.removeAll(cbox_saveFormat, btn_saveFileList)
-        setStatus("neutral", LanguageController.getString("clear_filelist_success"))
+        setStatus("neutral", LocalizationProvider.getString("clear_filelist_success"))
     }
 
     /**

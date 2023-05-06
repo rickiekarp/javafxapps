@@ -57,7 +57,7 @@ object FileUtil {
         try {
             Files.move(moveFrom, moveTo.resolve(moveFrom.fileName), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: IOException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e.printStackTrace()
             } else {
                 ExceptionHandler(e)

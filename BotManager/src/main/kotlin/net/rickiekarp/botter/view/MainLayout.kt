@@ -21,7 +21,7 @@ import net.rickiekarp.botlib.plugin.PluginExecutor
 import net.rickiekarp.botter.botservice.BotTask
 import net.rickiekarp.botter.listcell.FoldableListCell
 import net.rickiekarp.botter.settings.AppConfiguration
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -77,7 +77,7 @@ class MainLayout : AppLayout {
             AnchorPane.setRightAnchor(statusBox, 15.0)
             AnchorPane.setBottomAnchor(statusBox, 10.0)
 
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 statusBox.style = "-fx-background-color: blue"
                 controls.style = "-fx-background-color: black"
             }
@@ -91,13 +91,14 @@ class MainLayout : AppLayout {
             listView = ListView()
             PluginConfig.settingsList = FXCollections.observableArrayList()
             PluginConfig.settingsList!!.add(
-                    BotSetting.Builder.create().setName(LanguageController.getString("option_timer")).setDescription(LanguageController.getString("option_timer_desc")).setVisible(true).setNode(timerSection).build()
+                    BotSetting.Builder.create().setName(LocalizationProvider.getString("option_timer")).setDescription(
+                        LocalizationProvider.getString("option_timer_desc")).setVisible(true).setNode(timerSection).build()
             )
             listView!!.items = PluginConfig.settingsList
 
             listView!!.setCellFactory { _ -> FoldableListCell(listView!!) }
 
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 listView!!.style = "-fx-background-color: gray"
             }
             return listView!!
@@ -108,7 +109,7 @@ class MainLayout : AppLayout {
             val content = VBox()
             content.spacing = 5.0
 
-            val periodCheck = CheckBox(LanguageController.getString("setPeriodicalRun"))
+            val periodCheck = CheckBox(LocalizationProvider.getString("setPeriodicalRun"))
             periodCheck.style = "-fx-font-size: 10pt;"
 
             val periods = ComboBox<String>()
@@ -142,12 +143,12 @@ class MainLayout : AppLayout {
             val content = VBox()
             content.spacing = 5.0
 
-            val loginLabel = Label(LanguageController.getString("login"))
-            val passwordLabel = Label(LanguageController.getString("password"))
+            val loginLabel = Label(LocalizationProvider.getString("login"))
+            val passwordLabel = Label(LocalizationProvider.getString("password"))
             val loginTF = TextField()
             val passTF = PasswordField()
-            val saveButton = Button(LanguageController.getString("saveCfg"))
-            val deleteButton = Button(LanguageController.getString("remove"))
+            val saveButton = Button(LocalizationProvider.getString("saveCfg"))
+            val deleteButton = Button(LocalizationProvider.getString("remove"))
 
             content.children.addAll(loginLabel, loginTF, passwordLabel, passTF)
 
@@ -233,7 +234,7 @@ class MainLayout : AppLayout {
                     JsonParser.writeJsonObjectToFile(deviceJson[0], File(Configuration.config.configDirFile.toString() + File.separator + "plugins"), "credentials.json")
 
                     modCBox.selectionModel.selectedItem.pluginCredentials = Credentials(loginTF.text, passTF.text)
-                    setStatus("neutral", LanguageController.getString("browser_info_updated"))
+                    setStatus("neutral", LocalizationProvider.getString("browser_info_updated"))
                     content.children.remove(saveButton)
                     if (!content.children.contains(deleteButton)) {
                         content.children.add(deleteButton)
@@ -270,7 +271,7 @@ class MainLayout : AppLayout {
                 }
             }
 
-            val saveButton = Button(LanguageController.getString("saveCfg"))
+            val saveButton = Button(LocalizationProvider.getString("saveCfg"))
             saveButton.style = "-fx-font-size: 10pt;"
             saveButton.isVisible = false
             browserSelector.valueProperty().addListener { ov, t, t1 ->
@@ -282,7 +283,7 @@ class MainLayout : AppLayout {
             saveButton.setOnAction { _ ->
                 deviceJson[0].put("browser", browserSelector.selectionModel.selectedItem)
                 JsonParser.writeJsonObjectToFile(deviceJson[0], File(BotConfig.modulesDirFile.toString() + File.separator + "devices"), modCBox.selectionModel.selectedItem.pluginType!!.getDisplayableType().toLowerCase() + ".json")
-                setStatus("neutral", LanguageController.getString("device_info_updated"))
+                setStatus("neutral", LocalizationProvider.getString("device_info_updated"))
                 saveButton.isVisible = false
             }
 
@@ -298,9 +299,9 @@ class MainLayout : AppLayout {
             val content = VBox()
             content.spacing = 5.0
 
-            val nameLabel = Label(LanguageController.getString("devicename"))
-            val verLabel = Label(LanguageController.getString("deviceversion"))
-            val serialLabel = Label(LanguageController.getString("deviceserial"))
+            val nameLabel = Label(LocalizationProvider.getString("devicename"))
+            val verLabel = Label(LocalizationProvider.getString("deviceversion"))
+            val serialLabel = Label(LocalizationProvider.getString("deviceserial"))
             val nameTF = TextField()
             val verTF = TextField()
             val deviceSerialTF = TextField()
@@ -311,7 +312,7 @@ class MainLayout : AppLayout {
             deviceSerialTF.text = deviceJson[0].getJSONObject("1").getString("serial")
             updateAndroidDeviceInfo(nameTF.text, verTF.text, deviceSerialTF.text)
 
-            val saveButton = Button(LanguageController.getString("saveCfg"))
+            val saveButton = Button(LocalizationProvider.getString("saveCfg"))
             saveButton.isVisible = false
             nameTF.setOnKeyReleased { _ -> saveButton.isVisible = true }
             verTF.setOnKeyReleased { _ -> saveButton.isVisible = true }
@@ -325,7 +326,7 @@ class MainLayout : AppLayout {
 
                 JsonParser.writeJsonObjectToFile(deviceJson[0], File(BotConfig.modulesDirFile.toString() + File.separator + "devices"), modCBox.selectionModel.selectedItem.pluginType!!.getDisplayableType().toLowerCase() + ".json")
                 updateAndroidDeviceInfo(nameTF.text, verTF.text, deviceSerialTF.text)
-                setStatus("neutral", LanguageController.getString("browser_info_updated"))
+                setStatus("neutral", LocalizationProvider.getString("browser_info_updated"))
                 saveButton.isVisible = false
             }
 
@@ -397,22 +398,26 @@ class MainLayout : AppLayout {
 
             PluginConfig.settingsList!!.clear()
             PluginConfig.settingsList!!.add(
-                    BotSetting.Builder.create().setName(LanguageController.getString("option_timer")).setDescription(LanguageController.getString("option_timer_desc")).setVisible(true).setNode(timerSection).build()
+                    BotSetting.Builder.create().setName(LocalizationProvider.getString("option_timer")).setDescription(
+                        LocalizationProvider.getString("option_timer_desc")).setVisible(true).setNode(timerSection).build()
             )
 
             when (modCBox.selectionModel.selectedItem.pluginType) {
                 BotPlatforms.ANDROID -> {
                     PluginConfig.botType = BotType.Bot.ANDROID
                     PluginConfig.settingsList!!.add(
-                            BotSetting.Builder.create().setName(LanguageController.getString("androidSelect")).setDescription(LanguageController.getString("androidSelect_desc")).setVisible(true).setNode(androidDeviceSelection).build()
+                            BotSetting.Builder.create().setName(LocalizationProvider.getString("androidSelect")).setDescription(
+                                LocalizationProvider.getString("androidSelect_desc")).setVisible(true).setNode(androidDeviceSelection).build()
                     )
                 }
                 BotPlatforms.WEB -> {
                     PluginConfig.settingsList!!.add(
-                            BotSetting.Builder.create().setName(LanguageController.getString("credentialsSelect")).setDescription(LanguageController.getString("credentialsSelect_desc")).setVisible(true).setNode(credentialsSection).build()
+                            BotSetting.Builder.create().setName(LocalizationProvider.getString("credentialsSelect")).setDescription(
+                                LocalizationProvider.getString("credentialsSelect_desc")).setVisible(true).setNode(credentialsSection).build()
                     )
                     PluginConfig.settingsList!!.add(
-                            BotSetting.Builder.create().setName(LanguageController.getString("browserSelect")).setDescription(LanguageController.getString("browserSelect_desc")).setVisible(true).setNode(browserSelectionSection).build()
+                            BotSetting.Builder.create().setName(LocalizationProvider.getString("browserSelect")).setDescription(
+                                LocalizationProvider.getString("browserSelect_desc")).setVisible(true).setNode(browserSelectionSection).build()
                     )
                 }
 
@@ -426,7 +431,7 @@ class MainLayout : AppLayout {
             try {
                 PluginExecutor.executeLayoutSetter(BotLauncher.runnerInstance!!, modCBox.selectionModel.selectedItem)
             } catch (e: Exception) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e.printStackTrace()
                 } else {
                     ExceptionHandler(e)
@@ -458,7 +463,7 @@ class MainLayout : AppLayout {
             botTask!!.cancel()
         }
 
-        if (DebugHelper.DEBUGVERSION) {
+        if (DebugHelper.DEBUG) {
             optionBox.style = "-fx-background-color: darkgray"
             moduleBox.style = "-fx-background-color: yellow"
             moduleBox.style = "-fx-background-color: green"

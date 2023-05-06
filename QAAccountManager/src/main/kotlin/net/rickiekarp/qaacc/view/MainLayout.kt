@@ -8,7 +8,7 @@ import javafx.scene.control.*
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import net.rickiekarp.core.components.textfield.CustomTextField
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -83,7 +83,7 @@ class MainLayout : AppLayout {
         vbox.children.add(1, outputGrid)
 
         //add components
-        val acronymLabel = Label(LanguageController.getString("acronym_input"))
+        val acronymLabel = Label(LocalizationProvider.getString("acronym_input"))
         GridPane.setConstraints(acronymLabel, 0, 0)
         inputGrid!!.children.add(acronymLabel)
 
@@ -101,36 +101,36 @@ class MainLayout : AppLayout {
         nameTextField = TextField()
         nameTextField!!.isEditable = false
         nameTextField!!.alignment = Pos.CENTER
-        nameTextField!!.tooltip = Tooltip(LanguageController.getString("name"))
+        nameTextField!!.tooltip = Tooltip(LocalizationProvider.getString("name"))
         GridPane.setConstraints(nameTextField, 0, 0)
         outputGrid!!.children.add(nameTextField)
 
         mailTextField = TextField()
         mailTextField!!.isEditable = false
         mailTextField!!.alignment = Pos.CENTER
-        mailTextField!!.tooltip = Tooltip(LanguageController.getString("mail"))
+        mailTextField!!.tooltip = Tooltip(LocalizationProvider.getString("mail"))
         GridPane.setConstraints(mailTextField, 1, 0)
         outputGrid!!.children.add(mailTextField)
 
         passTextField = TextField()
         passTextField!!.isEditable = false
         passTextField!!.alignment = Pos.CENTER
-        passTextField!!.tooltip = Tooltip(LanguageController.getString("password"))
+        passTextField!!.tooltip = Tooltip(LocalizationProvider.getString("password"))
         GridPane.setConstraints(passTextField, 2, 0)
         outputGrid!!.children.add(passTextField)
 
-        val copyNameBtn = Button(LanguageController.getString("copy"))
-        copyNameBtn.tooltip = Tooltip(LanguageController.getString("copy_name_desc"))
+        val copyNameBtn = Button(LocalizationProvider.getString("copy"))
+        copyNameBtn.tooltip = Tooltip(LocalizationProvider.getString("copy_name_desc"))
         GridPane.setConstraints(copyNameBtn, 0, 1)
         outputGrid!!.children.add(copyNameBtn)
 
-        val copyMailBtn = Button(LanguageController.getString("copy"))
-        copyMailBtn.tooltip = Tooltip(LanguageController.getString("copy_mail_desc"))
+        val copyMailBtn = Button(LocalizationProvider.getString("copy"))
+        copyMailBtn.tooltip = Tooltip(LocalizationProvider.getString("copy_mail_desc"))
         GridPane.setConstraints(copyMailBtn, 1, 1)
         outputGrid!!.children.add(copyMailBtn)
 
-        val copyPassBtn = Button(LanguageController.getString("copy"))
-        copyPassBtn.tooltip = Tooltip(LanguageController.getString("copy_pass_desc"))
+        val copyPassBtn = Button(LocalizationProvider.getString("copy"))
+        copyPassBtn.tooltip = Tooltip(LocalizationProvider.getString("copy_pass_desc"))
         GridPane.setConstraints(copyPassBtn, 2, 1)
         outputGrid!!.children.add(copyPassBtn)
 
@@ -143,13 +143,13 @@ class MainLayout : AppLayout {
         status.setPrefSize(mainAppWidth / 4.5, 40.0)
         GridPane.setConstraints(status, 1, 0)
 
-        findAccount = Button(LanguageController.getString("account_manager"))
-        findAccount!!.tooltip = Tooltip(LanguageController.getString("open_account_manager"))
+        findAccount = Button(LocalizationProvider.getString("account_manager"))
+        findAccount!!.tooltip = Tooltip(LocalizationProvider.getString("open_account_manager"))
         findAccount!!.setPrefSize((mainAppWidth / 4).toDouble(), 40.0)
         GridPane.setConstraints(findAccount, 2, 0)
 
-        saveAccount = Button(LanguageController.getString("saveAcc"))
-        saveAccount!!.tooltip = Tooltip(LanguageController.getString("saveAcc"))
+        saveAccount = Button(LocalizationProvider.getString("saveAcc"))
+        saveAccount!!.tooltip = Tooltip(LocalizationProvider.getString("saveAcc"))
         saveAccount!!.setPrefSize((mainAppWidth / 4).toDouble(), 40.0)
         GridPane.setConstraints(saveAccount, 3, 0)
 
@@ -169,59 +169,59 @@ class MainLayout : AppLayout {
 
         copyNameBtn.setOnAction { event ->
             AppConfiguration.setStringToClipboard(nameTextField!!.text)
-            status.text = LanguageController.getString("name_copied")
+            status.text = LocalizationProvider.getString("name_copied")
             LogFileHandler.logger.log(Level.INFO, "copy2clipboard.name")
         }
 
         copyMailBtn.setOnAction { event ->
             AppConfiguration.setStringToClipboard(mailTextField!!.text)
-            status.text = LanguageController.getString("mail_copied")
+            status.text = LocalizationProvider.getString("mail_copied")
             LogFileHandler.logger.log(Level.INFO, "copy2clipboard.mail")
         }
 
         copyPassBtn.setOnAction { event ->
             AppConfiguration.setStringToClipboard(passTextField!!.text)
-            status.text = LanguageController.getString("password_copied")
+            status.text = LocalizationProvider.getString("password_copied")
             LogFileHandler.logger.log(Level.INFO, "copy2clipboard.pass")
         }
 
 
         findAccount!!.setOnAction { event ->
             when (AppConfiguration.pjState) {
-                -1 -> MessageDialog(0, LanguageController.getString("project_not_selected"), 350, 200)
+                -1 -> MessageDialog(0, LocalizationProvider.getString("project_not_selected"), 350, 200)
                 else -> AccountOverview(gameComboBox!!.selectionModel.selectedIndex)
             }
         }
 
         saveAccount!!.setOnAction { event ->
             when (AppConfiguration.pjState) {
-                -1 -> MessageDialog(0, LanguageController.getString("project_not_selected"), 350, 200)
+                -1 -> MessageDialog(0, LocalizationProvider.getString("project_not_selected"), 350, 200)
                 else -> {
                     if (acronymTextField!!.text.isEmpty()) {
-                        MessageDialog(0, LanguageController.getString("acronymTextField_empty"), 400, 200)
+                        MessageDialog(0, LocalizationProvider.getString("acronymTextField_empty"), 400, 200)
                     } else {
                         try {
                             AccountXmlFactory.addAccount(AppConfiguration.pjState, nameTextField!!.text, mailTextField!!.text, "1", "")
                         } catch (e1: ParserConfigurationException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
                             }
                         } catch (e1: IOException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
                             }
                         } catch (e1: SAXException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
                             }
                         } catch (e1: TransformerException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
@@ -255,38 +255,38 @@ class MainLayout : AppLayout {
         if (AppConfiguration.projectData.size > 0) {
             gameComboBox!!.valueProperty().addListener { ov, t, t1 ->
                 try {
-                    if (gameComboBox!!.value == LanguageController.getString("projSel")) {
+                    if (gameComboBox!!.value == LocalizationProvider.getString("projSel")) {
                         AppConfiguration.pjState = -1
-                        gameComboBox!!.tooltip = Tooltip(LanguageController.getString("project_not_selected"))
+                        gameComboBox!!.tooltip = Tooltip(LocalizationProvider.getString("project_not_selected"))
                         logo!!.image = ImageLoader.getAppIconSmall()
                     } else if (gameComboBox!!.value == AppConfiguration.projectData[0].getProjectName()) {
                         AppConfiguration.pjState = 0
                         gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[0].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LanguageController.getString("selected")
+                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
                         logo!!.image = ImageLoader.getAppIconSmall()
                     } else if (gameComboBox!!.value == AppConfiguration.projectData[1].getProjectName()) {
                         AppConfiguration.pjState = 1
                         gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[1].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LanguageController.getString("selected")
+                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
                         logo!!.image = ImageLoader.getAppIconSmall()
                     } else if (gameComboBox!!.value == AppConfiguration.projectData[2].getProjectName()) {
                         AppConfiguration.pjState = 2
                         gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[2].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LanguageController.getString("selected")
+                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
                         logo!!.image = ImageLoader.getAppIconSmall()
                     } else if (gameComboBox!!.value == AppConfiguration.projectData[3].getProjectName()) {
                         AppConfiguration.pjState = 3
                         gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[3].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LanguageController.getString("selected")
+                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
                         logo!!.image = ImageLoader.getAppIconSmall()
                     } else {
                         AppConfiguration.pjState = gameComboBox!!.selectionModel.selectedIndex
                         gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[AppConfiguration.pjState].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LanguageController.getString("selected")
+                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
                         logo!!.image = ImageLoader.getAppIconSmall()
                     }
                 } catch (e1: Exception) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
@@ -314,7 +314,7 @@ class MainLayout : AppLayout {
             mailTextField!!.text = AppConfiguration.mail_pref + acronymTextField!!.text + CommonUtil.getDate("ddMMyy") + AppConfiguration.mail_end
             passTextField!!.text = AppConfiguration.pass
         }
-        status.text = LanguageController.getString("ready")
+        status.text = LocalizationProvider.getString("ready")
     }
 
     /** sets the items of the project ComboBox  */
@@ -325,14 +325,14 @@ class MainLayout : AppLayout {
             }
 
             if (AppConfiguration.pjCfgSelection == -1) {
-                gameComboBox!!.setValue(LanguageController.getString("projSel"))
+                gameComboBox!!.setValue(LocalizationProvider.getString("projSel"))
             } else {
                 gameComboBox!!.value = AppConfiguration.projectData[AppConfiguration.pjCfgSelection].getProjectName()
-                status.text = LanguageController.getString("ready")
+                status.text = LocalizationProvider.getString("ready")
             }
         } else {
-            gameComboBox!!.value = LanguageController.getString("noProjSel")
-            gameComboBox!!.tooltip = Tooltip(LanguageController.getString("project_not_found_desc"))
+            gameComboBox!!.value = LocalizationProvider.getString("noProjSel")
+            gameComboBox!!.tooltip = Tooltip(LocalizationProvider.getString("project_not_found_desc"))
             findAccount!!.isDisable = true
             saveAccount!!.isDisable = true
         }

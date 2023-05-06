@@ -13,7 +13,7 @@ import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.stage.Stage
 import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -70,7 +70,7 @@ class SettingsScene {
             val tabs = arrayOfNulls<Tab>(tabName.size)
             for (i in tabName.indices) {
                 tabs[i] = Tab()
-                tabs[i]!!.setText(LanguageController.getString(tabName[i]))
+                tabs[i]!!.setText(LocalizationProvider.getString(tabName[i]))
                 tabs[i]!!.setClosable(false)
 
                 tabVBox[i] = VBox()
@@ -91,24 +91,24 @@ class SettingsScene {
             GridPane.setConstraints(tab1ContentGrid[2], 0, 2)
 
             val appLanguage = Label()
-            appLanguage.text = LanguageController.getString("languageSelection")
+            appLanguage.text = LocalizationProvider.getString("languageSelection")
             appLanguage.style = "-fx-font-size: 12pt;"
             GridPane.setConstraints(appLanguage, 0, 0)
             tab1ContentGrid[0].children.add(appLanguage)
 
             langCB = ComboBox(localeData)
-            langCB!!.setValue(localeData[LanguageController.currentLocale])
+            langCB!!.setValue(localeData[LocalizationProvider.currentLocale])
             GridPane.setConstraints(langCB, 0, 1)
             tab1ContentGrid[0].children.add(langCB)
 
-            val setChange = Label(LanguageController.getString("restartOnCfgChange"))
+            val setChange = Label(LocalizationProvider.getString("restartOnCfgChange"))
             setChange.isVisible = false
             setChange.style = "-fx-text-fill: red;"
             GridPane.setConstraints(setChange, 0, 2)
             tab1ContentGrid[0].children.add(setChange)
 
             val pgUpdate = Label()
-            pgUpdate.text = LanguageController.getString("progUpdate")
+            pgUpdate.text = LocalizationProvider.getString("progUpdate")
             pgUpdate.style = "-fx-font-size: 12pt;"
             GridPane.setConstraints(pgUpdate, 0, 0)
             tab1ContentGrid[1].children.add(pgUpdate)
@@ -123,7 +123,7 @@ class SettingsScene {
             updateChannelBox.valueProperty().addListener { ov, t, t1 -> Configuration.updateChannel = updateChannelBox.selectionModel.selectedIndex }
 
             val chkAppUpdate = Label()
-            chkAppUpdate.text = LanguageController.getString("chkAppUpdate")
+            chkAppUpdate.text = LocalizationProvider.getString("chkAppUpdate")
             GridPane.setConstraints(chkAppUpdate, 0, 1)
             tab1ContentGrid[1].children.add(chkAppUpdate)
 
@@ -135,19 +135,19 @@ class SettingsScene {
             tab1ContentGrid[1].children.add(appbox)
 
             val btn_chkAppUpdate = Button()
-            btn_chkAppUpdate.text = LanguageController.getString("chkUpdate")
+            btn_chkAppUpdate.text = LocalizationProvider.getString("chkUpdate")
 
             val updateBarApp = ProgressBar(0.0)
             updateBarApp.progress = ProgressIndicator.INDETERMINATE_PROGRESS
 
             val updStatusApp = Label()
 
-            val btn_downloadAppUpdate = Button(LanguageController.getString("download"))
+            val btn_downloadAppUpdate = Button(LocalizationProvider.getString("download"))
 
-            val btn_installAppUpdate = Button(LanguageController.getString("install"))
+            val btn_installAppUpdate = Button(LocalizationProvider.getString("install"))
 
             if (UpdateChecker.isUpdAvailable) {
-                updStatusApp.text = LanguageController.getString("update_available")
+                updStatusApp.text = LocalizationProvider.getString("update_available")
                 appbox.children.addAll(updStatusApp, btn_downloadAppUpdate)
                 updateChannelBox.isDisable = true
             } else {
@@ -168,14 +168,14 @@ class SettingsScene {
                         appbox.children.remove(updateBarApp)
                         appbox.children.add(updStatusApp)
                         when (updatestatus) {
-                            0 -> updStatusApp.text = LanguageController.getString("no_update")
+                            0 -> updStatusApp.text = LocalizationProvider.getString("no_update")
                             1 -> {
-                                updStatusApp.text = LanguageController.getString("update_available")
+                                updStatusApp.text = LocalizationProvider.getString("update_available")
                                 appbox.children.add(btn_downloadAppUpdate)
-                                MainScene.mainScene.windowScene!!.win.windowStage.stage.title = AppContext.context.applicationName + " - " + LanguageController.getString("update_available")
+                                MainScene.mainScene.windowScene!!.win.windowStage.stage.title = AppContext.context.applicationName + " - " + LocalizationProvider.getString("update_available")
                             }
-                            2 -> updStatusApp.text = LanguageController.getString("no_connection")
-                            3 -> updStatusApp.text = LanguageController.getString("error")
+                            2 -> updStatusApp.text = LocalizationProvider.getString("no_connection")
+                            3 -> updStatusApp.text = LocalizationProvider.getString("error")
                         }
                     }
                 }.start()
@@ -202,7 +202,7 @@ class SettingsScene {
                         val progress = fileDownloader.progress.toDouble()
                         Platform.runLater {
                             updateBarApp.progress = progress
-                            updStatusApp.text = LanguageController.getString("dlRemaining") + " " + fileDownloader.downloadList.size
+                            updStatusApp.text = LocalizationProvider.getString("dlRemaining") + " " + fileDownloader.downloadList.size
                         }
 
                         try {
@@ -216,7 +216,7 @@ class SettingsScene {
 
                     Platform.runLater {
                         appbox.children.remove(updateBarApp)
-                        updStatusApp.text = LanguageController.getString("dlComplete")
+                        updStatusApp.text = LocalizationProvider.getString("dlComplete")
                         appbox.children.add(btn_installAppUpdate)
                     }
                 }.start()
@@ -227,12 +227,12 @@ class SettingsScene {
                 stage.showAndWait()
             }
 
-            val debug = Label(LanguageController.getString("logging"))
+            val debug = Label(LocalizationProvider.getString("logging"))
             debug.style = "-fx-font-size: 12pt;"
             GridPane.setConstraints(debug, 0, 0)
             tab1ContentGrid[2].children.add(debug)
 
-            logCBox = CheckBox(LanguageController.getString("enableLog"))
+            logCBox = CheckBox(LocalizationProvider.getString("enableLog"))
             logCBox!!.isSelected = Configuration.logState
             GridPane.setConstraints(logCBox, 0, 1)
             tab1ContentGrid[2].children.add(logCBox)
@@ -246,7 +246,7 @@ class SettingsScene {
             GridPane.setConstraints(tab2ContentGrid[0], 0, 0)
             GridPane.setConstraints(tab2ContentGrid[1], 0, 1)
 
-            val uiText = Label(LanguageController.getString("uiOptions"))
+            val uiText = Label(LocalizationProvider.getString("uiOptions"))
             appLanguage.style = "-fx-font-size: 12pt;"
             GridPane.setConstraints(uiText, 0, 0)
             tab2ContentGrid[0].children.add(uiText)
@@ -264,20 +264,20 @@ class SettingsScene {
             GridPane.setConstraints(themeCB, 1, 1)
             tab2ContentGrid[0].children.add(themeCB)
 
-            sysBorderCBox = CheckBox(LanguageController.getString("sysDecorationEnable"))
+            sysBorderCBox = CheckBox(LocalizationProvider.getString("sysDecorationEnable"))
             sysBorderCBox!!.isSelected = Configuration.useSystemBorders
             GridPane.setConstraints(sysBorderCBox, 2, 1)
             GridPane.setMargin(sysBorderCBox, Insets(0.0, 0.0, 0.0, 35.0))
             tab2ContentGrid[0].children.add(sysBorderCBox)
 
-            val trayIconCBox = CheckBox(LanguageController.getString("showTrayIcon"))
+            val trayIconCBox = CheckBox(LocalizationProvider.getString("showTrayIcon"))
             trayIconCBox.isSelected = Configuration.showTrayIcon
             GridPane.setConstraints(trayIconCBox, 2, 2)
             GridPane.setMargin(trayIconCBox, Insets(0.0, 0.0, 0.0, 35.0))
             tab2ContentGrid[0].children.add(trayIconCBox)
 
             val colorSchemeLabel = Label()
-            colorSchemeLabel.text = LanguageController.getString("colorScheme")
+            colorSchemeLabel.text = LocalizationProvider.getString("colorScheme")
             colorSchemeLabel.style = "-fx-font-size: 12pt;"
             GridPane.setConstraints(colorSchemeLabel, 0, 2)
             tab2ContentGrid[0].children.add(colorSchemeLabel)
@@ -288,26 +288,26 @@ class SettingsScene {
             tab2ContentGrid[0].children.add(colBox)
 
             val colorList = ArrayList<String>()
-            colorList.add(LanguageController.getString("black"))
-            colorList.add(LanguageController.getString("gray"))
-            colorList.add(LanguageController.getString("white"))
-            colorList.add(LanguageController.getString("red"))
-            colorList.add(LanguageController.getString("orange"))
-            colorList.add(LanguageController.getString("yellow"))
-            colorList.add(LanguageController.getString("blue"))
-            colorList.add(LanguageController.getString("magenta"))
-            colorList.add(LanguageController.getString("purple"))
-            colorList.add(LanguageController.getString("green"))
+            colorList.add(LocalizationProvider.getString("black"))
+            colorList.add(LocalizationProvider.getString("gray"))
+            colorList.add(LocalizationProvider.getString("white"))
+            colorList.add(LocalizationProvider.getString("red"))
+            colorList.add(LocalizationProvider.getString("orange"))
+            colorList.add(LocalizationProvider.getString("yellow"))
+            colorList.add(LocalizationProvider.getString("blue"))
+            colorList.add(LocalizationProvider.getString("magenta"))
+            colorList.add(LocalizationProvider.getString("purple"))
+            colorList.add(LocalizationProvider.getString("green"))
 
             colBox!!.items.addAll(colorList)
             colBox!!.selectionModel.select(Configuration.colorScheme)
 
-            val animateText = Label(LanguageController.getString("effects"))
+            val animateText = Label(LocalizationProvider.getString("effects"))
             animateText.style = "-fx-font-size: 12pt;"
             GridPane.setConstraints(animateText, 0, 0)
             tab2ContentGrid[1].children.add(animateText)
 
-            animateCBox = CheckBox(LanguageController.getString("animationEnable"))
+            animateCBox = CheckBox(LocalizationProvider.getString("animationEnable"))
             animateCBox!!.isSelected = Configuration.animations
             GridPane.setConstraints(animateCBox, 0, 1)
             tab2ContentGrid[1].children.add(animateCBox)
@@ -320,10 +320,10 @@ class SettingsScene {
             GridPane.setConstraints(tab3ContentGrid[0], 0, 0)
 
 
-            val advSet = Label(LanguageController.getString("advanced_desc"))
+            val advSet = Label(LocalizationProvider.getString("advanced_desc"))
             advSet.style = "-fx-font-size: 12pt;"
 
-            val reset = Button(LanguageController.getString("reset"))
+            val reset = Button(LocalizationProvider.getString("reset"))
             reset.style = "-fx-font-size: 12pt;"
 
             val advTopAnchor = AnchorPane()
@@ -343,9 +343,9 @@ class SettingsScene {
             listData = getListData()
 //            listData!!.addListener({ c -> println(c + " changed") } as ListChangeListener<SettingsList>)
 
-            val settingName = TableColumn<SettingsList, String>(LanguageController.getString("name"))
-            val setting = TableColumn<SettingsList, String>(LanguageController.getString("value"))
-            val desc = TableColumn<SettingsList, String>(LanguageController.getString("setting_desc"))
+            val settingName = TableColumn<SettingsList, String>(LocalizationProvider.getString("name"))
+            val setting = TableColumn<SettingsList, String>(LocalizationProvider.getString("value"))
+            val desc = TableColumn<SettingsList, String>(LocalizationProvider.getString("setting_desc"))
 
             settingName.setCellValueFactory(PropertyValueFactory("settingName"))
             setting.setCellValueFactory(PropertyValueFactory("setting"))
@@ -365,10 +365,10 @@ class SettingsScene {
             val status = Label()
             saveHBox.children.add(status)
 
-            val saveCfg = Button(LanguageController.getString("saveCfg"))
+            val saveCfg = Button(LocalizationProvider.getString("saveCfg"))
             saveHBox.children.add(saveCfg)
 
-            val advCBox = CheckBox(LanguageController.getString("advanced"))
+            val advCBox = CheckBox(LocalizationProvider.getString("advanced"))
             controls!!.children.add(advCBox)
 
             controls!!.padding = Insets(12.0, 12.0, 12.0, 12.0)
@@ -446,14 +446,14 @@ class SettingsScene {
                 try {
                     Configuration.config.save()
                 } catch (e1: Exception) {
-                    if (DebugHelper.DEBUGVERSION) {
+                    if (DebugHelper.DEBUG) {
                         e1.printStackTrace()
                     } else {
                         ExceptionHandler(e1)
                     }
                 }
 
-                AnimationHandler.statusFade(status, "success", LanguageController.getString("cfgSaved"))
+                AnimationHandler.statusFade(status, "success", LocalizationProvider.getString("cfgSaved"))
             }
 
             tabPane!!.selectionModel.selectedItemProperty().addListener { arg0, arg1, arg2 ->
@@ -519,7 +519,7 @@ class SettingsScene {
 
     private fun create() {
         val cfgStage = Stage()
-        cfgStage.title = LanguageController.getString("settings")
+        cfgStage.title = LocalizationProvider.getString("settings")
         cfgStage.icons.add(ImageLoader.getAppIconSmall())
         cfgStage.isResizable = true
         cfgStage.minWidth = 640.0
@@ -664,7 +664,7 @@ class SettingsScene {
                 try {
                     ThemeSelector.changeDecorationColor(event.newValue)
                 } catch (e1: IllegalArgumentException) {
-                    MessageDialog(0, LanguageController.getString("colorInvalid_errorDesc"), 400, 230)
+                    MessageDialog(0, LocalizationProvider.getString("colorInvalid_errorDesc"), 400, 230)
                     event.tableView.items[event.tablePosition.row].setSetting(event.oldValue)
                     event.tableView.refresh()
                 }
@@ -677,7 +677,7 @@ class SettingsScene {
                 try {
                     ThemeSelector.changeWindowShadowColor(true, event.newValue)
                 } catch (e1: IllegalArgumentException) {
-                    MessageDialog(0, LanguageController.getString("colorInvalid_errorDesc"), 400, 230)
+                    MessageDialog(0, LocalizationProvider.getString("colorInvalid_errorDesc"), 400, 230)
                     event.tableView.items[event.tablePosition.row].setSetting(event.oldValue)
                     event.tableView.refresh()
                 }
@@ -690,7 +690,7 @@ class SettingsScene {
                 try {
                     ThemeSelector.changeWindowShadowColor(false, event.newValue)
                 } catch (e1: IllegalArgumentException) {
-                    MessageDialog(0, LanguageController.getString("colorInvalid_errorDesc"), 400, 230)
+                    MessageDialog(0, LocalizationProvider.getString("colorInvalid_errorDesc"), 400, 230)
                     event.tableView.items[event.tablePosition.row].setSetting(event.oldValue)
                     event.tableView.refresh()
                 }
@@ -703,7 +703,7 @@ class SettingsScene {
                 Configuration.tabPosition = Side.valueOf(event.newValue)
                 tabPane!!.side = Configuration.tabPosition
             } catch (e1: IllegalArgumentException) {
-                MessageDialog(0, LanguageController.getString("tabPosition_errorDesc"), 400, 230)
+                MessageDialog(0, LocalizationProvider.getString("tabPosition_errorDesc"), 400, 230)
                 event.tableView.items[event.tablePosition.row].setSetting(event.oldValue)
                 event.tableView.refresh()
             }

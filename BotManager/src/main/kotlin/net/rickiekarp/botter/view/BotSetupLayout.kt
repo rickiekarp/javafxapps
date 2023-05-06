@@ -11,7 +11,7 @@ import javafx.stage.DirectoryChooser
 import net.rickiekarp.botlib.BotConfig
 import net.rickiekarp.botlib.PluginConfig
 import net.rickiekarp.botlib.enums.BotType
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
@@ -56,7 +56,7 @@ class BotSetupLayout {
             controls.spacing = 10.0
             controls.alignment = Pos.CENTER_RIGHT
 
-            prevButton = Button(LanguageController.getString("back"))
+            prevButton = Button(LocalizationProvider.getString("back"))
             prevButton!!.isVisible = false
             prevButton!!.setOnAction {
                 setupGrid!!.children.clear()
@@ -65,7 +65,7 @@ class BotSetupLayout {
             }
             controls.children.add(prevButton)
 
-            nextButton = Button(LanguageController.getString("next"))
+            nextButton = Button(LocalizationProvider.getString("next"))
             nextButton!!.setOnAction {
                 setupGrid!!.children.clear()
                 browserSetupStep++
@@ -98,16 +98,16 @@ class BotSetupLayout {
 
             //set nodejs path
             1 -> {
-                messageLabel!!.text = LanguageController.getString("desc_setup_1_0")
+                messageLabel!!.text = LocalizationProvider.getString("desc_setup_1_0")
                 nextButton!!.isDisable = true
 
-                val descSetup41 = Label(LanguageController.getString("desc_setup_1_1"))
+                val descSetup41 = Label(LocalizationProvider.getString("desc_setup_1_1"))
                 descSetup41.alignment = Pos.CENTER
                 descSetup41.maxHeight = 100.0
                 descSetup41.isWrapText = true
                 GridPane.setConstraints(descSetup41, 0, 0)
 
-                val searchNode = Button(LanguageController.getString("search"))
+                val searchNode = Button(LocalizationProvider.getString("search"))
                 searchNode.maxHeight = 100.0
                 searchNode.alignment = Pos.CENTER
                 searchNode.setOnAction {
@@ -132,7 +132,7 @@ class BotSetupLayout {
 
             //select browser
             2 -> {
-                messageLabel!!.text = LanguageController.getString("desc_setup_2_0")
+                messageLabel!!.text = LocalizationProvider.getString("desc_setup_2_0")
                 prevButton!!.isVisible = true
                 nextButton!!.isDisable = true
 
@@ -225,10 +225,10 @@ class BotSetupLayout {
 
             //set profile name
             3 -> {
-                messageLabel!!.text = LanguageController.getString("desc_setup_3_0")
+                messageLabel!!.text = LocalizationProvider.getString("desc_setup_3_0")
                 nextButton!!.isDisable = true
 
-                val testt = Label(LanguageController.getString("desc_setup_3_1"))
+                val testt = Label(LocalizationProvider.getString("desc_setup_3_1"))
                 testt.alignment = Pos.CENTER
                 testt.maxHeight = 50.0
                 GridPane.setConstraints(testt, 0, 0)
@@ -262,16 +262,16 @@ class BotSetupLayout {
 
             //set chrome config directory
             4 -> {
-                messageLabel!!.text = LanguageController.getString("desc_setup_4_0")
+                messageLabel!!.text = LocalizationProvider.getString("desc_setup_4_0")
                 prevButton!!.isVisible = true
                 nextButton!!.isDisable = true
 
-                val testt2 = Label(LanguageController.getString("desc_setup_4_1"))
+                val testt2 = Label(LocalizationProvider.getString("desc_setup_4_1"))
                 testt2.alignment = Pos.CENTER
                 testt2.maxHeight = 100.0
                 GridPane.setConstraints(testt2, 0, 0)
 
-                val searchChrome = Button(LanguageController.getString("search"))
+                val searchChrome = Button(LocalizationProvider.getString("search"))
                 searchChrome.maxHeight = 100.0
                 searchChrome.alignment = Pos.CENTER
                 searchChrome.setOnAction { event ->
@@ -291,7 +291,7 @@ class BotSetupLayout {
 
                 setupGrid!!.children.addAll(testt2, searchChrome)
                 calculateSizes()
-                nextButton!!.text = LanguageController.getString("finish")
+                nextButton!!.text = LocalizationProvider.getString("finish")
             }
 
             5 -> {

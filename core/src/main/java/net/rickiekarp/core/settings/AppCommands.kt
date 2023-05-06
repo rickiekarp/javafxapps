@@ -1,7 +1,7 @@
 package net.rickiekarp.core.settings
 
 import javafx.collections.FXCollections
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -20,16 +20,16 @@ class AppCommands {
      */
     @Throws(NoSuchMethodException::class)
     fun fillCommandsList() {
-        commandsList.add(ConsoleCommands("/help", "", LanguageController.getString("commandsList_desc")) {
+        commandsList.add(ConsoleCommands("/help", "", LocalizationProvider.getString("commandsList_desc")) {
             help()
         })
-        commandsList.add(ConsoleCommands("/exceptionTest", "", LanguageController.getString("throwsException")) {
+        commandsList.add(ConsoleCommands("/exceptionTest", "", LocalizationProvider.getString("throwsException")) {
             exceptionTest()
         })
-        commandsList.add(ConsoleCommands("/errorTest", "", LanguageController.getString("showTest_desc")) {
+        commandsList.add(ConsoleCommands("/errorTest", "", LocalizationProvider.getString("showTest_desc")) {
             errorTest()
         })
-        commandsList.add(ConsoleCommands("/restart", "", LanguageController.getString("restart_desc")) {
+        commandsList.add(ConsoleCommands("/restart", "", LocalizationProvider.getString("restart_desc")) {
             restart()
         })
     }
@@ -55,13 +55,13 @@ class AppCommands {
         try {
             DebugHelper.restartApplication()
         } catch (e1: URISyntaxException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)
             }
         } catch (e1: IOException) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)

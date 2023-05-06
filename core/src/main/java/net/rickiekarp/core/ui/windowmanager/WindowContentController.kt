@@ -38,7 +38,7 @@ class WindowContentController internal constructor() {
         sidebarButtonBox!!.children.setAll(sidebarNodes)
     }
 
-    fun setTitlebarRightButtonBox(titlebar: HBox) {
-        this.titlebarButtonBox = titlebar
+    fun setTitleBarRightButtonBox(titleBar: HBox) {
+        this.titlebarButtonBox = titleBar
     }
 }

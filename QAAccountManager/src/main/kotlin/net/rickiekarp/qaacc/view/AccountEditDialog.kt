@@ -9,7 +9,7 @@ import javafx.scene.control.TextField
 import javafx.scene.layout.*
 import javafx.stage.Stage
 import net.rickiekarp.core.components.textfield.CustomTextField
-import net.rickiekarp.core.controller.LanguageController
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
@@ -52,12 +52,12 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
         editStage.height = 380.0
         when (SceneType) {
             "new" -> {
-                editStage.title = LanguageController.getString("addAcc")
+                editStage.title = LocalizationProvider.getString("addAcc")
                 editStage.icons.add(ImageLoader.getAppIconSmall())
             }
 
             "edit" -> {
-                editStage.title = LanguageController.getString("editAcc")
+                editStage.title = LocalizationProvider.getString("editAcc")
                 editStage.icons.add(ImageLoader.getAppIconSmall())
             }
         }
@@ -102,7 +102,7 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
         val controls = HBox()
 
         //add components
-        val accName = Label(LanguageController.getString("name"))
+        val accName = Label(LocalizationProvider.getString("name"))
         GridPane.setConstraints(accName, 0, 0)
         maingrid.children.add(accName)
 
@@ -110,7 +110,7 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
         GridPane.setConstraints(accNameTF, 1, 0)
         maingrid.children.add(accNameTF)
 
-        val accMail = Label(LanguageController.getString("mail"))
+        val accMail = Label(LocalizationProvider.getString("mail"))
         GridPane.setConstraints(accMail, 0, 1)
         maingrid.children.add(accMail)
 
@@ -118,7 +118,7 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
         GridPane.setConstraints(accMailTF, 1, 1)
         maingrid.children.add(accMailTF)
 
-        val accLevel = Label(LanguageController.getString("level"))
+        val accLevel = Label(LocalizationProvider.getString("level"))
         GridPane.setConstraints(accLevel, 0, 2)
         maingrid.children.add(accLevel)
 
@@ -146,34 +146,34 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
 
         when (SceneType) {
             "new" -> {
-                saveCfg.text = LanguageController.getString("addAcc")
+                saveCfg.text = LocalizationProvider.getString("addAcc")
                 saveCfg.setOnAction { event ->
 
                     if (accNameTF.text.isEmpty()) {
-                        MessageDialog(0, LanguageController.getString("enterName"), 350, 220)
+                        MessageDialog(0, LocalizationProvider.getString("enterName"), 350, 220)
                     } else {
                         try {
                             AccountXmlFactory.addAccount(GAME_ID, accNameTF.text, accMailTF.text, accLevelTF.text, accAllianceTF.text)
                         } catch (e1: TransformerException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
                             }
                         } catch (e1: ParserConfigurationException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
                             }
                         } catch (e1: IOException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
                             }
                         } catch (e1: SAXException) {
-                            if (DebugHelper.DEBUGVERSION) {
+                            if (DebugHelper.DEBUG) {
                                 e1.printStackTrace()
                             } else {
                                 ExceptionHandler(e1)
@@ -187,16 +187,16 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
                                 accAllianceTF.text))
                         accEditScene!!.win.windowStage.stage.close()
                         AccountOverview.status.style = "-fx-text-fill: #55c4fe;"
-                        AccountOverview.status.text = LanguageController.getString("accAdded")
+                        AccountOverview.status.text = LocalizationProvider.getString("accAdded")
                         LogFileHandler.logger.log(Level.INFO, "new account added: " + accNameTF.text)
 
                         if (AppConfiguration.accountData.size == 1) {
-                            AccountOverview.accCount.text = "1 " + LanguageController.getString("acc_loaded")
+                            AccountOverview.accCount.text = "1 " + LocalizationProvider.getString("acc_loaded")
                             AccountOverview.editAcc.isDisable = false
                             AccountOverview.delAcc.isDisable = false
                             AccountOverview.tableview.selectionModel.select(0)
                         } else {
-                            AccountOverview.accCount.text = AppConfiguration.accountData.size.toString() + " " + LanguageController.getString("accs_loaded")
+                            AccountOverview.accCount.text = AppConfiguration.accountData.size.toString() + " " + LocalizationProvider.getString("accs_loaded")
                         }
                     }
 
@@ -205,13 +205,13 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
             }
 
             "edit" -> {
-                saveCfg.text = LanguageController.getString("saveAcc")
+                saveCfg.text = LocalizationProvider.getString("saveAcc")
                 saveCfg.setOnAction { event ->
                     try {
                         AccountXmlFactory.saveAccXml(GAME_ID, selectedIdx)
                         accEditScene!!.win.windowStage.stage.close()
                     } catch (e1: MalformedURLException) {
-                        if (DebugHelper.DEBUGVERSION) {
+                        if (DebugHelper.DEBUG) {
                             e1.printStackTrace()
                         } else {
                             ExceptionHandler(e1)
@@ -226,8 +226,8 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
 
         //set project specific names
         when (GAME_ID) {
-            2 -> accAlliance.text = LanguageController.getString("cooperative")
-            else -> accAlliance.text = LanguageController.getString("alliance")
+            2 -> accAlliance.text = LocalizationProvider.getString("cooperative")
+            else -> accAlliance.text = LocalizationProvider.getString("alliance")
         }
 
         anchor.children.add(maingrid)

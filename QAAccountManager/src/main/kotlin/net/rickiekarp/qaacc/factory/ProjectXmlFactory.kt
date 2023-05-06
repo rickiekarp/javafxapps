@@ -122,7 +122,7 @@ object ProjectXmlFactory {
             try {
                 transformer.transform(source, result)
             } catch (e1: TransformerException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
@@ -132,7 +132,7 @@ object ProjectXmlFactory {
             readSettingsXML(datafile, true)
 
         } catch (e1: Exception) {
-            if (DebugHelper.DEBUGVERSION) {
+            if (DebugHelper.DEBUG) {
                 e1.printStackTrace()
             } else {
                 ExceptionHandler(e1)
@@ -299,7 +299,7 @@ object ProjectXmlFactory {
                 transformer.transform(source, result)
                 LogFileHandler.logger.log(Level.INFO, "config.save:Success")
             } catch (e1: Exception) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
@@ -345,25 +345,25 @@ object ProjectXmlFactory {
                 AppConfiguration.projectData.add(Projects(nList.length + 1, projectName, "accounts_" + projectName.toLowerCase() + ".xml", projectName.toLowerCase() + "Idx", -1, ""))
 
             } catch (e1: ParserConfigurationException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
                 }
             } catch (e1: SAXException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
                 }
             } catch (e1: IOException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
                 }
             } catch (e1: TransformerException) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)
@@ -418,7 +418,7 @@ object ProjectXmlFactory {
 
                 LogFileHandler.logger.log(Level.INFO, "config.save:Success")
             } catch (e1: Exception) {
-                if (DebugHelper.DEBUGVERSION) {
+                if (DebugHelper.DEBUG) {
                     e1.printStackTrace()
                 } else {
                     ExceptionHandler(e1)

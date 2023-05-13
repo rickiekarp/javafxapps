@@ -114,7 +114,7 @@ class BCryptCoder {
 
         i = 0
         while (i < plen) {
-            P!![i] = P!![i] xor streamtoword(key, koffp)
+            P!![i] = P!![i] xor streamToWord(key, koffp)
             i++
         }
 
@@ -152,14 +152,14 @@ class BCryptCoder {
 
         i = 0
         while (i < plen) {
-            P!![i] = P!![i] xor streamtoword(key, koffp)
+            P!![i] = P!![i] xor streamToWord(key, koffp)
             i++
         }
 
         i = 0
         while (i < plen) {
-            lr[0] = lr[0] xor streamtoword(data, doffp)
-            lr[1] = lr[1] xor streamtoword(data, doffp)
+            lr[0] = lr[0] xor streamToWord(data, doffp)
+            lr[1] = lr[1] xor streamToWord(data, doffp)
             encipher(lr, 0)
             P!![i] = lr[0]
             P!![i + 1] = lr[1]
@@ -168,8 +168,8 @@ class BCryptCoder {
 
         i = 0
         while (i < slen) {
-            lr[0] = lr[0] xor streamtoword(data, doffp)
-            lr[1] = lr[1] xor streamtoword(data, doffp)
+            lr[0] = lr[0] xor streamToWord(data, doffp)
+            lr[1] = lr[1] xor streamToWord(data, doffp)
             encipher(lr, 0)
             S!![i] = lr[0]
             S!![i + 1] = lr[1]
@@ -312,12 +312,11 @@ class BCryptCoder {
          * byte array. Note that this is *not* compatible with
          * the standard MIME-base64 encoding.
          * @param s    the string to decode
-         * @param maxLen    the maximum number of bytes to decode
          * @return    an array containing the decoded bytes
          * @throws IllegalArgumentException if maxLen is invalid
          */
         @Throws(IllegalArgumentException::class)
-        private fun decodeBase64(s: String, maxLen: Int): ByteArray {
+        private fun decodeBase64(s: String): ByteArray {
             val rs = StringBuffer()
             var off = 0
             val slen = s.length
@@ -328,9 +327,9 @@ class BCryptCoder {
             var c4: Byte
             var o: Byte
 
-            require(maxLen > 0) { "Invalid maxolen" }
+            require(BCRYPT_SALT_LEN > 0) { "Invalid maxolen" }
 
-            while (off < slen - 1 && olen < maxLen) {
+            while (off < slen - 1 && olen < BCRYPT_SALT_LEN) {
                 c1 = char64(s[off++])
                 c2 = char64(s[off++])
                 if (c1.toInt() == -1 || c2.toInt() == -1)
@@ -338,7 +337,7 @@ class BCryptCoder {
                 o = c1.toInt().shl(2).toByte()
                 o = o or (c2 and 0x30 shr 4).toByte()
                 rs.append(o.toInt().toChar())
-                if (++olen >= maxLen || off >= slen)
+                if (++olen >= BCRYPT_SALT_LEN || off >= slen)
                     break
                 c3 = char64(s[off++])
                 if (c3.toInt() == -1)
@@ -346,7 +345,7 @@ class BCryptCoder {
                 o = (c2 and 0x0f shl 4).toByte()
                 o = o or (c3 and 0x3c shr 2).toByte()
                 rs.append(o.toInt().toChar())
-                if (++olen >= maxLen || off >= slen)
+                if (++olen >= BCRYPT_SALT_LEN || off >= slen)
                     break
                 c4 = char64(s[off++])
                 o = (c3 and 0x03 shl 6).toByte()
@@ -371,7 +370,7 @@ class BCryptCoder {
          * current offset into data
          * @return    the next word of material from data
          */
-        private fun streamtoword(data: ByteArray, offp: IntArray): Int {
+        private fun streamToWord(data: ByteArray, offp: IntArray): Int {
             var word = 0
             var off = offp[0]
 
@@ -390,18 +389,16 @@ class BCryptCoder {
          * Hash a password using the OpenBSD bcrypt scheme
          * @param password    the password to hash
          * @param salt    the salt to hash with (perhaps generated
-         * using BCryptCoder.gensalt)
+         * using BCryptCoder.genSalt)
          * @return    the hashed password
          */
-        fun hashpw(password: String, salt: String): String {
-            val B: BCryptCoder
-            val real_salt: String
-            val passwordb: ByteArray
-            val saltb: ByteArray
+        fun hashPw(password: String, salt: String): String {
+            val realSalt: String
+            val passwordDb: ByteArray
             val hashed: ByteArray
             var minor = 0.toChar()
             val rounds: Int
-            var off = 0
+            val off: Int
             val rs = StringBuffer()
 
             require(!(salt[0] != '$' || salt[1] != '2')) { "Invalid salt version" }
@@ -417,17 +414,17 @@ class BCryptCoder {
             require(salt[off + 2] <= '$') { "Missing salt rounds" }
             rounds = Integer.parseInt(salt.substring(off, off + 2))
 
-            real_salt = salt.substring(off + 3, off + 25)
+            realSalt = salt.substring(off + 3, off + 25)
             try {
-                passwordb = (password + if (minor >= 'a') "\u0000" else "").toByteArray(charset("UTF-8"))
+                passwordDb = (password + if (minor >= 'a') "\u0000" else "").toByteArray(charset("UTF-8"))
             } catch (uee: UnsupportedEncodingException) {
                 throw AssertionError("UTF-8 is not supported")
             }
 
-            saltb = decodeBase64(real_salt, BCRYPT_SALT_LEN)
+            val saltB: ByteArray = decodeBase64(realSalt)
 
-            B = BCryptCoder()
-            hashed = B.crypt_raw(passwordb, saltb, rounds,
+            val b = BCryptCoder()
+            hashed = b.crypt_raw(passwordDb, saltB, rounds,
                     bf_crypt_ciphertext.clone())
 
             rs.append("$2")
@@ -439,7 +436,7 @@ class BCryptCoder {
             require(rounds <= 30) { "rounds exceeds maximum (30)" }
             rs.append(rounds.toString())
             rs.append("$")
-            rs.append(encode_base64(saltb, saltb.size))
+            rs.append(encode_base64(saltB, saltB.size))
             rs.append(encode_base64(hashed,
                     bf_crypt_ciphertext.size * 4 - 1))
             return rs.toString()
@@ -447,24 +444,24 @@ class BCryptCoder {
 
         /**
          * Generate a salt for use with the BCryptCoder.hashpw() method
-         * @param log_rounds    the log2 of the number of rounds of
+         * @param logRounds    the log2 of the number of rounds of
          * hashing to apply - the work factor therefore increases as
          * 2**log_rounds.
          * @param random        an instance of SecureRandom to use
          * @return    an encoded salt value
          */
         @JvmOverloads
-        fun gensalt(log_rounds: Int = GENSALT_DEFAULT_LOG2_ROUNDS, random: SecureRandom = SecureRandom()): String {
+        fun genSalt(logRounds: Int = GENSALT_DEFAULT_LOG2_ROUNDS, random: SecureRandom = SecureRandom()): String {
             val rs = StringBuffer()
             val rnd = ByteArray(BCRYPT_SALT_LEN)
 
             random.nextBytes(rnd)
 
             rs.append("$2a$")
-            if (log_rounds < 10)
+            if (logRounds < 10)
                 rs.append("0")
-            require(log_rounds <= 30) { "log_rounds exceeds maximum (30)" }
-            rs.append(log_rounds.toString())
+            require(logRounds <= 30) { "log_rounds exceeds maximum (30)" }
+            rs.append(logRounds.toString())
             rs.append("$")
             rs.append(encode_base64(rnd, rnd.size))
             return rs.toString()
@@ -477,22 +474,22 @@ class BCryptCoder {
          * @param hashed    the previously-hashed password
          * @return    true if the passwords match, false otherwise
          */
-        fun checkpw(plaintext: String, hashed: String): Boolean {
-            val hashed_bytes: ByteArray
-            val try_bytes: ByteArray
+        fun checkPw(plaintext: String, hashed: String): Boolean {
+            val hashedBytes: ByteArray
+            val tryBytes: ByteArray
             try {
-                val try_pw = hashpw(plaintext, hashed)
-                hashed_bytes = hashed.toByteArray(charset("UTF-8"))
-                try_bytes = try_pw.toByteArray(charset("UTF-8"))
+                val tryPw = hashPw(plaintext, hashed)
+                hashedBytes = hashed.toByteArray(charset("UTF-8"))
+                tryBytes = tryPw.toByteArray(charset("UTF-8"))
             } catch (uee: UnsupportedEncodingException) {
                 return false
             }
 
-            if (hashed_bytes.size != try_bytes.size)
+            if (hashedBytes.size != tryBytes.size)
                 return false
             var ret: Byte = 0
-            for (i in try_bytes.indices)
-                ret = ret or (hashed_bytes[i] xor try_bytes[i]).toByte()
+            for (i in tryBytes.indices)
+                ret = ret or (hashedBytes[i] xor tryBytes[i])
             return ret.toInt() == 0
         }
     }

@@ -20,7 +20,7 @@ internal class BCryptTest {
             val plain = test_vector[0]
             val salt = test_vector[1]
             val expected = test_vector[2]
-            val hashed = BCryptCoder.hashpw(plain, salt)
+            val hashed = BCryptCoder.hashPw(plain, salt)
             Assertions.assertEquals(hashed, expected)
             print(".")
         }
@@ -38,9 +38,9 @@ internal class BCryptTest {
             var j = 0
             while (j < test_vectors.size) {
                 val plain = test_vectors[j][0]
-                val salt = BCryptCoder.gensalt(i)
-                val hashed1 = BCryptCoder.hashpw(plain, salt)
-                val hashed2 = BCryptCoder.hashpw(plain, hashed1)
+                val salt = BCryptCoder.genSalt(i)
+                val hashed1 = BCryptCoder.hashPw(plain, salt)
+                val hashed2 = BCryptCoder.hashPw(plain, hashed1)
                 Assertions.assertEquals(hashed1, hashed2)
                 print(".")
                 j += 4
@@ -58,9 +58,9 @@ internal class BCryptTest {
         var i = 0
         while (i < test_vectors.size) {
             val plain = test_vectors[i][0]
-            val salt = BCryptCoder.gensalt()
-            val hashed1 = BCryptCoder.hashpw(plain, salt)
-            val hashed2 = BCryptCoder.hashpw(plain, hashed1)
+            val salt = BCryptCoder.genSalt()
+            val hashed1 = BCryptCoder.hashPw(plain, salt)
+            val hashed2 = BCryptCoder.hashPw(plain, hashed1)
             Assertions.assertEquals(hashed1, hashed2)
             print(".")
             i += 4
@@ -78,7 +78,7 @@ internal class BCryptTest {
         for (test_vector in test_vectors) {
             val plain = test_vector[0]
             val expected = test_vector[2]
-            Assertions.assertTrue(BCryptCoder.checkpw(plain, expected))
+            Assertions.assertTrue(BCryptCoder.checkPw(plain, expected))
             print(".")
         }
         println("")
@@ -95,7 +95,7 @@ internal class BCryptTest {
             val broken_index = (i + 4) % test_vectors.size
             val plain = test_vectors[i][0]
             val expected = test_vectors[broken_index][2]
-            Assertions.assertFalse(BCryptCoder.checkpw(plain, expected))
+            Assertions.assertFalse(BCryptCoder.checkPw(plain, expected))
             print(".")
         }
         println("")
@@ -110,12 +110,12 @@ internal class BCryptTest {
         val pw1 = "\u2605\u2605\u2605\u2605\u2605\u2605\u2605\u2605"
         val pw2 = "????????"
 
-        val h1 = BCryptCoder.hashpw(pw1, BCryptCoder.gensalt())
-        Assertions.assertFalse(BCryptCoder.checkpw(pw2, h1))
+        val h1 = BCryptCoder.hashPw(pw1, BCryptCoder.genSalt())
+        Assertions.assertFalse(BCryptCoder.checkPw(pw2, h1))
         print(".")
 
-        val h2 = BCryptCoder.hashpw(pw2, BCryptCoder.gensalt())
-        Assertions.assertFalse(BCryptCoder.checkpw(pw1, h2))
+        val h2 = BCryptCoder.hashPw(pw2, BCryptCoder.genSalt())
+        Assertions.assertFalse(BCryptCoder.checkPw(pw1, h2))
         print(".")
         println("")
     }

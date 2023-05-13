@@ -142,24 +142,6 @@ internal class ConnectionHandler {
         return url.protocol + "://" + url.host + port + url.path
     }
 
-    private fun printRequestHeaders(request: Request) {
-        println()
-        println("Request Headers:")
-        for (i in 0 until request.headers.size) {
-            println(request.headers.name(i) + ": " + request.headers.value(i))
-        }
-        println()
-    }
-
-    private fun printResponseHeaders(response: Response) {
-        println()
-        println("Response Headers:")
-        for (i in 0 until response.headers.size) {
-            println(response.headers.name(i) + ": " + response.headers.value(i))
-        }
-        println()
-    }
-
     companion object {
         private const val API_STRING = "/"
         private val MEDIA_TYPE_MARKDOWN = "application/json".toMediaTypeOrNull()

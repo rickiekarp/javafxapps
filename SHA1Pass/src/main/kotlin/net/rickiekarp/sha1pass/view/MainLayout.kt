@@ -323,7 +323,7 @@ class MainLayout : AppLayout {
         val data = checkInputData()
         val sha1 = SHA1Coder.getSHA1Bytes(data, hmac)
         val salt = "$2a$10$" + SHA1Coder.getSHA1String(sha1)
-        val hash = BCryptCoder.hashpw(data, salt)
+        val hash = BCryptCoder.hashPw(data, salt)
 
         if (complex) {
             applyComplex(hash)

@@ -44,11 +44,6 @@ class FileDownloader : Observable, Runnable {
         begin()
     }
 
-    // Get this download's URL.
-    fun getUrl(): String {
-        return url!!.toString()
-    }
-
     // Pause this download.
     private fun begin() {
         size = -1
@@ -64,25 +59,6 @@ class FileDownloader : Observable, Runnable {
 
         //start the download
         download()
-    }
-
-    // Pause this download.
-    fun pause() {
-        status = PAUSED
-        stateChanged()
-    }
-
-    // Resume this download.
-    fun resume() {
-        status = DOWNLOADING
-        stateChanged()
-        download()
-    }
-
-    // Cancel this download.
-    fun cancel() {
-        status = CANCELLED
-        stateChanged()
     }
 
     // Mark this download as having an error.
@@ -235,14 +211,10 @@ class FileDownloader : Observable, Runnable {
         // Max size of download buffer.
         private val MAX_BUFFER_SIZE = 1024
 
-        // These are the status names.
-        val STATUSES = arrayOf("Paused", "Downloading", "Complete", "Cancelled", "Error")
-
         // These are the status codes.
         val PAUSED = 0
         val DOWNLOADING = 1
         val COMPLETE = 2
-        val CANCELLED = 3
-        val ERROR = 4
+        val ERROR = 3
     }
 }

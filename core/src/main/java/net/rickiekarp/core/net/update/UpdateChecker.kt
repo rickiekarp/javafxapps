@@ -107,54 +107,6 @@ class UpdateChecker {
         return 0
     }
 
-    /**
-     * Compares local and remote java versions
-     * @return Returns update status ID as an integer
-     */
-    @Deprecated("Feature was removed because the JreCurrentVersion2.txt was removed")
-    fun checkJavaUpdate(): Int {
-        var remoteJavaVersion = remoteJavaVersion
-        var localJavaVersion = System.getProperty("java.version")
-
-        if (localJavaVersion == remoteJavaVersion) {
-            return 0
-        } else {
-
-            if (remoteJavaVersion == "no_connection") {
-                return 2
-            } else {
-                remoteJavaVersion = remoteJavaVersion.replace(".", "")
-                localJavaVersion = localJavaVersion.replace(".", "")
-
-                //splits the version string
-                val localVersion = localJavaVersion.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val localversion = Integer.parseInt(localVersion[0])
-                val localrevision = Integer.parseInt(localVersion[1])
-
-                val remoteVersion = remoteJavaVersion.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val remoteversion = Integer.parseInt(remoteVersion[0])
-                val remoterevision = Integer.parseInt(remoteVersion[1])
-
-                //if remote version is higher than local
-                if (remoteversion > localversion) {
-                    return 1
-                } else if (remoteversion == localversion) {
-                    if (remoterevision > localrevision) {
-                        return 1
-                    }
-                    if (remoterevision <= localrevision) {
-                        return 0
-                    }
-                } else if (remoteversion < localversion) {
-                    return 0
-                }
-
-                //return an error if no check returned a status
-                return 3
-            }
-        }
-    }
-
     companion object {
         var filesToDownload = ArrayList<String>()
         var isUpdAvailable = false

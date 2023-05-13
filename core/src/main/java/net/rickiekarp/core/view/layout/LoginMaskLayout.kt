@@ -143,13 +143,12 @@ class LoginMaskLayout {
 
     private fun requestLogin(account: Account?): Boolean {
         AppContext.context.accountManager.account = account
-        if (AppContext.context.accountManager.updateAccessToken()) {
+        return if (AppContext.context.accountManager.updateAccessToken()) {
             AppContext.context.accountManager.createActiveProfile(rememberPass.isSelected, autoLogin.isSelected)
-            //AppContext.getContext().getAccountManager().updateSession();
-            return true
+            true
         } else {
             AppContext.context.accountManager.account = null
-            return false
+            false
         }
     }
 

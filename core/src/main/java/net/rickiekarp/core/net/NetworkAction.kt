@@ -1,17 +1,7 @@
 package net.rickiekarp.core.net
 
-import javafx.collections.ObservableList
-import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.debug.DebugHelper
-import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.settings.LoadSave
-import java.io.BufferedInputStream
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.SocketTimeoutException
-import java.net.URL
 
 class NetworkAction internal constructor(builder: Builder) {
     internal val method: String? = builder.mMethod

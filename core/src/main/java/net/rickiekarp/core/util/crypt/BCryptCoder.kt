@@ -304,7 +304,7 @@ class BCryptCoder {
          * @return    the decoded value of x
          */
         private fun char64(x: Char): Byte {
-            return if (x.toInt() < 0 || x.toInt() > index_64.size) -1 else index_64[x.toInt()]
+            return if (x.code < 0 || x.code > index_64.size) -1 else index_64[x.code]
         }
 
         /**
@@ -312,54 +312,53 @@ class BCryptCoder {
          * byte array. Note that this is *not* compatible with
          * the standard MIME-base64 encoding.
          * @param s    the string to decode
-         * @param maxolen    the maximum number of bytes to decode
+         * @param maxLen    the maximum number of bytes to decode
          * @return    an array containing the decoded bytes
-         * @throws IllegalArgumentException if maxolen is invalid
+         * @throws IllegalArgumentException if maxLen is invalid
          */
         @Throws(IllegalArgumentException::class)
-        private fun decode_base64(s: String, maxolen: Int): ByteArray {
+        private fun decodeBase64(s: String, maxLen: Int): ByteArray {
             val rs = StringBuffer()
             var off = 0
             val slen = s.length
             var olen = 0
-            val ret: ByteArray
             var c1: Byte
             var c2: Byte
             var c3: Byte
             var c4: Byte
             var o: Byte
 
-            require(maxolen > 0) { "Invalid maxolen" }
+            require(maxLen > 0) { "Invalid maxolen" }
 
-            while (off < slen - 1 && olen < maxolen) {
+            while (off < slen - 1 && olen < maxLen) {
                 c1 = char64(s[off++])
                 c2 = char64(s[off++])
                 if (c1.toInt() == -1 || c2.toInt() == -1)
                     break
                 o = c1.toInt().shl(2).toByte()
                 o = o or (c2 and 0x30 shr 4).toByte()
-                rs.append(o.toChar())
-                if (++olen >= maxolen || off >= slen)
+                rs.append(o.toInt().toChar())
+                if (++olen >= maxLen || off >= slen)
                     break
                 c3 = char64(s[off++])
                 if (c3.toInt() == -1)
                     break
                 o = (c2 and 0x0f shl 4).toByte()
                 o = o or (c3 and 0x3c shr 2).toByte()
-                rs.append(o.toChar())
-                if (++olen >= maxolen || off >= slen)
+                rs.append(o.toInt().toChar())
+                if (++olen >= maxLen || off >= slen)
                     break
                 c4 = char64(s[off++])
                 o = (c3 and 0x03 shl 6).toByte()
                 o = o or c4
-                rs.append(o.toChar())
+                rs.append(o.toInt().toChar())
                 ++olen
             }
 
-            ret = ByteArray(olen)
+            val ret = ByteArray(olen)
             off = 0
             while (off < olen) {
-                ret[off] = rs[off].toByte()
+                ret[off] = rs[off].code.toByte()
                 off++
             }
             return ret
@@ -373,11 +372,10 @@ class BCryptCoder {
          * @return    the next word of material from data
          */
         private fun streamtoword(data: ByteArray, offp: IntArray): Int {
-            var i: Int
             var word = 0
             var off = offp[0]
 
-            i = 0
+            var i = 0
             while (i < 4) {
                 word = word shl 8 or (data[off] and 0xff)
                 off = (off + 1) % data.size
@@ -426,7 +424,7 @@ class BCryptCoder {
                 throw AssertionError("UTF-8 is not supported")
             }
 
-            saltb = decode_base64(real_salt, BCRYPT_SALT_LEN)
+            saltb = decodeBase64(real_salt, BCRYPT_SALT_LEN)
 
             B = BCryptCoder()
             hashed = B.crypt_raw(passwordb, saltb, rounds,
@@ -439,7 +437,7 @@ class BCryptCoder {
             if (rounds < 10)
                 rs.append("0")
             require(rounds <= 30) { "rounds exceeds maximum (30)" }
-            rs.append(Integer.toString(rounds))
+            rs.append(rounds.toString())
             rs.append("$")
             rs.append(encode_base64(saltb, saltb.size))
             rs.append(encode_base64(hashed,
@@ -466,7 +464,7 @@ class BCryptCoder {
             if (log_rounds < 10)
                 rs.append("0")
             require(log_rounds <= 30) { "log_rounds exceeds maximum (30)" }
-            rs.append(Integer.toString(log_rounds))
+            rs.append(log_rounds.toString())
             rs.append("$")
             rs.append(encode_base64(rnd, rnd.size))
             return rs.toString()

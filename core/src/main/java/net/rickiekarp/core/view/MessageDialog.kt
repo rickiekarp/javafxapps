@@ -60,7 +60,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             label.isWrapText = true
 
             val okButton = Button("OK")
-            okButton.setOnAction { arg0 -> modalDialog.close() }
+            okButton.setOnAction { _ -> modalDialog.close() }
             controls.children.add(okButton)
 
             // The UI (Client Area) to display
@@ -102,13 +102,13 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             label.padding = Insets(20.0, 10.0, 10.0, 20.0)
 
             val yesButton = Button(LocalizationProvider.getString("yes"))
-            yesButton.setOnAction { event ->
+            yesButton.setOnAction { _ ->
                 bool[0] = true
                 modalDialog.close()
             }
 
             val noButton = Button(LocalizationProvider.getString("no"))
-            noButton.setOnAction { event ->
+            noButton.setOnAction { _ ->
                 bool[0] = false
                 modalDialog.close()
             }
@@ -166,7 +166,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             label.padding = Insets(20.0, 10.0, 10.0, 20.0)
 
             val yesButton = Button(LocalizationProvider.getString("yes"))
-            yesButton.setOnAction { event ->
+            yesButton.setOnAction { _ ->
                 try {
                     //save settings
                     try {
@@ -197,7 +197,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             }
 
             val noButton = Button(LocalizationProvider.getString("restartLater"))
-            noButton.setOnAction { event ->
+            noButton.setOnAction { _ ->
                 bool[0] = false
                 modalDialog.close()
             }
@@ -228,7 +228,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             return bool[0]
         }
 
-        fun installUpdateDialog(msg: String, width: Int, height: Int): Stage {
+        fun installUpdateDialog(width: Int, height: Int): Stage {
             val modalDialog = Stage()
             modalDialog.icons.add(ImageLoader.getAppIconSmall())
             modalDialog.initModality(Modality.APPLICATION_MODAL)
@@ -255,17 +255,11 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
 
             val remember = CheckBox(LocalizationProvider.getString("hideThis"))
             remember.isDisable = true
-            remember.setOnAction { event1 -> println(remember.isSelected) }
+            remember.setOnAction { _ -> println(remember.isSelected) }
 
             val yesButton = Button(LocalizationProvider.getString("yes"))
-            yesButton.setOnAction { event ->
+            yesButton.setOnAction { _ ->
                 try {
-                    //remove tray icon before installing update
-                    //                if (ToolTrayIcon.icon != null ) {
-                    //                    if (ToolTrayIcon.icon.getSystemTray().getTrayIcons().length > 0) {
-                    //                        ToolTrayIcon.icon.removeTrayIcon();
-                    //                    }
-                    //                }
                     UpdateChecker.installUpdate()
                 } catch (e1: URISyntaxException) {
                     if (DebugHelper.DEBUG) {
@@ -283,12 +277,7 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             }
 
             val noButton = Button(LocalizationProvider.getString("no"))
-            noButton.setOnAction { event -> modalDialog.close() }
-
-            //        if (DebugHelper.isDebugVersion()) {
-            //            contentVbox.setStyle("-fx-background-color: gray");
-            //            optionHBox.setStyle("-fx-background-color: #444444;");
-            //        }
+            noButton.setOnAction { _ -> modalDialog.close() }
 
             optionHBox.children.addAll(yesButton, noButton)
 
@@ -301,17 +290,12 @@ class MessageDialog(type: Int, msg: String, width: Int, height: Int) {
             AnchorPane.setLeftAnchor(remember, 10.0)
             AnchorPane.setBottomAnchor(remember, 10.0)
 
-
-
             borderpane.center = contentVbox
             borderpane.bottom = options
 
             // The Window as a Scene
             val modalDialogScene = WindowScene(WindowStage("installUpdate", modalDialog), borderpane, 1)
-
-
             modalDialog.scene = modalDialogScene
-
             LogFileHandler.logger.info("open.installUpdateDialog")
 
             return modalDialog

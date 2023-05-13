@@ -1,6 +1,7 @@
 package net.rickiekarp.core.settings
 
 import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
@@ -34,7 +35,7 @@ class AppCommands {
         })
     }
 
-    fun help() {
+    private fun help() {
         val commands = CommandsScene()
         if (commands.commandsWindow!!.win.windowStage.stage.isShowing) {
             commands.commandsWindow!!.win.windowStage.stage.requestFocus()
@@ -43,15 +44,15 @@ class AppCommands {
         }
     }
 
-    fun exceptionTest() {
+    private fun exceptionTest() {
         ExceptionHandler.throwTestException()
     }
 
-    fun errorTest() {
+    private fun errorTest() {
         MessageDialog(0, "TEST", 450, 220)
     }
 
-    fun restart() {
+    private fun restart() {
         try {
             DebugHelper.restartApplication()
         } catch (e1: URISyntaxException) {
@@ -70,14 +71,14 @@ class AppCommands {
     }
 
     companion object {
-        var commandsList = FXCollections.observableArrayList<ConsoleCommands>()
+        var commandsList: ObservableList<ConsoleCommands> = FXCollections.observableArrayList()
 
         /**
          * Checks and executed the entered command.
          * @param command Entered command
          */
         fun execCommand(command: String) {
-            if (AppCommands.commandsList.isEmpty()) {
+            if (commandsList.isEmpty()) {
                 println("No commands found!")
                 return
             }
@@ -87,10 +88,7 @@ class AppCommands {
 
             for (i in commandsList.indices) {
                 if (finalCommand.startsWith(commandsList[i].commandName)) {
-                    val methodName = commandsList[i].commandName.substring(1, commandsList[i].commandName.length) // methodname to be invoked
-
                     if (finalCommand == commandsList[i].commandName || finalCommand == commandsList[i].commandName + " ") {
-                        val myMethod: Method
                         try {
                             commandsList[i].method()
                         } catch (e: InvocationTargetException) {

@@ -86,7 +86,7 @@ class CommandsScene {
         borderpane.center = grid
         borderpane.bottom = controls
 
-        okButton.setOnAction { arg0 -> commandsStage.close() }
+        okButton.setOnAction { _ -> commandsStage.close() }
 
 
         // The UI (Client Area) to display

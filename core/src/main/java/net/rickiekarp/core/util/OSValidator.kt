@@ -1,10 +1,12 @@
 package net.rickiekarp.core.util
 
+import java.util.*
+
 object OSValidator {
 
     val os: OperatingSystem?
         get() {
-            val os = System.getProperty("os.name").toLowerCase()
+            val os = System.getProperty("os.name").lowercase(Locale.getDefault())
             return if (isWindows(os)) {
                 OperatingSystem.WINDOWS
             } else if (isMac(os)) {

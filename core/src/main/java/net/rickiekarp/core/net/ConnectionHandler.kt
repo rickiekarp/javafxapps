@@ -5,6 +5,7 @@ import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.settings.Configuration
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 import java.io.IOException
@@ -51,7 +52,7 @@ internal class ConnectionHandler {
                 builder.get()
             }
             "POST" -> {
-                val requestBody = RequestBody.create(MEDIA_TYPE_MARKDOWN, encodeParametersToJson(action.parameterMap))
+                val requestBody = encodeParametersToJson(action.parameterMap).toRequestBody(MEDIA_TYPE_MARKDOWN)
                 builder.post(requestBody)
             }
         }
@@ -59,7 +60,7 @@ internal class ConnectionHandler {
         val composedUrl = URL(decodedUrl)
         builder.url(composedUrl)
 
-        addHeaders(action.parameterMap, builder)
+        addHeaders(builder)
 
         val request = builder.build()
         LogFileHandler.logger.info(request.method + ": " + decodedUrl)
@@ -80,7 +81,7 @@ internal class ConnectionHandler {
 
     }
 
-    private fun addHeaders(parameterMap: Map<String, Any>, builder: Request.Builder) {
+    private fun addHeaders(builder: Request.Builder) {
         builder.addHeader(HEADER_USER_AGENT, AppContext.context.contextIdentifier + "/" + AppContext.context.internalVersion)
 
         val accountManager = AppContext.context.accountManager

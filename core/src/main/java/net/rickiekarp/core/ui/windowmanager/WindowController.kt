@@ -31,7 +31,7 @@ class WindowController internal constructor(private val window: Window) {
         val stage = window.windowStage.stage
 
         if (maximized) {
-            restoreSavedBounds(stage!!)
+            restoreSavedBounds(stage)
             window.setShadow(true)
             savedBounds = null
             maximized = false
@@ -181,7 +181,7 @@ class WindowController internal constructor(private val window: Window) {
             val x = mouseEvent.x
             val y = mouseEvent.y
             val boundsInParent = node.boundsInParent
-            if (isRightEdge(x, y, boundsInParent)) {
+            if (isRightEdge(x, boundsInParent)) {
                 if (y < RESIZE_PADDING + SHADOW_WIDTH) {
                     setCursor(node, Cursor.NE_RESIZE)
                 } else if (y > boundsInParent.height - (RESIZE_PADDING + SHADOW_WIDTH).toDouble()) {
@@ -190,7 +190,7 @@ class WindowController internal constructor(private val window: Window) {
                     setCursor(node, Cursor.E_RESIZE)
                 }
 
-            } else if (isLeftEdge(x, y, boundsInParent)) {
+            } else if (isLeftEdge(x)) {
                 if (y < RESIZE_PADDING + SHADOW_WIDTH) {
                     setCursor(node, Cursor.NW_RESIZE)
                 } else if (y > boundsInParent.height - (RESIZE_PADDING + SHADOW_WIDTH).toDouble()) {
@@ -198,9 +198,9 @@ class WindowController internal constructor(private val window: Window) {
                 } else {
                     setCursor(node, Cursor.W_RESIZE)
                 }
-            } else if (isTopEdge(x, y, boundsInParent)) {
+            } else if (isTopEdge(y)) {
                 setCursor(node, Cursor.N_RESIZE)
-            } else if (isBottomEdge(x, y, boundsInParent)) {
+            } else if (isBottomEdge(y, boundsInParent)) {
                 setCursor(node, Cursor.S_RESIZE)
             } else {
                 setCursor(node, Cursor.DEFAULT)
@@ -316,7 +316,7 @@ class WindowController internal constructor(private val window: Window) {
             }
         }
 
-        node.setOnMouseExited { mouseEvent -> setCursor(node, Cursor.DEFAULT) }
+        node.setOnMouseExited { _ -> setCursor(node, Cursor.DEFAULT) }
     }
 
     /**
@@ -329,55 +329,58 @@ class WindowController internal constructor(private val window: Window) {
 
         val dockSide = getDockSide(mouseEvent)
         // Dock Left
-        if (dockSide == DOCK_LEFT) {
-            if (lastDocked == DOCK_LEFT) {
-                return
-            }
-            val screensForRectangle = Screen.getScreensForRectangle(stage.x, stage.y, stage.width, stage.height)
-            val screen = screensForRectangle[0]
-            val visualBounds = screen.visualBounds
-            // Dock Left
-            val x = visualBounds.minX
-            val y = visualBounds.minY
-            val width = visualBounds.width / 2
-            val height = visualBounds.height
+        when (dockSide) {
+            DOCK_LEFT -> {
+                if (lastDocked == DOCK_LEFT) {
+                    return
+                }
+                val screensForRectangle = Screen.getScreensForRectangle(stage.x, stage.y, stage.width, stage.height)
+                val screen = screensForRectangle[0]
+                val visualBounds = screen.visualBounds
+                // Dock Left
+                val x = visualBounds.minX
+                val y = visualBounds.minY
+                val width = visualBounds.width / 2
+                val height = visualBounds.height
 
-            window.setDockFeedbackVisible(x, y, width, height)
-            lastDocked = DOCK_LEFT
-        } // Dock Right
-        else if (dockSide == DOCK_RIGHT) {
-            if (lastDocked == DOCK_RIGHT) {
-                return
-            }
-            val screensForRectangle = Screen.getScreensForRectangle(stage.x, stage.y, stage.width, stage.height)
-            val screen = screensForRectangle[0]
-            val visualBounds = screen.visualBounds
-            // Dock Right (visualBounds = (javafx.geometry.Rectangle2D) Rectangle2D [minX = 1440.0, minY=300.0, maxX=3360.0, maxY=1500.0, width=1920.0, height=1200.0])
-            val x = visualBounds.minX + visualBounds.width / 2
-            val y = visualBounds.minY
-            val width = visualBounds.width / 2
-            val height = visualBounds.height
+                window.setDockFeedbackVisible(x, y, width, height)
+                lastDocked = DOCK_LEFT
+            } // Dock Right
+            DOCK_RIGHT -> {
+                if (lastDocked == DOCK_RIGHT) {
+                    return
+                }
+                val screensForRectangle = Screen.getScreensForRectangle(stage.x, stage.y, stage.width, stage.height)
+                val screen = screensForRectangle[0]
+                val visualBounds = screen.visualBounds
+                // Dock Right (visualBounds = (javafx.geometry.Rectangle2D) Rectangle2D [minX = 1440.0, minY=300.0, maxX=3360.0, maxY=1500.0, width=1920.0, height=1200.0])
+                val x = visualBounds.minX + visualBounds.width / 2
+                val y = visualBounds.minY
+                val width = visualBounds.width / 2
+                val height = visualBounds.height
 
-            window.setDockFeedbackVisible(x, y, width, height)
-            lastDocked = DOCK_RIGHT
-        } // Dock top
-        else if (dockSide == DOCK_TOP) {
-            if (lastDocked == DOCK_TOP) {
-                return
+                window.setDockFeedbackVisible(x, y, width, height)
+                lastDocked = DOCK_RIGHT
+            } // Dock top
+            DOCK_TOP -> {
+                if (lastDocked == DOCK_TOP) {
+                    return
+                }
+                val screensForRectangle = Screen.getScreensForRectangle(stage.x, stage.y, stage.width, stage.height)
+                val screen = screensForRectangle[0]
+                val visualBounds = screen.visualBounds
+                // Dock Left
+                val x = visualBounds.minX
+                val y = visualBounds.minY
+                val width = visualBounds.width
+                val height = visualBounds.height
+                window.setDockFeedbackVisible(x, y, width, height)
+                lastDocked = DOCK_TOP
             }
-            val screensForRectangle = Screen.getScreensForRectangle(stage.x, stage.y, stage.width, stage.height)
-            val screen = screensForRectangle[0]
-            val visualBounds = screen.visualBounds
-            // Dock Left
-            val x = visualBounds.minX
-            val y = visualBounds.minY
-            val width = visualBounds.width
-            val height = visualBounds.height
-            window.setDockFeedbackVisible(x, y, width, height)
-            lastDocked = DOCK_TOP
-        } else {
-            window.setDockFeedbackInvisible()
-            lastDocked = DOCK_NONE
+            else -> {
+                window.setDockFeedbackInvisible()
+                lastDocked = DOCK_NONE
+            }
         }
     }
 
@@ -466,19 +469,19 @@ class WindowController internal constructor(private val window: Window) {
         }
     }
 
-    private fun isRightEdge(x: Double, y: Double, boundsInParent: Bounds): Boolean {
+    private fun isRightEdge(x: Double, boundsInParent: Bounds): Boolean {
         return x < boundsInParent.width && x > boundsInParent.width - RESIZE_PADDING.toDouble() - SHADOW_WIDTH.toDouble()
     }
 
-    private fun isTopEdge(x: Double, y: Double, boundsInParent: Bounds): Boolean {
+    private fun isTopEdge(y: Double): Boolean {
         return y >= 0 && y < RESIZE_PADDING + SHADOW_WIDTH
     }
 
-    private fun isBottomEdge(x: Double, y: Double, boundsInParent: Bounds): Boolean {
+    private fun isBottomEdge(y: Double, boundsInParent: Bounds): Boolean {
         return y < boundsInParent.height && y > boundsInParent.height - RESIZE_PADDING.toDouble() - SHADOW_WIDTH.toDouble()
     }
 
-    private fun isLeftEdge(x: Double, y: Double, boundsInParent: Bounds): Boolean {
+    private fun isLeftEdge(x: Double): Boolean {
         return x >= 0 && x < RESIZE_PADDING + SHADOW_WIDTH
     }
 

@@ -30,7 +30,7 @@ class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<Set
 
             vbox.children.add(labelHeader)
 
-            labelHeader.graphic = createArrowPath(30, !item.isHidden)
+            labelHeader.graphic = createArrowPath(!item.isHidden)
 
             labelHeader.setOnMouseEntered {
                 labelHeader.style = "-fx-background-color: derive(-fx-base, 5%);"
@@ -43,12 +43,12 @@ class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<Set
             labelHeader.setOnMouseClicked {
                 item.isHidden = !item.isHidden
                 if (item.isHidden) {
-                    labelHeader.graphic = createArrowPath(30, false)
+                    labelHeader.graphic = createArrowPath(false)
                     for (i in 1 until vbox.children.size) {
                         vbox.children.removeAt(i)
                     }
                 } else {
-                    labelHeader.graphic = createArrowPath(30, true)
+                    labelHeader.graphic = createArrowPath(true)
                     vbox.children.add(getItem().content)
                 }
             }
@@ -62,9 +62,9 @@ class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<Set
         }
     }
 
-    private fun createArrowPath(height: Int, up: Boolean): SVGPath {
+    private fun createArrowPath(up: Boolean): SVGPath {
         val svg = SVGPath()
-        val width = height / 4
+        val width = 30 / 4
         if (up) {
             svg.content = "M" + width + " 0 L" + width * 2 + " " + width + " L0 " + width + " Z"
             svg.stroke = Paint.valueOf("white")

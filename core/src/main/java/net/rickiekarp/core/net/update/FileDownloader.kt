@@ -151,13 +151,11 @@ class FileDownloader : Observable, Runnable {
             stream = connection.inputStream
 
             while (status == DOWNLOADING) {
-                /* Size buffer according to how much of the
-       file is left to download. */
-                val buffer: ByteArray
-                if (size - downloaded > MAX_BUFFER_SIZE) {
-                    buffer = ByteArray(MAX_BUFFER_SIZE)
+                /* Size buffer according to how much of the file is left to download. */
+                val buffer: ByteArray = if (size - downloaded > MAX_BUFFER_SIZE) {
+                    ByteArray(MAX_BUFFER_SIZE)
                 } else {
-                    buffer = ByteArray(size - downloaded)
+                    ByteArray(size - downloaded)
                 }
 
                 // Read from server into buffer.

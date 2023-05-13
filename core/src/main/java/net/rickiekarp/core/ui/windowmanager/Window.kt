@@ -178,7 +178,7 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         /*
          * Focused stage
          */
-        stag.stage.focusedProperty().addListener { ov, t, t1 -> setShadowFocused(t1!!) }
+        stag.stage.focusedProperty().addListener { _, _, t1 -> setShadowFocused(t1!!) }
 
         val primaryScreenBounds = Screen.getPrimary().visualBounds
 
@@ -255,9 +255,9 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
                 val imageView = ImageView(ImageLoader.getMenu(this.javaClass.classLoader))
                 imageView.viewport = Rectangle2D(AnimationHandler.OFFSET_X.toDouble(), AnimationHandler.OFFSET_Y.toDouble(), AnimationHandler.WIDTH.toDouble(), TITLEBAR_HEIGHT.toDouble())
                 imageView.isPickOnBounds = true
-                imageView.setOnMouseEntered { event -> imageView.image = ImageLoader.getMenuHover(this.javaClass.classLoader) }
-                imageView.setOnMouseExited { event -> imageView.image = ImageLoader.getMenu(this.javaClass.classLoader) }
-                imageView.setOnMouseClicked { event -> toggleSideBar() }
+                imageView.setOnMouseEntered { _ -> imageView.image = ImageLoader.getMenuHover(this.javaClass.classLoader) }
+                imageView.setOnMouseExited { _ -> imageView.image = ImageLoader.getMenu(this.javaClass.classLoader) }
+                imageView.setOnMouseClicked { _ -> toggleSideBar() }
 
                 //creates menu button animation
                 AnimationHandler.createMenuBtnAnim(imageView, TITLEBAR_HEIGHT)
@@ -275,39 +275,34 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
 
         val appTitle = Label(title)
         appTitle.padding = Insets(5.0, 0.0, 0.0, 0.0)
-        stage.titleProperty().addListener { obs, oldTitle, newTitle -> appTitle.text = stage.title }
+        stage.titleProperty().addListener { _, _, _ -> appTitle.text = stage.title }
         leftBox.children.add(appTitle)
 
         //define minimize/maximize/close button
-        val btn_close = Button()
-        btn_close.tooltip = Tooltip(LocalizationProvider.getString("close"))
-        btn_close.styleClass.add("decoration-button-close")
-        btn_close.setOnAction { event -> switchClose() }
+        val btnClose = Button()
+        btnClose.tooltip = Tooltip(LocalizationProvider.getString("close"))
+        btnClose.styleClass.add("decoration-button-close")
+        btnClose.setOnAction { _ -> switchClose() }
 
-        val btn_minimize = Button()
-        btn_minimize.tooltip = Tooltip(LocalizationProvider.getString("minimize"))
-        btn_minimize.styleClass.add("decoration-button-minimize")
-        btn_minimize.setOnAction { event -> switchMinimize() }
+        val btnMinimize = Button()
+        btnMinimize.tooltip = Tooltip(LocalizationProvider.getString("minimize"))
+        btnMinimize.styleClass.add("decoration-button-minimize")
+        btnMinimize.setOnAction { _ -> switchMinimize() }
 
-        //        Button btn_dev = new Button("dev");
-        //        btn_dev.setOnAction(event -> {
-        //            new MessageDialog(1, "dev button click", 300, 200);
-        //        });
-
-        titlebar.children.addAll(btn_close, btn_minimize)
+        titlebar.children.addAll(btnClose, btnMinimize)
 
         //hide minimize/close button if stage is modal
         if (stage.modality == Modality.APPLICATION_MODAL) {
-            btn_close.isDisable = true
-            btn_minimize.isDisable = true
+            btnClose.isDisable = true
+            btnMinimize.isDisable = true
         }
 
         if (stage.isResizable) {
-            val btn_maximize = Button()
-            btn_maximize.tooltip = Tooltip(LocalizationProvider.getString("maximize"))
-            btn_maximize.styleClass.add("decoration-button-maximize")
+            val btnMaximize = Button()
+            btnMaximize.tooltip = Tooltip(LocalizationProvider.getString("maximize"))
+            btnMaximize.styleClass.add("decoration-button-maximize")
 
-            btn_maximize.setOnAction { event -> switchMaximize() }
+            btnMaximize.setOnAction { _ -> switchMaximize() }
 
             // Maximize on double click
             menuAnchor.setOnMouseClicked { mouseEvent ->
@@ -316,34 +311,33 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
                 }
             }
 
-            maximizeProperty().addListener { ov, t, t1 ->
-                val tooltip = btn_maximize.tooltip
+            maximizeProperty().addListener { _, _, _ ->
+                val tooltip = btnMaximize.tooltip
 
                 if (maximizeProperty().get()) {
-                    btn_maximize.styleClass.remove("decoration-button-maximize")
-                    btn_maximize.styleClass.add("decoration-button-restore")
+                    btnMaximize.styleClass.remove("decoration-button-maximize")
+                    btnMaximize.styleClass.add("decoration-button-restore")
 
                     if (tooltip.text == LocalizationProvider.getString("maximize")) {
                         tooltip.text = LocalizationProvider.getString("restore")
                     }
 
                 } else {
-                    btn_maximize.styleClass.remove("decoration-button-restore")
-                    btn_maximize.styleClass.add("decoration-button-maximize")
+                    btnMaximize.styleClass.remove("decoration-button-restore")
+                    btnMaximize.styleClass.add("decoration-button-maximize")
 
                     if (tooltip.text == LocalizationProvider.getString("restore")) {
                         tooltip.text = LocalizationProvider.getString("maximize")
                     }
                 }
             }
-            titlebar.children.add(1, btn_maximize)
+            titlebar.children.add(1, btnMaximize)
         }
 
         //DEBUG COLORS AND DEV BUTTON
         if (DebugHelper.DEBUG) {
             leftBox.style = "-fx-background-color: gray"
             titlebar.style = "-fx-background-color: red"
-            //            titlebarRightButtonBox.getChildren().add(btn_dev);
         }
         return menuAnchor
     }

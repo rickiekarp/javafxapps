@@ -21,65 +21,8 @@ class NetworkAction internal constructor(builder: Builder) {
     internal val hostUrl: String? = builder.mHostURL
     internal val actionUrl: String = builder.mDomain + "/" + builder.mAction
 
-    @Deprecated("")
-    @get:Deprecated("")
-    internal val file: String? = builder.mFile
-
     interface IParameterProvider {
         val parameters: Map<String, Any>
-    }
-
-    /**
-     * @return Use ConnectionHandler class instead
-     */
-    @Deprecated("")
-    fun requestStringFromResponse(): String {
-        var programURL: URL? = null
-        try {
-            programURL = URL(Configuration.host + "files/apps/" + AppContext.context.contextIdentifier + "/" + file)
-
-            val con = programURL.openConnection() as HttpURLConnection
-            con.doOutput = false
-            con.connectTimeout = 5000
-            con.readTimeout = 20000
-            con.setRequestProperty("User-Agent", AppContext.context.contextIdentifier + "-" + AppContext.context.internalVersion)
-            con.requestMethod = method!!
-
-            val `in` = BufferedInputStream(con.inputStream)
-            val responseCode = con.responseCode
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                LogFileHandler.logger.info("Server connection response: $responseCode (OK)")
-            } else {
-                LogFileHandler.logger.info("Server connection response: $responseCode")
-            }
-
-            val builder = StringBuilder()
-            while ((`in`.read()) != -1) {
-                val g = `in`.read().toChar()
-                builder.append(g)
-            }
-            val xmlSource = builder.toString()
-            con.disconnect()
-
-            return xmlSource
-        } catch (e: SocketTimeoutException) {
-            LogFileHandler.logger.warning("Connection timed out!")
-            if (DebugHelper.DEBUG) {
-                e.printStackTrace()
-            } else {
-                LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e))
-            }
-        } catch (e1: IOException) {
-            LogFileHandler.logger.warning("Can not connect to: " + programURL!!)
-            if (DebugHelper.DEBUG) {
-                e1.printStackTrace()
-            } else {
-                LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e1))
-            }
-            return "file_not_found"
-        }
-
-        return "no_connection"
     }
 
     /**
@@ -91,9 +34,6 @@ class NetworkAction internal constructor(builder: Builder) {
         var mAction: String? = null
         var mParameters: IParameterProvider? = null
         var mMethod: String? = null
-
-        @Deprecated("")
-        var mFile: String? = null
 
         fun setHost(host: String): Builder {
             mHostURL = host
@@ -120,12 +60,6 @@ class NetworkAction internal constructor(builder: Builder) {
             return this
         }
 
-        @Deprecated("")
-        fun setFile(file: String): Builder {
-            mFile = file
-            return this
-        }
-
         fun build(): NetworkAction {
             if (mHostURL == null) {
                 LogFileHandler.logger.warning("No host was found, trying default: " + LoadSave.host)
@@ -145,72 +79,5 @@ class NetworkAction internal constructor(builder: Builder) {
     companion object {
         internal const val LOGINSERVER = "LoginServer"
         const val DATASERVER = "HomeServer"
-
-        @Deprecated("")
-        var hostList: ObservableList<String>? = null
-
-        /**
-         * Checks one of the listed servers for a new program version
-         * If the connection to one server fails, another one is tried
-         * @return Response as a string
-         */
-        @Deprecated("Use ConnectionHandler class instead")
-        fun sendRequest(filename: String): String {
-            var programURL: URL? = null
-            var i = 0
-            while (i < hostList!!.size) {
-                try {
-                    programURL = URL(hostList!![i] + filename)
-
-                    val con = programURL.openConnection() as HttpURLConnection
-                    con.doOutput = false
-                    con.connectTimeout = 5000
-                    con.readTimeout = 20000
-                    con.setRequestProperty("User-Agent", AppContext.context.contextIdentifier + "-" + AppContext.context.internalVersion)
-                    con.requestMethod = "GET"
-
-                    val `in` = BufferedInputStream(con.inputStream)
-                    val responseCode = con.responseCode
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        LogFileHandler.logger.info("Server connection response: $responseCode (OK)")
-                    } else {
-                        LogFileHandler.logger.info("Server connection response: $responseCode")
-                    }
-
-                    val builder = StringBuilder()
-                    while ((`in`.read()) != -1) {
-                        val g = `in`.read().toChar()
-                        builder.append(g)
-                    }
-                    val xmlSource = builder.toString()
-                    con.disconnect()
-
-                    //set the host server to download the updates from
-                    //hostToUse = i;
-
-                    return xmlSource
-                } catch (e: SocketTimeoutException) {
-                    LogFileHandler.logger.warning("Connection timed out!")
-                    if (DebugHelper.DEBUG) {
-                        e.printStackTrace()
-                    } else {
-                        LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e))
-                    }
-                } catch (e1: IOException) {
-                    LogFileHandler.logger.warning("Can not connect to: " + programURL!!)
-                    if (DebugHelper.DEBUG) {
-                        e1.printStackTrace()
-                    } else {
-                        LogFileHandler.logger.warning(ExceptionHandler.getExceptionString(e1))
-                    }
-                    if (i++ == hostList!!.size) {
-                        return "file_not_found"
-                    }
-                }
-
-                i++
-            }
-            return "no_connection"
-        }
     }
 }

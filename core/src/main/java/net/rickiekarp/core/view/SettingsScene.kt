@@ -120,7 +120,7 @@ class SettingsScene {
 
             updateChannelBox.items.addAll("Stable", "Dev")
             updateChannelBox.selectionModel.select(Configuration.updateChannel)
-            updateChannelBox.valueProperty().addListener { ov, t, t1 -> Configuration.updateChannel = updateChannelBox.selectionModel.selectedIndex }
+            updateChannelBox.valueProperty().addListener { _, _, _ -> Configuration.updateChannel = updateChannelBox.selectionModel.selectedIndex }
 
             val chkAppUpdate = Label()
             chkAppUpdate.text = LocalizationProvider.getString("chkAppUpdate")
@@ -154,7 +154,7 @@ class SettingsScene {
                 appbox.children.add(btn_chkAppUpdate)
             }
 
-            btn_chkAppUpdate.setOnAction { event ->
+            btn_chkAppUpdate.setOnAction { _ ->
 
                 updateChannelBox.isDisable = true
                 appbox.children.remove(btn_chkAppUpdate)
@@ -181,7 +181,7 @@ class SettingsScene {
                 }.start()
             }
 
-            btn_downloadAppUpdate.setOnAction { event ->
+            btn_downloadAppUpdate.setOnAction { _ ->
                 appbox.children.remove(btn_downloadAppUpdate)
                 appbox.children.remove(updStatusApp)
                 appbox.children.add(updateBarApp)
@@ -222,8 +222,8 @@ class SettingsScene {
                 }.start()
             }
 
-            btn_installAppUpdate.setOnAction { event1 ->
-                val stage = MessageDialog.installUpdateDialog("update", 500, 220)
+            btn_installAppUpdate.setOnAction { _ ->
+                val stage = MessageDialog.installUpdateDialog(500, 220)
                 stage.showAndWait()
             }
 
@@ -334,7 +334,7 @@ class SettingsScene {
             tab3ContentGrid[0].children.add(advTopAnchor)
 
             otherTable = TableView()
-            otherTable!!.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
+            otherTable!!.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             otherTable!!.isEditable = true
             GridPane.setConstraints(otherTable, 0, 1)
             GridPane.setHgrow(otherTable, Priority.ALWAYS)
@@ -419,11 +419,7 @@ class SettingsScene {
                 if (trayIconCBox.isSelected != Configuration.showTrayIcon) {
                     LogFileHandler.logger.config("change_systray: " + Configuration.showTrayIcon + " -> " + trayIconCBox.isSelected)
                     if (trayIconCBox.isSelected) {
-                        if (ToolTrayIcon.icon == null) {
-                            ToolTrayIcon.icon = ToolTrayIcon()
-                        } else {
-                            ToolTrayIcon.icon.addAppToTray()
-                        }
+                        ToolTrayIcon.icon.addAppToTray()
                     } else {
                         ToolTrayIcon.icon.removeTrayIcon()
                     }
@@ -456,7 +452,7 @@ class SettingsScene {
                 AnimationHandler.statusFade(status, "success", LocalizationProvider.getString("cfgSaved"))
             }
 
-            tabPane!!.selectionModel.selectedItemProperty().addListener { arg0, arg1, arg2 ->
+            tabPane!!.selectionModel.selectedItemProperty().addListener { _, _, arg2 ->
 
                 if (Configuration.animations) {
                     if (arg2 === tabs[0]) {
@@ -485,7 +481,7 @@ class SettingsScene {
                 }
             }
 
-            advCBox.setOnAction { event ->
+            advCBox.setOnAction { _ ->
                 if (advCBox.isSelected) {
                     tabPane!!.tabs.add(tabs[2])
                 } else {
@@ -493,7 +489,7 @@ class SettingsScene {
                 }
             }
 
-            reset.setOnAction { event ->
+            reset.setOnAction { _ ->
                 if (MessageDialog.confirmDialog("reset_desc", 535, 230)) {
                     Configuration.config.setDefaults()
                 }
@@ -503,7 +499,7 @@ class SettingsScene {
         }
 
     init {
-        val about = SettingsScene.settingsScene
+        val about = settingsScene
         if (about == null) {
             settingsScene = this
             create()
@@ -550,7 +546,7 @@ class SettingsScene {
         if (DebugHelper.isDebugVersion) {
             controls!!.style = "-fx-background-color: #444444;"
             for (i in tabName.indices) {
-                tabVBox[i]!!.setStyle("-fx-background-color: blue;")
+                tabVBox[i]!!.style = "-fx-background-color: blue;"
             }
 
             //tab 1
@@ -579,7 +575,7 @@ class SettingsScene {
         } else {
             controls!!.style = "-fx-background-color: #1d1d1d;"
             for (i in tabName.indices) {
-                tabVBox[i]!!.setStyle(null)
+                tabVBox[i]!!.style = null
             }
 
             //tab 1

@@ -38,7 +38,7 @@ object Base64Coder {
 
     init {
         for (i in map2.indices) map2[i] = -1
-        for (i in 0..63) map2[map1[i].toInt()] = i.toByte()
+        for (i in 0..63) map2[map1[i].code] = i.toByte()
     }
 
     /**
@@ -128,10 +128,10 @@ object Base64Coder {
         var ip = 0
         var op = 0
         while (ip < iLen) {
-            val i0 = `in`[ip++].toInt()
-            val i1 = `in`[ip++].toInt()
-            val i2 = (if (ip < iLen) `in`[ip++] else 'A').toInt()
-            val i3 = (if (ip < iLen) `in`[ip++] else 'A').toInt()
+            val i0 = `in`[ip++].code
+            val i1 = `in`[ip++].code
+            val i2 = (if (ip < iLen) `in`[ip++] else 'A').code
+            val i3 = (if (ip < iLen) `in`[ip++] else 'A').code
             require(!(i0 > 127 || i1 > 127 || i2 > 127 || i3 > 127)) { "Illegal character in Base64 encoded data." }
             val b0 = map2[i0].toInt()
             val b1 = map2[i1].toInt()

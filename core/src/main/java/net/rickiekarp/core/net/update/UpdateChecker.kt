@@ -25,9 +25,7 @@ class UpdateChecker {
      * Checks the listed server for a new java version
      * @return Returns remote version string
      */
-    private// there was some connection problem, or the file did not exist on the server,
-    // or your URL was not in the right format.
-    val remoteJavaVersion: String
+    private val remoteJavaVersion: String
         @Deprecated("Feature was removed because the JreCurrentVersion2.txt was removed")
         get() {
 
@@ -149,8 +147,7 @@ class UpdateChecker {
                     }
                 } else if (remoteversion < localversion) {
                     return 0
-                }//if remote version is lower than local
-                //if remote revision equals local
+                }
 
                 //return an error if no check returned a status
                 return 3

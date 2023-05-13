@@ -64,8 +64,8 @@ class LoginMaskLayout {
         grid.add(autoLogin, 0, 4)
 
         loginButton = Button("Login")
-        loginButton.setOnAction { arg0 ->
-            if (!getUsername().isEmpty() && !getPassword().isEmpty()) {
+        loginButton.setOnAction { _ ->
+            if (getUsername().isNotEmpty() && getPassword().isNotEmpty()) {
                 Thread(loginTask).start()
             } else {
                 MessageDialog(0, "Enter all account details!", 400, 200)
@@ -73,7 +73,7 @@ class LoginMaskLayout {
         }
 
         registerButton = Button("Register")
-        registerButton.setOnAction { arg0 -> MainScene.mainScene.sceneViewStack.push(RegistrationLayout().maskNode) }
+        registerButton.setOnAction { _ -> MainScene.mainScene.sceneViewStack.push(RegistrationLayout().maskNode) }
 
         main.children.add(grid)
         main.children.add(loginButton)
@@ -153,11 +153,11 @@ class LoginMaskLayout {
         }
     }
 
-    private fun doLogout(ILoginHandler: ILoginHandler) {
+    private fun doLogout(iLoginHandler: ILoginHandler) {
         AppContext.context.accountManager.account = null
 
         this.loginTask = this.doLogin()
-        ILoginHandler.setAppContextLoginBehaviour(this)
+        iLoginHandler.setAppContextLoginBehaviour(this)
 
         //show login layout
         MainScene.mainScene.borderPane.top = null
@@ -169,10 +169,10 @@ class LoginMaskLayout {
 
     fun addAccountMenu(loginHandler: ILoginHandler) {
         val menuItem1 = MenuItem("Account")
-        menuItem1.setOnAction { event -> AccountScene() }
+        menuItem1.setOnAction { _ -> AccountScene() }
 
         val menuItem2 = MenuItem("Logout")
-        menuItem2.setOnAction { event ->
+        menuItem2.setOnAction { _ ->
             doLogout(loginHandler)
             loginHandler.setOnLogout()
             MainScene.mainScene.windowScene!!.win.contentController!!.removeSidebarItemByIdentifier("pluginmanager")

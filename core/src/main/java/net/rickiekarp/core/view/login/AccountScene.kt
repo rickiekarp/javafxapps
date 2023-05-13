@@ -58,7 +58,7 @@ class AccountScene {
         listview.style = "-fx-font-size: 11pt;"
 
         val okButton = Button("OK")
-        okButton.setOnAction { arg0 -> modalDialogScene.win.controller!!.close() }
+        okButton.setOnAction { _ -> modalDialogScene.win.controller!!.close() }
         controls.children.add(okButton)
 
         // The UI (Client Area) to display

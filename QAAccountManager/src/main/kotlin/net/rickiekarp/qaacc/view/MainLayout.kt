@@ -240,7 +240,7 @@ class MainLayout : AppLayout {
         }
 
 
-        acronymTextField!!.setOnKeyReleased { ke ->
+        acronymTextField!!.setOnKeyReleased { _ ->
             if (acronymTextField!!.text == "") {
                 nameTextField!!.text = ""
                 mailTextField!!.text = ""

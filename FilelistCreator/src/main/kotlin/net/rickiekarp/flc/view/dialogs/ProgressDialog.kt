@@ -26,15 +26,15 @@ import net.rickiekarp.flc.tasks.ListTask
  */
 class ProgressDialog : Stage() {
     init {
-        createProgressDialog(400, 250)
+        createProgressDialog()
     }
 
-    private fun createProgressDialog(width: Int, height: Int) {
+    private fun createProgressDialog() {
         this.icons.add(ImageLoader.getAppIconSmall())
         this.initModality(Modality.APPLICATION_MODAL)
         this.isResizable = false
-        this.width = width.toDouble()
-        this.height = height.toDouble()
+        this.width = 400.0
+        this.height = 250.0
         this.title = LocalizationProvider.getString("inprogress")
 
         // The UI (Client Area) to display

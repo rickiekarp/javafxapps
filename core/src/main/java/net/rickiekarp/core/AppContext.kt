@@ -21,11 +21,11 @@ class AppContext protected constructor(val contextIdentifier: String, val networ
     val versionNumber: String?
         get() {
             val manifest: Manifest
-            try {
+            return try {
                 manifest = JarFile(Configuration.config.jarFile.path).manifest
-                return FileUtil.readManifestProperty(manifest, "Version")
+                FileUtil.readManifestProperty(manifest, "Version")
             } catch (e: IOException) {
-                return internalVersion
+                internalVersion
             }
 
         }

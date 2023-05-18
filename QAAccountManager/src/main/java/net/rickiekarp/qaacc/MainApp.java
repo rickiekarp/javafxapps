@@ -3,6 +3,7 @@ package net.rickiekarp.qaacc;
 import javafx.stage.Stage;
 import net.rickiekarp.core.AppStarter;
 import net.rickiekarp.core.controller.IAppLauncher;
+import net.rickiekarp.qaacc.factory.ProjectXmlFactory;
 import net.rickiekarp.qaacc.settings.AppConfiguration;
 import net.rickiekarp.qaacc.view.MainLayout;
 

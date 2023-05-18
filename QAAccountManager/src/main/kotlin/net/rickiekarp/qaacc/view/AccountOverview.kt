@@ -28,7 +28,7 @@ class AccountOverview(projectID: Int) {
         private set
 
     init {
-        val accOverview = AccountOverview.overview
+        val accOverview = overview
         if (accOverview == null) {
             overview = this
             create(projectID)
@@ -90,7 +90,7 @@ class AccountOverview(projectID: Int) {
         controls.alignment = Pos.CENTER_RIGHT
 
         tableview = TableView()
-        tableview.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
+        tableview.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
         tableview.placeholder = Label(LocalizationProvider.getString("no_account_found"))
 
 
@@ -195,21 +195,24 @@ class AccountOverview(projectID: Int) {
             }
         }
 
-
         //load all accounts for selected project
         AppConfiguration.accountData.clear()
         AccountXmlFactory.loadAccData(projectID)
 
-        if (AppConfiguration.accountData.size == 0) {
-            editAcc.isDisable = true
-            delAcc.isDisable = true
-            accCount.text = "0 " + LocalizationProvider.getString("accs_loaded")
-        } else if (AppConfiguration.accountData.size == 1) {
-            accCount.text = "1 " + LocalizationProvider.getString("acc_loaded")
-            tableview.selectionModel.select(0)
-        } else {
-            accCount.text = AppConfiguration.accountData.size.toString() + " " + LocalizationProvider.getString("accs_loaded")
-            tableview.selectionModel.select(0)
+        when (AppConfiguration.accountData.size) {
+            0 -> {
+                editAcc.isDisable = true
+                delAcc.isDisable = true
+                accCount.text = "0 " + LocalizationProvider.getString("accs_loaded")
+            }
+            1 -> {
+                accCount.text = "1 " + LocalizationProvider.getString("acc_loaded")
+                tableview.selectionModel.select(0)
+            }
+            else -> {
+                accCount.text = AppConfiguration.accountData.size.toString() + " " + LocalizationProvider.getString("accs_loaded")
+                tableview.selectionModel.select(0)
+            }
         }
 
         //add to AnchorPane Layout

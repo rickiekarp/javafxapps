@@ -30,7 +30,7 @@ class BugReportSettings(projectID: Int) {
 
 
     init {
-        val bugRep = BugReportSettings.bugReport
+        val bugRep = bugReport
         if (bugRep == null) {
             bugReport = this
             create(projectID)

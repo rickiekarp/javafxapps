@@ -22,7 +22,7 @@ public class MainApp extends AppStarter implements IAppLauncher {
         setMainClazz(MainApp.class);
         setConfigClazz(AppConfiguration.class);
 
-        setWinType((byte) 1);
+        setWinType((byte) 0);
         setMinWidth(500);
         setMinHeight(300);
         setWidth(750);

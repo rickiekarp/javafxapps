@@ -167,33 +167,36 @@ class MainLayout : AppLayout {
         mainContent.center = vbox
         mainContent.bottom = controls
 
-        copyNameBtn.setOnAction { event ->
+        copyNameBtn.setOnAction { _ ->
             AppConfiguration.setStringToClipboard(nameTextField!!.text)
             status.text = LocalizationProvider.getString("name_copied")
             LogFileHandler.logger.log(Level.INFO, "copy2clipboard.name")
         }
 
-        copyMailBtn.setOnAction { event ->
+        copyMailBtn.setOnAction { _ ->
             AppConfiguration.setStringToClipboard(mailTextField!!.text)
             status.text = LocalizationProvider.getString("mail_copied")
             LogFileHandler.logger.log(Level.INFO, "copy2clipboard.mail")
         }
 
-        copyPassBtn.setOnAction { event ->
+        copyPassBtn.setOnAction { _ ->
             AppConfiguration.setStringToClipboard(passTextField!!.text)
             status.text = LocalizationProvider.getString("password_copied")
             LogFileHandler.logger.log(Level.INFO, "copy2clipboard.pass")
         }
 
-
-        findAccount!!.setOnAction { event ->
+        findAccount!!.setOnAction { _ ->
             when (AppConfiguration.pjState) {
                 -1 -> MessageDialog(0, LocalizationProvider.getString("project_not_selected"), 350, 200)
-                else -> AccountOverview(gameComboBox!!.selectionModel.selectedIndex)
+                else -> {
+                    if (!gameComboBox!!.selectionModel.isEmpty) {
+                        AccountOverview(gameComboBox!!.selectionModel.selectedIndex)
+                    }
+                }
             }
         }
 
-        saveAccount!!.setOnAction { event ->
+        saveAccount!!.setOnAction { _ ->
             when (AppConfiguration.pjState) {
                 -1 -> MessageDialog(0, LocalizationProvider.getString("project_not_selected"), 350, 200)
                 else -> {
@@ -227,7 +230,6 @@ class MainLayout : AppLayout {
                                 ExceptionHandler(e1)
                             }
                         }
-
                     }
 
                     AppConfiguration.accountData.add(Account(nameTextField!!.text, mailTextField!!.text, "1", ""))
@@ -253,37 +255,44 @@ class MainLayout : AppLayout {
         }
 
         if (AppConfiguration.projectData.size > 0) {
-            gameComboBox!!.valueProperty().addListener { ov, t, t1 ->
+            gameComboBox!!.valueProperty().addListener { _, _, _ ->
                 try {
-                    if (gameComboBox!!.value == LocalizationProvider.getString("projSel")) {
-                        AppConfiguration.pjState = -1
-                        gameComboBox!!.tooltip = Tooltip(LocalizationProvider.getString("project_not_selected"))
-                        logo!!.image = ImageLoader.getAppIconSmall()
-                    } else if (gameComboBox!!.value == AppConfiguration.projectData[0].getProjectName()) {
-                        AppConfiguration.pjState = 0
-                        gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[0].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
-                        logo!!.image = ImageLoader.getAppIconSmall()
-                    } else if (gameComboBox!!.value == AppConfiguration.projectData[1].getProjectName()) {
-                        AppConfiguration.pjState = 1
-                        gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[1].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
-                        logo!!.image = ImageLoader.getAppIconSmall()
-                    } else if (gameComboBox!!.value == AppConfiguration.projectData[2].getProjectName()) {
-                        AppConfiguration.pjState = 2
-                        gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[2].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
-                        logo!!.image = ImageLoader.getAppIconSmall()
-                    } else if (gameComboBox!!.value == AppConfiguration.projectData[3].getProjectName()) {
-                        AppConfiguration.pjState = 3
-                        gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[3].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
-                        logo!!.image = ImageLoader.getAppIconSmall()
-                    } else {
-                        AppConfiguration.pjState = gameComboBox!!.selectionModel.selectedIndex
-                        gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[AppConfiguration.pjState].getProjectName())
-                        status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
-                        logo!!.image = ImageLoader.getAppIconSmall()
+                    when (gameComboBox!!.value) {
+                        LocalizationProvider.getString("projSel") -> {
+                            AppConfiguration.pjState = -1
+                            gameComboBox!!.tooltip = Tooltip(LocalizationProvider.getString("project_not_selected"))
+                            logo!!.image = ImageLoader.getAppIconSmall()
+                        }
+                        AppConfiguration.projectData[0].getProjectName() -> {
+                            AppConfiguration.pjState = 0
+                            gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[0].getProjectName())
+                            status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
+                            logo!!.image = ImageLoader.getAppIconSmall()
+                        }
+                        AppConfiguration.projectData[1].getProjectName() -> {
+                            AppConfiguration.pjState = 1
+                            gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[1].getProjectName())
+                            status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
+                            logo!!.image = ImageLoader.getAppIconSmall()
+                        }
+                        AppConfiguration.projectData[2].getProjectName() -> {
+                            AppConfiguration.pjState = 2
+                            gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[2].getProjectName())
+                            status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
+                            logo!!.image = ImageLoader.getAppIconSmall()
+                        }
+                        AppConfiguration.projectData[3].getProjectName() -> {
+                            AppConfiguration.pjState = 3
+                            gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[3].getProjectName())
+                            status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
+                            logo!!.image = ImageLoader.getAppIconSmall()
+                        }
+                        else -> {
+                            AppConfiguration.pjState = gameComboBox!!.selectionModel.selectedIndex
+                            gameComboBox!!.tooltip = Tooltip(AppConfiguration.projectData[AppConfiguration.pjState].getProjectName())
+                            status.text = gameComboBox!!.value + " " + LocalizationProvider.getString("selected")
+                            logo!!.image = ImageLoader.getAppIconSmall()
+                        }
                     }
                 } catch (e1: Exception) {
                     if (DebugHelper.DEBUG) {
@@ -296,7 +305,7 @@ class MainLayout : AppLayout {
         }
 
         acronymTextField!!.requestFocus()
-        //        if (!AppConfiguration.acronym.isEmpty()) { acronymTextField.setText(AppConfiguration.acronym); createName(); } //set acronym setting
+        //if (!AppConfiguration.acronym.isEmpty()) { acronymTextField.setText(AppConfiguration.acronym); createName(); } //set acronym setting
 
         debugMain()
 

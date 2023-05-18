@@ -1,12 +1,11 @@
 package net.rickiekarp.flc.controller
 
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.flc.settings.AppConfiguration
 import net.rickiekarp.flc.view.layout.MainLayout
-
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException

@@ -8,10 +8,10 @@ import javafx.scene.control.*
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import net.rickiekarp.core.components.textfield.CustomTextField
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.core.view.MessageDialog

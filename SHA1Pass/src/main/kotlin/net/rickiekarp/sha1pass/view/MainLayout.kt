@@ -14,8 +14,8 @@ import javafx.scene.shape.Rectangle
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.components.textfield.CustomTextFieldSkin
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.util.ClipboardUtil
 import net.rickiekarp.core.util.crypt.*
 import net.rickiekarp.core.view.AboutScene

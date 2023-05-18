@@ -2,8 +2,8 @@ package net.rickiekarp.botter.botservice
 
 import net.rickiekarp.botter.settings.AppConfiguration
 import net.rickiekarp.botter.view.MainLayout
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.model.ConsoleCommands
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.AppCommands
 
 /**

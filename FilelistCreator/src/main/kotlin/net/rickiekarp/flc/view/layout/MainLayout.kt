@@ -14,10 +14,10 @@ import javafx.scene.layout.*
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import net.rickiekarp.core.components.FoldableListCell
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.model.SettingEntry
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.ui.anim.AnimationHandler
 import net.rickiekarp.core.view.AboutScene

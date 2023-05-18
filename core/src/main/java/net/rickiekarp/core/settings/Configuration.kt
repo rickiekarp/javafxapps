@@ -3,8 +3,8 @@ package net.rickiekarp.core.settings
 import javafx.geometry.Side
 import javafx.scene.paint.Color
 import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ThemeSelector
 import net.rickiekarp.core.ui.windowmanager.Window
 import net.rickiekarp.core.util.CommonUtil

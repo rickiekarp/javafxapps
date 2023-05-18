@@ -13,13 +13,13 @@ import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.stage.Stage
 import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.model.SettingsList
 import net.rickiekarp.core.net.update.FileDownloader
 import net.rickiekarp.core.net.update.UpdateChecker
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.settings.LoadSave
 import net.rickiekarp.core.ui.anim.AnimationHandler

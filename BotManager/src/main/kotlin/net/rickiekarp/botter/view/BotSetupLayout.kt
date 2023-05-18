@@ -11,9 +11,9 @@ import javafx.stage.DirectoryChooser
 import net.rickiekarp.botlib.BotConfig
 import net.rickiekarp.botlib.PluginConfig
 import net.rickiekarp.botlib.enums.BotType
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.parser.JsonParser
 import net.rickiekarp.core.view.MainScene

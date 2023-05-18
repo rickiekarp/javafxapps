@@ -21,10 +21,10 @@ import net.rickiekarp.botlib.plugin.PluginExecutor
 import net.rickiekarp.botter.botservice.BotTask
 import net.rickiekarp.botter.listcell.FoldableListCell
 import net.rickiekarp.botter.settings.AppConfiguration
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.parser.JsonParser
 import net.rickiekarp.core.view.MainScene

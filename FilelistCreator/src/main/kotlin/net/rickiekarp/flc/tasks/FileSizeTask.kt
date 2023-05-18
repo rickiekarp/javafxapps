@@ -2,9 +2,9 @@ package net.rickiekarp.flc.tasks
 
 import javafx.application.Platform
 import javafx.concurrent.Task
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.view.MessageDialog
 import net.rickiekarp.flc.model.Filelist
 import net.rickiekarp.flc.settings.AppConfiguration

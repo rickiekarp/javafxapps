@@ -1,9 +1,9 @@
 package net.rickiekarp.qaacc.factory
 
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.qaacc.model.Account
 import net.rickiekarp.qaacc.settings.AppConfiguration

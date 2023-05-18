@@ -8,11 +8,11 @@ import javafx.scene.control.Label
 import javafx.scene.layout.*
 import javafx.stage.Modality
 import javafx.stage.Stage
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.net.update.UpdateChecker
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene

@@ -9,9 +9,9 @@ import javafx.scene.layout.ColumnConstraints
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage

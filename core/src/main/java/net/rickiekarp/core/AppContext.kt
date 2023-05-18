@@ -1,12 +1,11 @@
 package net.rickiekarp.core
 
 import net.rickiekarp.core.account.AccountManager
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.net.NetworkApi
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.FileUtil
-
 import java.io.IOException
 import java.util.jar.JarFile
 import java.util.jar.Manifest

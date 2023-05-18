@@ -5,9 +5,9 @@ import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.scene.input.KeyEvent
 import javafx.stage.Stage
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.settings.LoadSave
 import net.rickiekarp.core.ui.tray.ToolTrayIcon

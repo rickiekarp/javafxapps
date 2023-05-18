@@ -14,12 +14,12 @@ import net.rickiekarp.botlib.enums.BotPlatforms
 import net.rickiekarp.botlib.model.PluginData
 import net.rickiekarp.botlib.net.BotNetworkApi
 import net.rickiekarp.core.AppContext
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.ExceptionHandler
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.net.NetResponse
 import net.rickiekarp.core.net.update.FileDownloader
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene

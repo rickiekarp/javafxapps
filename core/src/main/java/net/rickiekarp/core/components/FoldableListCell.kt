@@ -6,9 +6,9 @@ import javafx.scene.control.ListView
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Paint
 import javafx.scene.shape.SVGPath
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.model.SettingEntry
+import net.rickiekarp.core.provider.LocalizationProvider
 
 class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<SettingEntry>() {
 

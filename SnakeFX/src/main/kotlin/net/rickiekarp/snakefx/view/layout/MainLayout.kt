@@ -14,10 +14,10 @@ import javafx.stage.Modality
 import javafx.stage.Stage
 import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.components.FoldableListCell
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.model.SettingEntry
 import net.rickiekarp.core.net.NetResponse
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage

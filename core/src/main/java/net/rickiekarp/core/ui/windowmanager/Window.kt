@@ -26,9 +26,9 @@ import javafx.stage.Screen
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import net.rickiekarp.core.components.button.SidebarButton
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.AppCommands
 import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.settings.LoadSave

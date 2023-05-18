@@ -1,7 +1,7 @@
 package net.rickiekarp.flc.controller
 
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.model.ConsoleCommands
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.AppCommands
 import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.flc.view.layout.MainLayout

@@ -1,7 +1,7 @@
 package net.rickiekarp.qaacc.settings
 
-import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.model.ConsoleCommands
+import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.settings.AppCommands
 
 /**

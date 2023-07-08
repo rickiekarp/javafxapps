@@ -85,13 +85,13 @@ class MainLayout : AppLayout {
             sentenceMaskTF.tooltip = Tooltip(LocalizationProvider.getString("type_sentence_tip"))
             sentenceMaskTF.skin = CustomTextFieldSkin(sentenceMaskTF)
             GridPane.setConstraints(sentenceMaskTF, 1, 0)
-            GridPane.setColumnSpan(sentenceMaskTF, 3)
+            GridPane.setColumnSpan(sentenceMaskTF, 4)
             mainGrid.children.add(sentenceMaskTF)
 
             sentenceTF = CustomTextField()
             sentenceTF.tooltip = Tooltip(LocalizationProvider.getString("type_sentence_tip"))
             GridPane.setConstraints(sentenceTF, 1, 0)
-            GridPane.setColumnSpan(sentenceTF, 3)
+            GridPane.setColumnSpan(sentenceTF, 4)
             sentenceTF.isManaged = false
             sentenceTF.isVisible = false
             mainGrid.children.add(sentenceTF)
@@ -108,14 +108,14 @@ class MainLayout : AppLayout {
             val viewMode = CheckBox(LocalizationProvider.getString("vs"))
             viewMode.style = "-fx-font-size: 9pt;"
             viewMode.tooltip = Tooltip(LocalizationProvider.getString("vs_tip"))
-            GridPane.setConstraints(viewMode, 4, 0)
+            GridPane.setConstraints(viewMode, 5, 0)
             GridPane.setHalignment(viewMode, HPos.CENTER)
             mainGrid.children.add(viewMode)
 
             val secureMode = CheckBox(LocalizationProvider.getString("sm"))
             secureMode.style = "-fx-font-size: 8pt;"
             secureMode.tooltip = Tooltip(LocalizationProvider.getString("sm_tip"))
-            GridPane.setConstraints(secureMode, 5, 0)
+            GridPane.setConstraints(secureMode, 4, 1)
             mainGrid.children.add(secureMode)
 
             val hmacMode = CheckBox(LocalizationProvider.getString("hm"))

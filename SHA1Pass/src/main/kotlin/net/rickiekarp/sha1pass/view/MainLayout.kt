@@ -18,20 +18,21 @@ import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.util.ClipboardUtil
 import net.rickiekarp.core.util.crypt.*
+import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.AboutScene
 import net.rickiekarp.core.view.layout.AppLayout
 import net.rickiekarp.sha1pass.settings.AppConfiguration
+import java.util.*
 
 class MainLayout : AppLayout {
     private var isSecure = false
     private var hmac = false
     private var complex = true
+    private var isSpecialCharacterMode = true
 
-    private lateinit var wordBox: HBox
     private lateinit var color: Rectangle
     private lateinit var sentenceMaskTF: CustomTextField
     private lateinit var sentenceTF: CustomTextField
-    private lateinit var wordTF: CustomTextField
     private lateinit var peekTF: TextField
 
     private var colorPos = -1
@@ -42,11 +43,6 @@ class MainLayout : AppLayout {
 
             val mainGrid = GridPane()
             mainGrid.padding = Insets(5.0, 3.0, 0.0, 3.0)
-
-            wordBox = HBox()
-            wordBox.padding = Insets(0.0, 0.0, 0.0, 10.0)
-            wordBox.spacing = 5.0
-            wordBox.alignment = Pos.CENTER_LEFT
 
             val encryptBtns = HBox()
             encryptBtns.padding = Insets(0.0, 0.0, 0.0, 0.0)
@@ -61,17 +57,17 @@ class MainLayout : AppLayout {
             status.style = "-fx-font-size: 9pt;"
             controls.children.add(status)
             val column1 = ColumnConstraints()
-            column1.percentWidth = 16.0
+            column1.percentWidth = 12.0
             val column2 = ColumnConstraints()
-            column2.percentWidth = 14.0
+            column2.percentWidth = 15.0
             val column3 = ColumnConstraints()
-            column3.percentWidth = 16.0
+            column3.percentWidth = 19.0
             val column4 = ColumnConstraints()
             column4.percentWidth = 17.0
             val column5 = ColumnConstraints()
-            column5.percentWidth = 20.0
+            column5.percentWidth = 16.0
             val column6 = ColumnConstraints()
-            column6.percentWidth = 14.0
+            column6.percentWidth = 16.0
             val column7 = ColumnConstraints()
             column7.percentWidth = 11.0
             mainGrid.columnConstraints.addAll(column1, column2, column3, column4, column5, column6, column7)
@@ -81,9 +77,9 @@ class MainLayout : AppLayout {
             val sentenceLabel = Label(LocalizationProvider.getString("u_sentence"))
             sentenceLabel.style = "-fx-font-size: 9pt;"
             GridPane.setConstraints(sentenceLabel, 0, 0)
+            GridPane.setHalignment(sentenceLabel, HPos.CENTER)
             mainGrid.children.add(sentenceLabel)
             sentenceLabel.tooltip = Tooltip(LocalizationProvider.getString("type_sentence_tip"))
-
 
             sentenceMaskTF = CustomTextField()
             sentenceMaskTF.tooltip = Tooltip(LocalizationProvider.getString("type_sentence_tip"))
@@ -100,24 +96,6 @@ class MainLayout : AppLayout {
             sentenceTF.isVisible = false
             mainGrid.children.add(sentenceTF)
 
-            val wordLabel = Label(LocalizationProvider.getString("u_word"))
-            wordLabel.style = "-fx-font-size: 9pt;"
-            wordLabel.tooltip = Tooltip(LocalizationProvider.getString("type_word_tip"))
-            wordLabel.prefWidth = 35.0
-            wordBox.children.add(wordLabel)
-
-            val wordMaskTF = CustomTextField()
-            wordMaskTF.tooltip = Tooltip(LocalizationProvider.getString("type_word_tip"))
-            wordMaskTF.prefWidth = 85.0
-            wordMaskTF.skin = CustomTextFieldSkin(wordMaskTF)
-            wordBox.children.add(wordMaskTF)
-
-            wordTF = CustomTextField()
-            wordTF.tooltip = Tooltip(LocalizationProvider.getString("type_word_tip"))
-            wordTF.prefWidth = 85.0
-            wordTF.isManaged = false
-            wordTF.isVisible = false
-
             val helpBtn = Button(LocalizationProvider.getString("help_label"))
             helpBtn.style = "-fx-font-size: 9pt;"
             helpBtn.tooltip = Tooltip(
@@ -126,31 +104,40 @@ class MainLayout : AppLayout {
             GridPane.setConstraints(helpBtn, 6, 0)
             GridPane.setHalignment(helpBtn, HPos.CENTER)
             mainGrid.children.add(helpBtn)
+
             val viewMode = CheckBox(LocalizationProvider.getString("vs"))
             viewMode.style = "-fx-font-size: 9pt;"
             viewMode.tooltip = Tooltip(LocalizationProvider.getString("vs_tip"))
-            GridPane.setConstraints(viewMode, 1, 1)
+            GridPane.setConstraints(viewMode, 4, 0)
+            GridPane.setHalignment(viewMode, HPos.CENTER)
             mainGrid.children.add(viewMode)
 
             val secureMode = CheckBox(LocalizationProvider.getString("sm"))
             secureMode.style = "-fx-font-size: 8pt;"
             secureMode.tooltip = Tooltip(LocalizationProvider.getString("sm_tip"))
-            GridPane.setConstraints(secureMode, 2, 1)
+            GridPane.setConstraints(secureMode, 5, 0)
             mainGrid.children.add(secureMode)
 
             val hmacMode = CheckBox(LocalizationProvider.getString("hm"))
             hmacMode.style = "-fx-font-size: 8pt;"
             hmacMode.tooltip = Tooltip(LocalizationProvider.getString("hmac_tip"))
             hmacMode.isSelected = hmac
-            GridPane.setConstraints(hmacMode, 3, 1)
+            GridPane.setConstraints(hmacMode, 1, 1)
             mainGrid.children.add(hmacMode)
 
             val complexMode = CheckBox(LocalizationProvider.getString("comp"))
             complexMode.style = "-fx-font-size: 8pt;"
             complexMode.tooltip = Tooltip(LocalizationProvider.getString("comp_tip"))
             complexMode.isSelected = complex
-            GridPane.setConstraints(complexMode, 4, 1)
+            GridPane.setConstraints(complexMode, 2, 1)
             mainGrid.children.add(complexMode)
+
+            val specialCheckBox = CheckBox(LocalizationProvider.getString("specialMode"))
+            specialCheckBox.style = "-fx-font-size: 8pt;"
+            specialCheckBox.tooltip = Tooltip(LocalizationProvider.getString("specialMode_tip"))
+            specialCheckBox.isSelected = isSpecialCharacterMode
+            GridPane.setConstraints(specialCheckBox, 3, 1)
+            mainGrid.children.add(specialCheckBox)
 
             peekTF = TextField(LocalizationProvider.getString("pass_peek"))
             peekTF.style = "-fx-font-size: 10pt;"
@@ -191,10 +178,6 @@ class MainLayout : AppLayout {
             GridPane.setConstraints(color, 6, 2)
             mainGrid.children.add(color)
 
-            mainGrid.children.add(wordBox)
-            GridPane.setConstraints(wordBox, 4, 0)
-            GridPane.setColumnSpan(wordBox, 2)
-
             mainGrid.children.add(encryptBtns)
             GridPane.setConstraints(encryptBtns, 1, 2)
             GridPane.setColumnSpan(encryptBtns, 5)
@@ -227,24 +210,15 @@ class MainLayout : AppLayout {
 
             viewMode.selectedProperty().addListener { _, _, newVal ->
                 if (newVal!!) {
-                    wordBox.children.remove(wordMaskTF)
-                    wordBox.children.add(wordTF)
                     status.text = LocalizationProvider.getString("vs_on")
                 } else {
-                    wordBox.children.remove(wordTF)
-                    wordBox.children.add(wordMaskTF)
                     status.text = LocalizationProvider.getString("vs_off")
                 }
             }
             sentenceTF.managedProperty().bind(viewMode.selectedProperty())
             sentenceTF.visibleProperty().bind(viewMode.selectedProperty())
-            wordTF.managedProperty().bind(viewMode.selectedProperty())
-            wordTF.visibleProperty().bind(viewMode.selectedProperty())
-
             sentenceMaskTF.managedProperty().bind(viewMode.selectedProperty().not())
-            wordMaskTF.visibleProperty().bind(viewMode.selectedProperty().not())
             sentenceTF.textProperty().bindBidirectional(sentenceMaskTF.textProperty())
-            wordTF.textProperty().bindBidirectional(wordMaskTF.textProperty())
 
             secureMode.selectedProperty().addListener { _, _, newVal ->
                 if (newVal!!) {
@@ -257,7 +231,6 @@ class MainLayout : AppLayout {
                     isSecure = false
                     viewMode.isDisable = false
                     sentenceTF.text = ""
-                    wordTF.text = ""
                     peekTF.text = "Peek"
                     colorBtn.isDisable = false
                     ClipboardUtil.setStringToClipboard("")
@@ -282,6 +255,15 @@ class MainLayout : AppLayout {
                 } else {
                     complex = false
                     status.text = LocalizationProvider.getString("comp_off")
+                }
+            }
+
+            specialCheckBox.selectedProperty().addListener { _, _, newVal ->
+                isSpecialCharacterMode = newVal
+                if (newVal) {
+                    status.text = LocalizationProvider.getString("specialMode_on")
+                } else {
+                    status.text = LocalizationProvider.getString("specialMode_off")
                 }
             }
 
@@ -349,12 +331,42 @@ class MainLayout : AppLayout {
      * @return to be encrypted user input
      */
     private fun checkInputData(): String {
-        return if (color.fill == Color.TRANSPARENT) {
-            sentenceTF.text + wordTF.text
-        } else {
-            sentenceTF.text + wordTF.text + ColorCoder.colorArray[colorPos].toString()
+        var finalInput = sentenceTF.text
+
+        if (isSpecialCharacterMode) {
+            if (finalInput.isNotEmpty()) {
+                var divisor = 2
+                if (finalInput.length > 5)
+                {
+                    divisor = if (isEven(finalInput.length)) {
+                        3
+                    } else {
+                        4
+                    }
+                }
+
+                val random = Random()
+                for (i in 1..finalInput.length / divisor) {
+                    val randomChar = RandomCharacter.getCharacterAtIndex(i*divisor)
+                    random.nextInt(finalInput.length)
+                    finalInput = finalInput.addCharAtIndex(randomChar, i*divisor)
+                }
+            }
         }
+
+        if (color.fill != Color.TRANSPARENT) {
+            finalInput += ColorCoder.colorArray[colorPos].toString()
+        }
+
+        return finalInput
     }
+
+    private fun isEven(num : Int) : Boolean {
+       return num % 2 == 0
+    }
+
+    fun String.addCharAtIndex(char: Char, index: Int) =
+        StringBuilder(this).apply { insert(index, char) }.toString()
 
     /**
      * Changes the color field

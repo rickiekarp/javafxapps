@@ -46,7 +46,7 @@ class MainLayout : AppLayout {
         mainLayout = this
     }
 
-    private fun createGenerat(description: String): VBox {
+    private fun generate(): VBox {
         val content = VBox()
         content.spacing = 5.0
 
@@ -393,7 +393,7 @@ class MainLayout : AppLayout {
 
         val items = FXCollections.observableArrayList<SettingEntry>()
         if (Configuration.useSystemBorders) {
-            items.add(SettingEntry("flSetting_0",false, createGenerat("flSetting_0_desc")))
+            items.add(SettingEntry("flSetting_0",false, generate()))
         }
         items.add(SettingEntry("flSetting_1",false, createBox1("flSetting_1_desc")))
         items.add(SettingEntry("flSetting_2",false, createBox2("flSetting_2_desc")))
@@ -414,8 +414,6 @@ class MainLayout : AppLayout {
         AnchorPane.setBottomAnchor(saveControls, 6.0)
 
         controls.style = "-fx-background-color: #1d1d1d;"
-
-
         controls.children.add(fileControls)
         controls.children.add(saveControls)
 

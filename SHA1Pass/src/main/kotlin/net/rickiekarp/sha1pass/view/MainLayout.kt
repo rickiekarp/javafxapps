@@ -21,8 +21,8 @@ import net.rickiekarp.core.util.crypt.*
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.AboutScene
 import net.rickiekarp.core.view.layout.AppLayout
+import net.rickiekarp.sha1pass.enum.TextCodingType
 import net.rickiekarp.sha1pass.settings.AppConfiguration
-import java.util.*
 
 class MainLayout : AppLayout {
     private var isSecure = false
@@ -30,6 +30,7 @@ class MainLayout : AppLayout {
     private var complex = true
     private var isSpecialCharacterMode = true
 
+    private lateinit var mainGrid: GridPane
     private lateinit var color: Rectangle
     private lateinit var sentenceMaskTF: CustomTextField
     private lateinit var sentenceTF: CustomTextField
@@ -41,7 +42,7 @@ class MainLayout : AppLayout {
         get() {
             val mainContent = BorderPane()
 
-            val mainGrid = GridPane()
+            mainGrid = GridPane()
             mainGrid.padding = Insets(5.0, 3.0, 0.0, 3.0)
 
             val encryptBtns = HBox()
@@ -153,6 +154,7 @@ class MainLayout : AppLayout {
             GridPane.setConstraints(colorBtn, 6, 1)
             GridPane.setHalignment(colorBtn, HPos.CENTER)
             mainGrid.children.add(colorBtn)
+
             val hexBtn = Button(LocalizationProvider.getString("hex_label"))
             hexBtn.style = "-fx-font-size: 10pt;"
             hexBtn.tooltip = Tooltip(LocalizationProvider.getString("a_40_char_tip"))
@@ -274,8 +276,29 @@ class MainLayout : AppLayout {
                 controls.style = "-fx-background-color: #336699;"
             }
 
+            setupEncryptDecryptButtons()
+
             return mainContent
         }
+
+    private fun setupEncryptDecryptButtons() {
+
+        val decodeButton = Button(LocalizationProvider.getString("decode_label_short"))
+        decodeButton.style = "-fx-font-size: 9pt;"
+        decodeButton.tooltip = Tooltip(LocalizationProvider.getString("decode_tip"))
+        GridPane.setConstraints(decodeButton, 0, 1)
+        GridPane.setHalignment(decodeButton, HPos.CENTER)
+        mainGrid.children.add(decodeButton)
+        decodeButton.setOnAction { TextCodingScene(TextCodingType.DECODE) }
+
+        val encodeButton = Button(LocalizationProvider.getString("encode_label_short"))
+        encodeButton.style = "-fx-font-size: 9pt;"
+        encodeButton.tooltip = Tooltip(LocalizationProvider.getString("encode_tip"))
+        GridPane.setConstraints(encodeButton, 0, 2)
+        GridPane.setHalignment(encodeButton, HPos.CENTER)
+        mainGrid.children.add(encodeButton)
+        encodeButton.setOnAction { TextCodingScene(TextCodingType.ENCODE) }
+    }
 
     private fun calcHex() {
         val data = checkInputData()

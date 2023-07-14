@@ -345,11 +345,10 @@ class MainLayout : AppLayout {
                     }
                 }
 
-                val random = Random()
                 for (i in 1..finalInput.length / divisor) {
-                    val randomChar = RandomCharacter.getCharacterAtIndex(i*divisor)
-                    random.nextInt(finalInput.length)
-                    finalInput = finalInput.addCharAtIndex(randomChar, i*divisor)
+                    val indexToFetch = i * divisor - 1
+                    val randomChar = RandomCharacter.getCharacterAtIndex(indexToFetch)
+                    finalInput = finalInput.addCharAtIndex(randomChar, indexToFetch)
                 }
             }
         }

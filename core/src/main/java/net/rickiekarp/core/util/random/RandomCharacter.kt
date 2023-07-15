@@ -1,15 +1,38 @@
 package net.rickiekarp.core.util.random
 
+import net.rickiekarp.core.util.crypt.Md5Coder
+import okhttp3.internal.toImmutableList
+import java.util.*
+
 object RandomCharacter {
 
-    private const val RANDOM_CHARACTER_LIST = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
+    private const val CHARACTER_LIST = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
 
-    fun getCharacterAtIndex(index : Int) : Char {
-        return RANDOM_CHARACTER_LIST[index % RANDOM_CHARACTER_LIST.length]
+    fun getSeed(inputData : String) : Long {
+        return Md5Coder.calcMd5(inputData).replace("[^0-9]".toRegex(), "").substring(0,16).toLong()
     }
 
-    fun getIndexFromChar(character : Char) : Int {
-        return RANDOM_CHARACTER_LIST.indexOf(character)
+    fun getCharacterListShuffled(seed : Long) : List<Char> {
+        val characterList = CHARACTER_LIST.toMutableList()
+        characterList.shuffle(Random(seed));
+        return characterList.toImmutableList()
+    }
+
+    fun getCharacterAtIndex(index : Int, characterList : List<Char>) : Char {
+        return characterList[index % characterList.size]
+    }
+
+    fun getCharacterAtIndex(index : Int, seed : Long = Long.MIN_VALUE) : Char {
+        val characterList = getCharacterListShuffled(seed)
+        return characterList[index % characterList.size]
+    }
+
+    fun getIndexFromChar(character : Char, characterList : List<Char>) : Int {
+        return characterList.indexOf(character)
+    }
+
+    fun getRandomCharacter() : Char {
+        return CHARACTER_LIST[(CHARACTER_LIST.indices).random()]
     }
 
     fun letterToAlphabetPos(letter: Char): Int {

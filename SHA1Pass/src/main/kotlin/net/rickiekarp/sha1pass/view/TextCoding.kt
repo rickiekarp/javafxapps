@@ -3,31 +3,33 @@ package net.rickiekarp.sha1pass.view
 import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Pos
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.control.TextArea
+import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.stage.Stage
-import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.extensions.addCharAtIndex
+import net.rickiekarp.core.extensions.removeCharAtIndex
+import net.rickiekarp.core.util.math.MathUtil
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
+import net.rickiekarp.core.util.crypt.Md5Coder
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.MainScene
-import net.rickiekarp.sha1pass.*
 import net.rickiekarp.sha1pass.enum.TextCodingType
 
 
-class TextCodingScene(textCodingType: TextCodingType) {
+class TextCoding(textCodingType: TextCodingType) {
     private var grid: GridPane? = null
     private var controls: HBox? = null
     private var type = textCodingType
     private val WINDOWIDENTIFIER = "textcoding"
+
+    private lateinit var seedTextField: TextField
 
     private val content: BorderPane
         get() {
@@ -44,22 +46,31 @@ class TextCodingScene(textCodingType: TextCodingType) {
             grid!!.padding = Insets(20.0, 15.0, 20.0, 20.0)
             grid!!.minWidth = 180.0
 
-            val title = Label(AppContext.context.applicationName)
+            val title = Label(type.name)
             title.style = "-fx-font-size: 16pt;"
             GridPane.setHalignment(title, HPos.CENTER)
             GridPane.setConstraints(title, 0, 0)
             GridPane.setColumnSpan(title, 2)
             grid!!.children.add(title)
 
+            seedTextField = TextField()
+            seedTextField.style = "-fx-font-size: 10pt;"
+            seedTextField.tooltip = Tooltip(LocalizationProvider.getString("pass_peek_tip"))
+            seedTextField.promptText = LocalizationProvider.getString("seed")
+            GridPane.setConstraints(seedTextField, 0, 1)
+            GridPane.setColumnSpan(seedTextField, 2)
+            seedTextField.prefWidth = 30.0
+            grid!!.children.add(seedTextField)
+
             val input = TextArea()
-            GridPane.setConstraints(input, 0, 1)
+            GridPane.setConstraints(input, 0, 2)
             input.isWrapText = true
             grid!!.children.add(input)
 
             val output = TextArea()
             output.isEditable = false
             output.isWrapText = true
-            GridPane.setConstraints(output, 1, 1)
+            GridPane.setConstraints(output, 1, 2)
             grid!!.children.add(output)
 
             GridPane.setHgrow(title, Priority.ALWAYS)
@@ -73,28 +84,57 @@ class TextCodingScene(textCodingType: TextCodingType) {
                 TextCodingType.ENCODE -> {
                     val codingButton = Button(LocalizationProvider.getString("encode"))
                     codingButton.setOnAction { _ ->
-                        var text = input.text
-                        text = text.trim()
-                        text = text.replace("[^a-zA-Z0-9]".toRegex(), "");
                         output.clear()
-                        for (i in text) {
-                            val outChar = RandomCharacter.getCharacterAtIndex(RandomCharacter.letterToAlphabetPos(i))
-                            output.appendText(outChar.toString())
+                        var outputText = ""
+
+                        val seed = RandomCharacter.getSeed(seedTextField.text)
+                        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed)
+
+                        var inputText = input.text
+                        inputText = inputText.trim().replace("[^a-zA-Z0-9]".toRegex(), "")
+                        for (i in inputText) {
+                            val outChar = RandomCharacter.getCharacterAtIndex(RandomCharacter.letterToAlphabetPos(i), shuffledCharacters)
+                            outputText += outChar.toString()
                         }
+
+                        val numberOfCharsToAdd = MathUtil.log2(seedTextField.text.length, 0)
+                        val md5 = Md5Coder.calcMd5(seedTextField.text).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
+
+                        for (index in md5.toSortedSet().sorted()) {
+                            val randomCharacter = RandomCharacter.getRandomCharacter()
+                            outputText = outputText.addCharAtIndex(randomCharacter, index.digitToInt())
+                        }
+
+                        output.text = outputText
+
                     }
                     controls!!.children.add(codingButton)
                 }
                 TextCodingType.DECODE -> {
                     val codingButton = Button(LocalizationProvider.getString("decode"))
                     codingButton.setOnAction { _ ->
-                        val text = input.text
                         output.clear()
-                        for (i in text) {
-                            val outChar = RandomCharacter.getIndexFromChar(i)
-                            val char = RandomCharacter.alphabetPosToLetter(outChar)
-                            println(char)
-                            output.appendText(char.toString())
+                        var outputText = ""
+
+                        val seed = RandomCharacter.getSeed(seedTextField.text)
+                        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed);
+
+                        var inputText = input.text
+
+                        val numberOfCharsToAdd = MathUtil.log2(seedTextField.text.length, 0)
+                        val md5 = Md5Coder.calcMd5(seedTextField.text).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
+
+                        for (index in md5.toSortedSet().sortedDescending()) {
+                            inputText = inputText.removeCharAtIndex(index.digitToInt())
                         }
+
+                        for (character in inputText) {
+                            val characterCode = RandomCharacter.getIndexFromChar(character, shuffledCharacters)
+                            val decodedChar = RandomCharacter.alphabetPosToLetter(characterCode)
+                            outputText += decodedChar.toString()
+                        }
+
+                        output.text = outputText
                     }
                     controls!!.children.add(codingButton)
                 }

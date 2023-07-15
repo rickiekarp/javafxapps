@@ -15,6 +15,7 @@ import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.components.textfield.CustomTextFieldSkin
 import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.extensions.addCharAtIndex
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.util.ClipboardUtil
 import net.rickiekarp.core.util.crypt.*
@@ -289,7 +290,7 @@ class MainLayout : AppLayout {
         GridPane.setConstraints(decodeButton, 0, 1)
         GridPane.setHalignment(decodeButton, HPos.CENTER)
         mainGrid.children.add(decodeButton)
-        decodeButton.setOnAction { TextCodingScene(TextCodingType.DECODE) }
+        decodeButton.setOnAction { TextCoding(TextCodingType.DECODE) }
 
         val encodeButton = Button(LocalizationProvider.getString("encode_label_short"))
         encodeButton.style = "-fx-font-size: 9pt;"
@@ -297,7 +298,7 @@ class MainLayout : AppLayout {
         GridPane.setConstraints(encodeButton, 0, 2)
         GridPane.setHalignment(encodeButton, HPos.CENTER)
         mainGrid.children.add(encodeButton)
-        encodeButton.setOnAction { TextCodingScene(TextCodingType.ENCODE) }
+        encodeButton.setOnAction { TextCoding(TextCodingType.ENCODE) }
     }
 
     private fun calcHex() {
@@ -386,9 +387,6 @@ class MainLayout : AppLayout {
     private fun isEven(num : Int) : Boolean {
        return num % 2 == 0
     }
-
-    fun String.addCharAtIndex(char: Char, index: Int) =
-        StringBuilder(this).apply { insert(index, char) }.toString()
 
     /**
      * Changes the color field

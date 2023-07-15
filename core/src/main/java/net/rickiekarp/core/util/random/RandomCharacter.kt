@@ -6,14 +6,14 @@ import java.util.*
 
 object RandomCharacter {
 
-    private const val CHARACTER_LIST = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
+    private const val CYRILLIC_ALPHABET = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
 
     fun getSeed(inputData : String) : Long {
         return Md5Coder.calcMd5(inputData).replace("[^0-9]".toRegex(), "").substring(0,16).toLong()
     }
 
     fun getCharacterListShuffled(seed : Long) : List<Char> {
-        val characterList = CHARACTER_LIST.toMutableList()
+        val characterList = CYRILLIC_ALPHABET.toMutableList()
         characterList.shuffle(Random(seed));
         return characterList.toImmutableList()
     }
@@ -32,7 +32,7 @@ object RandomCharacter {
     }
 
     fun getRandomCharacter() : Char {
-        return CHARACTER_LIST[(CHARACTER_LIST.indices).random()]
+        return CYRILLIC_ALPHABET[(CYRILLIC_ALPHABET.indices).random()]
     }
 
     fun letterToAlphabetPos(letter: Char): Int {

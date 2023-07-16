@@ -22,7 +22,6 @@ import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.sha1pass.enum.TextCodingType
 
-
 class TextCoding(textCodingType: TextCodingType) {
     private var grid: GridPane? = null
     private var controls: HBox? = null
@@ -92,17 +91,21 @@ class TextCoding(textCodingType: TextCodingType) {
 
                         var inputText = input.text
                         inputText = inputText.trim().replace("[^a-zA-Z0-9]".toRegex(), "")
-                        for (i in inputText) {
-                            val outChar = RandomCharacter.getCharacterAtIndex(RandomCharacter.letterToAlphabetPos(i), shuffledCharacters)
+
+                        var index = 0
+                        for (character in inputText) {
+                            val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, seed)
+                            val outChar = RandomCharacter.getCharacterAtIndex(RandomCharacter.letterToAlphabetPos(character) + seedCharacterAsInt, shuffledCharacters)
                             outputText += outChar.toString()
+                            index++
                         }
 
                         val numberOfCharsToAdd = MathUtil.log2(seedTextField.text.length, 0)
                         val md5 = Md5Coder.calcMd5(seedTextField.text).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
-                        for (index in md5.toSortedSet().sorted()) {
+                        for (md5Digit in md5.toSortedSet().sorted()) {
                             val randomCharacter = RandomCharacter.getRandomCharacter()
-                            outputText = outputText.addCharAtIndex(randomCharacter, index.digitToInt())
+                            outputText = outputText.addCharAtIndex(randomCharacter, md5Digit.digitToInt())
                         }
 
                         output.text = outputText
@@ -128,10 +131,13 @@ class TextCoding(textCodingType: TextCodingType) {
                             inputText = inputText.removeCharAtIndex(index.digitToInt())
                         }
 
+                        var index = 0
                         for (character in inputText) {
-                            val characterCode = RandomCharacter.getIndexFromChar(character, shuffledCharacters)
-                            val decodedChar = RandomCharacter.alphabetPosToLetter(characterCode)
+                            val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, seed)
+                            val characterIndex = RandomCharacter.getIndexFromChar(character, shuffledCharacters) - seedCharacterAsInt
+                            val decodedChar = RandomCharacter.alphabetPosToLetter(characterIndex)
                             outputText += decodedChar.toString()
+                            index++
                         }
 
                         output.text = outputText

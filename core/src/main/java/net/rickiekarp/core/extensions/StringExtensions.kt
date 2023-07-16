@@ -3,7 +3,7 @@ package net.rickiekarp.core.extensions
 fun String.addCharAtIndex(char: Char, index: Int) =
     StringBuilder(this)
         .apply {
-            if (index > this.length) {
+            if (index > this.length -1) {
                 insert(0, char)
             } else {
                 insert(index, char)
@@ -14,7 +14,7 @@ fun String.addCharAtIndex(char: Char, index: Int) =
 fun String.removeCharAtIndex(index: Int) =
     StringBuilder(this)
         .apply {
-            if (index > this.length) {
+            if (index > this.length -1) {
                 if (isNotEmpty()) {
                     deleteCharAt(0)
                 }

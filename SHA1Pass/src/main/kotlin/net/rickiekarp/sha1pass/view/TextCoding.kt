@@ -127,8 +127,8 @@ class TextCoding(textCodingType: TextCodingType) {
                         val numberOfCharsToAdd = MathUtil.log2(seedTextField.text.length, 0)
                         val md5 = Md5Coder.calcMd5(seedTextField.text).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
-                        for (index in md5.toSortedSet().sortedDescending()) {
-                            inputText = inputText.removeCharAtIndex(index.digitToInt())
+                        for (md5Digit in md5.toSortedSet().sortedDescending()) {
+                            inputText = inputText.removeCharAtIndex(md5Digit.digitToInt())
                         }
 
                         var index = 0

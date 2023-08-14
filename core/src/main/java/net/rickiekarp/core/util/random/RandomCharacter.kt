@@ -8,6 +8,7 @@ object RandomCharacter {
 
     private const val CYRILLIC_ALPHABET = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
     private const val LATIN_ALPHABET = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+    private const val GREEK_ALPHABET = "ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσΤτΥυΦφΧχΨψΩω"
 
     fun getSeed(inputData : String) : Long {
         var md5 = Md5Coder.calcMd5(inputData);
@@ -27,7 +28,7 @@ object RandomCharacter {
     }
 
     private fun getCharacterList(): MutableList<Char> {
-        return CYRILLIC_ALPHABET.toMutableList()
+        return (CYRILLIC_ALPHABET + LATIN_ALPHABET + GREEK_ALPHABET).toMutableList()
     }
 
     fun getCharacterListShuffled(seed : Long) : List<Char> {

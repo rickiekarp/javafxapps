@@ -1,4 +1,4 @@
-package net.rickiekarp.core.util;
+package net.rickiekarp.core.util.image;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
@@ -13,41 +13,40 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class TextToImage {
 
-    private int imageWidth = 500;
-    private int imageHeight = 500;
+    private int imageWidth = 512;
+    private int imageHeight = 512;
+    private String outFormat = "png";
 
-    public void SaveToImage(String text) {
+    public void SaveToImage(String text, int fontSize, String outFile) {
         {
-            Image image = textToImage(text);
-            save(image, "/home/rickie/test.png");
+            Image image = textToImage(text, fontSize);
+            saveToFile(image, outFile);
         }
     }
 
-    private void save(Image image, String outFile) {
-        File outputFile = new File(outFile);
+    private void saveToFile(Image image, String outPath) {
+        File outputFile = new File(outPath);
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
         try {
-            ImageIO.write(bImage, "png", outputFile);
+            ImageIO.write(bImage, outFormat, outputFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Image textToImage (String text) {
-
-        Font font = Font.loadFont(this.getClass().getClassLoader().getResource("fonts/masonic.ttf").toExternalForm(), 50);
-
+    private Image textToImage(String text, int fontSize) {
         Label label = new Label(text);
-        label.setFont(font);
         label.setMinSize(imageWidth, imageHeight);
         label.setMaxSize(imageWidth, imageHeight);
         label.setPrefSize(imageWidth, imageHeight);
         label.setStyle("-fx-background-color:#191919; -fx-text-fill:white;");
         label.setWrapText(true);
         label.setAlignment(Pos.CENTER);
+        setCustomFont(label, fontSize);
 
         Scene scene = new Scene(new Group(label));
         WritableImage img = new WritableImage(imageWidth, imageHeight);
@@ -55,4 +54,13 @@ public class TextToImage {
         return img;
     }
 
+    private void setCustomFont(Label label, int fontSize) {
+        URL url = this.getClass().getClassLoader().getResource("fonts/masonic.ttf");
+        if (url == null) {
+            return;
+        }
+
+        Font font = Font.loadFont(url.toExternalForm(), fontSize);
+        label.setFont(font);
+    }
 }

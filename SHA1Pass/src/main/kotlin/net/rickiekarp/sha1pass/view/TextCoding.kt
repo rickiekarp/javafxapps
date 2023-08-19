@@ -221,27 +221,22 @@ class TextCoding(textCodingType: TextCodingType) {
         val content = VBox()
         content.spacing = 5.0
 
-        val option1_desc = Label(LocalizationProvider.getString(description))
-        option1_desc.isWrapText = true
-        option1_desc.style = "-fx-font-size: 9pt;"
-        option1_desc.maxWidth = 175.0
-
-        val option = Label(LocalizationProvider.getString("version"))
+        val option1Desc = Label(LocalizationProvider.getString(description))
+        option1Desc.isWrapText = true
+        option1Desc.style = "-fx-font-size: 9pt;"
+        option1Desc.maxWidth = 175.0
 
         val cBoxVersion = ComboBox<String>()
-        cBoxVersion.items.addAll(LocalizationProvider.getString("v1"), LocalizationProvider.getString("v2"))
+        cBoxVersion.items.addAll("v1", "v2")
         cBoxVersion.selectionModel.select(0)
         cBoxVersion.minWidth = 100.0
-
-        val empty = CheckBox(LocalizationProvider.getString("emptyFolderShow"))
-        empty.isSelected = true
 
         val hBox = HBox()
         hBox.alignment = Pos.CENTER_LEFT
         hBox.spacing = 5.0
-        hBox.children.addAll(cBoxVersion, option)
+        hBox.children.addAll(cBoxVersion)
 
-        content.children.addAll(option1_desc, hBox)
+        content.children.addAll(option1Desc, hBox)
         return content
     }
 
@@ -254,10 +249,6 @@ class TextCoding(textCodingType: TextCodingType) {
 
         val controls = AnchorPane()
         controls.minHeight = 50.0
-
-        val fileunit = Label(LocalizationProvider.getString("unit"))
-        GridPane.setConstraints(fileunit, 0, 2)
-        GridPane.setHalignment(fileunit, HPos.RIGHT)
 
         val settingsGrid = GridPane()
         settingsGrid.prefWidth = 200.0
@@ -272,8 +263,8 @@ class TextCoding(textCodingType: TextCodingType) {
         settingsGrid.children.add(list)
 
         val items = FXCollections.observableArrayList<SettingEntry>()
-        items.add(SettingEntry("flSetting_1",false, createBox1("flSetting_1_desc")))
-        items.add(SettingEntry("flSetting_2",false, createBox2("flSetting_2_desc")))
+        items.add(SettingEntry("Setting.AlgorithmVersion.Title",false, createBox1("Setting.AlgorithmVersion.Description")))
+        items.add(SettingEntry("Setting.CharacterSet.Title",false, createBox2("Setting.CharacterSet.Description")))
         list.items = items
 
         list.setCellFactory { FoldableListCell(list) }

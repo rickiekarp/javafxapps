@@ -12,8 +12,13 @@ import net.rickiekarp.core.provider.LocalizationProvider
 
 class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<SettingEntry>() {
 
+    private var isInitialized = false
+
     override fun updateItem(item: SettingEntry?, empty: Boolean) {
         super.updateItem(item, empty)
+
+        if (isInitialized)
+            return
 
         if (!empty) {
             val vbox = VBox()
@@ -56,6 +61,8 @@ class FoldableListCell(private var list: ListView<SettingEntry>?) : ListCell<Set
             if (!item.isHidden) {
                 vbox.children.add(item.content)
             }
+
+            isInitialized = true
         } else {
             text = null
             graphic = null

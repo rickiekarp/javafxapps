@@ -10,6 +10,7 @@ import javafx.scene.layout.*
 import javafx.stage.Stage
 import net.rickiekarp.core.components.FoldableListCell
 import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.extensions.addCharAtIndex
 import net.rickiekarp.core.extensions.removeCharAtIndex
 import net.rickiekarp.core.model.SettingEntry
@@ -187,31 +188,31 @@ class TextCoding(textCodingType: TextCodingType) {
         option2Desc.style = "-fx-font-size: 9pt;"
         option2Desc.maxWidth = 175.0
 
-        val filename = CheckBox(LocalizationProvider.getString("name"))
-        filename.isSelected = true
+        val latin = CheckBox(LocalizationProvider.getString("latin"))
+        latin.isSelected = true
+        option[0] = true
+        latin.setOnAction { _ ->
+            option[0] = !option[0]
+            LogFileHandler.logger.config("change_filename_option: " + !option[0] + " -> " + option[0])
+        }
 
-        val type = CheckBox(LocalizationProvider.getString("ftype"))
-        type.isSelected = false
+        val cyrillic = CheckBox(LocalizationProvider.getString("cyrillic"))
+        cyrillic.isSelected = true
+        option[1] = true
+        cyrillic.setOnAction { _ ->
+            option[1] = !option[1]
+            LogFileHandler.logger.config("change_filename_option: " + !option[1] + " -> " + option[1])
+        }
 
-        val path = CheckBox(LocalizationProvider.getString("fpath"))
-        path.isSelected = true
+        val greek = CheckBox(LocalizationProvider.getString("greek"))
+        greek.isSelected = true
+        option[2] = true
+        greek.setOnAction { _ ->
+            option[2] = !option[2]
+            LogFileHandler.logger.config("change_filename_option: " + !option[2] + " -> " + option[2])
+        }
 
-        val size = CheckBox(LocalizationProvider.getString("fsize"))
-        size.isSelected = true
-
-        val created = CheckBox(LocalizationProvider.getString("fcreation"))
-        created.isSelected = false
-
-        val changed = CheckBox(LocalizationProvider.getString("fmodif"))
-        changed.isSelected = true
-
-        val lastAccess = CheckBox(LocalizationProvider.getString("faccessed"))
-        lastAccess.isSelected = false
-
-        val hidden = CheckBox(LocalizationProvider.getString("fhidden"))
-        hidden.isSelected = false
-
-        content.children.addAll(option2Desc, filename, type, path, size, created, changed, lastAccess, hidden)
+        content.children.addAll(option2Desc, latin, cyrillic, greek)
         return content
     }
 
@@ -294,5 +295,9 @@ class TextCoding(textCodingType: TextCodingType) {
         }
 
         return mainContent
+    }
+
+    companion object {
+        var option = BooleanArray(3)
     }
 }

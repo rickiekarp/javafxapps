@@ -20,6 +20,7 @@ import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
 import net.rickiekarp.core.util.crypt.Md5Coder
 import net.rickiekarp.core.util.math.MathUtil
+import net.rickiekarp.core.util.random.AlphabetType
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.sha1pass.enum.TextCodingType
@@ -190,26 +191,26 @@ class TextCoding(textCodingType: TextCodingType) {
 
         val latin = CheckBox(LocalizationProvider.getString("latin"))
         latin.isSelected = true
-        option[0] = true
+        RandomCharacter.characterSetConfig[AlphabetType.LATIN] = true
         latin.setOnAction { _ ->
-            option[0] = !option[0]
-            LogFileHandler.logger.config("change_filename_option: " + !option[0] + " -> " + option[0])
+            RandomCharacter.characterSetConfig[AlphabetType.LATIN] = !RandomCharacter.characterSetConfig[AlphabetType.LATIN]!!
+            LogFileHandler.logger.config("change_filename_option: " + !RandomCharacter.characterSetConfig[AlphabetType.LATIN]!! + " -> " + RandomCharacter.characterSetConfig[AlphabetType.LATIN])
         }
 
         val cyrillic = CheckBox(LocalizationProvider.getString("cyrillic"))
         cyrillic.isSelected = true
-        option[1] = true
+        RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC] = true
         cyrillic.setOnAction { _ ->
-            option[1] = !option[1]
-            LogFileHandler.logger.config("change_filename_option: " + !option[1] + " -> " + option[1])
+            RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC] = !RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC]!!
+            LogFileHandler.logger.config("change_filename_option: " + !RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC]!! + " -> " + RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC])
         }
 
         val greek = CheckBox(LocalizationProvider.getString("greek"))
         greek.isSelected = true
-        option[2] = true
+        RandomCharacter.characterSetConfig[AlphabetType.GREEK] = true
         greek.setOnAction { _ ->
-            option[2] = !option[2]
-            LogFileHandler.logger.config("change_filename_option: " + !option[2] + " -> " + option[2])
+            RandomCharacter.characterSetConfig[AlphabetType.GREEK] = !RandomCharacter.characterSetConfig[AlphabetType.GREEK]!!
+            LogFileHandler.logger.config("change_filename_option: " + !RandomCharacter.characterSetConfig[AlphabetType.GREEK]!! + " -> " + RandomCharacter.characterSetConfig[AlphabetType.GREEK])
         }
 
         content.children.addAll(option2Desc, latin, cyrillic, greek)
@@ -295,9 +296,5 @@ class TextCoding(textCodingType: TextCodingType) {
         }
 
         return mainContent
-    }
-
-    companion object {
-        var option = BooleanArray(3)
     }
 }

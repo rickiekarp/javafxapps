@@ -6,9 +6,7 @@ import java.util.*
 
 object RandomCharacter {
 
-    private const val CYRILLIC_ALPHABET = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
-    private const val LATIN_ALPHABET = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-    private const val GREEK_ALPHABET = "ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσΤτΥυΦφΧχΨψΩω"
+    var characterSetConfig = mutableMapOf<AlphabetType, Boolean>()
 
     fun getSeed(inputData : String) : Long {
         var md5 = Md5Coder.calcMd5(inputData);
@@ -28,7 +26,23 @@ object RandomCharacter {
     }
 
     private fun getCharacterList(): MutableList<Char> {
-        return (CYRILLIC_ALPHABET + LATIN_ALPHABET + GREEK_ALPHABET).toMutableList()
+        var characterSetString = ""
+
+        if (characterSetConfig[AlphabetType.CYRILLIC]!!) {
+            characterSetString = AlphabetType.CYRILLIC.getCharacters()
+        }
+        if (characterSetConfig[AlphabetType.LATIN]!!) {
+            characterSetString += AlphabetType.LATIN.getCharacters()
+        }
+        if (characterSetConfig[AlphabetType.GREEK]!!) {
+            characterSetString += AlphabetType.GREEK.getCharacters()
+        }
+
+        if (characterSetString == "") {
+            characterSetString = AlphabetType.CYRILLIC.getCharacters() + AlphabetType.LATIN.getCharacters() + AlphabetType.GREEK.getCharacters()
+        }
+
+        return characterSetString.toMutableList()
     }
 
     fun getCharacterListShuffled(seed : Long) : List<Char> {

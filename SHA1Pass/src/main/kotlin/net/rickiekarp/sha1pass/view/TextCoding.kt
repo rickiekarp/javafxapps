@@ -1,26 +1,28 @@
 package net.rickiekarp.sha1pass.view
 
+import javafx.collections.FXCollections
 import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.*
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.HBox
-import javafx.scene.layout.Priority
+import javafx.scene.layout.*
 import javafx.stage.Stage
+import net.rickiekarp.core.components.FoldableListCell
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.extensions.addCharAtIndex
 import net.rickiekarp.core.extensions.removeCharAtIndex
-import net.rickiekarp.core.util.math.MathUtil
+import net.rickiekarp.core.model.SettingEntry
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
 import net.rickiekarp.core.util.crypt.Md5Coder
+import net.rickiekarp.core.util.math.MathUtil
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.sha1pass.enum.TextCodingType
+
 
 class TextCoding(textCodingType: TextCodingType) {
     private var grid: GridPane? = null
@@ -30,9 +32,31 @@ class TextCoding(textCodingType: TextCodingType) {
 
     private lateinit var seedTextField: TextField
 
+    init {
+        create()
+    }
+
+    private fun create() {
+        val infoStage = Stage()
+        infoStage.title = LocalizationProvider.getString(WINDOWIDENTIFIER)
+        infoStage.icons.add(ImageLoader.getAppIconSmall())
+        infoStage.isResizable = true
+        infoStage.width = 900.0
+        infoStage.height = 700.0
+
+        val contentVbox = BorderPane()
+        contentVbox.center = createLayout()
+
+        val aboutWindow = WindowScene(WindowStage(WINDOWIDENTIFIER, infoStage), contentVbox, 1)
+
+        infoStage.scene = aboutWindow
+        infoStage.show()
+
+        MainScene.stageStack.push(WindowStage(WINDOWIDENTIFIER, infoStage))
+    }
+
     private val content: BorderPane
         get() {
-
             val borderpane = BorderPane()
             borderpane.style = "-fx-background-color: #1d1d1d;"
 
@@ -43,13 +67,13 @@ class TextCoding(textCodingType: TextCodingType) {
             grid!!.vgap = 8.0
             grid!!.hgap = 16.0
             grid!!.padding = Insets(20.0, 15.0, 20.0, 20.0)
-            grid!!.minWidth = 180.0
 
             val title = Label(type.name)
             title.style = "-fx-font-size: 16pt;"
             GridPane.setHalignment(title, HPos.CENTER)
             GridPane.setConstraints(title, 0, 0)
             GridPane.setColumnSpan(title, 2)
+            HBox.setHgrow(title, Priority.ALWAYS)
             grid!!.children.add(title)
 
             seedTextField = TextField()
@@ -63,6 +87,7 @@ class TextCoding(textCodingType: TextCodingType) {
 
             val input = TextArea()
             GridPane.setConstraints(input, 0, 2)
+            GridPane.setVgrow(input, Priority.ALWAYS)
             input.isWrapText = true
             grid!!.children.add(input)
 
@@ -70,10 +95,8 @@ class TextCoding(textCodingType: TextCodingType) {
             output.isEditable = false
             output.isWrapText = true
             GridPane.setConstraints(output, 1, 2)
+            GridPane.setVgrow(output, Priority.ALWAYS)
             grid!!.children.add(output)
-
-            GridPane.setHgrow(title, Priority.ALWAYS)
-            GridPane.setVgrow(input, Priority.ALWAYS)
 
             controls!!.padding = Insets(10.0, 7.0, 10.0, 7.0)
             controls!!.spacing = 10.0
@@ -147,7 +170,7 @@ class TextCoding(textCodingType: TextCodingType) {
             }
 
             hBox.children.add(grid)
-            HBox.setHgrow(grid, Priority.ALWAYS)
+            hBox.alignment = Pos.CENTER
 
             borderpane.center = hBox
             borderpane.bottom = controls
@@ -155,40 +178,121 @@ class TextCoding(textCodingType: TextCodingType) {
             return borderpane
         }
 
-    init {
-        create()
+    private fun createBox2(description: String): VBox {
+        val content = VBox()
+        content.spacing = 5.0
+
+        val option2Desc = Label(LocalizationProvider.getString(description))
+        option2Desc.isWrapText = true
+        option2Desc.style = "-fx-font-size: 9pt;"
+        option2Desc.maxWidth = 175.0
+
+        val filename = CheckBox(LocalizationProvider.getString("name"))
+        filename.isSelected = true
+
+        val type = CheckBox(LocalizationProvider.getString("ftype"))
+        type.isSelected = false
+
+        val path = CheckBox(LocalizationProvider.getString("fpath"))
+        path.isSelected = true
+
+        val size = CheckBox(LocalizationProvider.getString("fsize"))
+        size.isSelected = true
+
+        val created = CheckBox(LocalizationProvider.getString("fcreation"))
+        created.isSelected = false
+
+        val changed = CheckBox(LocalizationProvider.getString("fmodif"))
+        changed.isSelected = true
+
+        val lastAccess = CheckBox(LocalizationProvider.getString("faccessed"))
+        lastAccess.isSelected = false
+
+        val hidden = CheckBox(LocalizationProvider.getString("fhidden"))
+        hidden.isSelected = false
+
+        content.children.addAll(option2Desc, filename, type, path, size, created, changed, lastAccess, hidden)
+        return content
     }
 
-    private fun create() {
-        val infoStage = Stage()
-        infoStage.title = LocalizationProvider.getString(WINDOWIDENTIFIER)
-        infoStage.icons.add(ImageLoader.getAppIconSmall())
-        infoStage.isResizable = false
-        infoStage.width = 800.0
-        infoStage.height = 600.0
+    private fun createBox1(description: String): VBox {
+        val content = VBox()
+        content.spacing = 5.0
 
-        val contentVbox = BorderPane()
-        contentVbox.center = content
+        val option1_desc = Label(LocalizationProvider.getString(description))
+        option1_desc.isWrapText = true
+        option1_desc.style = "-fx-font-size: 9pt;"
+        option1_desc.maxWidth = 175.0
 
-        val aboutWindow = WindowScene(WindowStage(WINDOWIDENTIFIER, infoStage), contentVbox, 1)
+        val option = Label(LocalizationProvider.getString("version"))
 
-        infoStage.scene = aboutWindow
-        infoStage.show()
+        val cBoxVersion = ComboBox<String>()
+        cBoxVersion.items.addAll(LocalizationProvider.getString("v1"), LocalizationProvider.getString("v2"))
+        cBoxVersion.selectionModel.select(0)
+        cBoxVersion.minWidth = 100.0
 
-        debugAbout()
+        val empty = CheckBox(LocalizationProvider.getString("emptyFolderShow"))
+        empty.isSelected = true
 
-        MainScene.stageStack.push(WindowStage(WINDOWIDENTIFIER, infoStage))
+        val hBox = HBox()
+        hBox.alignment = Pos.CENTER_LEFT
+        hBox.spacing = 5.0
+        hBox.children.addAll(cBoxVersion, option)
+
+        content.children.addAll(option1_desc, hBox)
+        return content
     }
 
-    private fun debugAbout() {
+    private fun createLayout(): Node {
+        val mainContent = BorderPane()
+
+        val columnConstraints = ColumnConstraints()
+        columnConstraints.isFillWidth = true
+        columnConstraints.hgrow = Priority.ALWAYS
+
+        val controls = AnchorPane()
+        controls.minHeight = 50.0
+
+        val fileunit = Label(LocalizationProvider.getString("unit"))
+        GridPane.setConstraints(fileunit, 0, 2)
+        GridPane.setHalignment(fileunit, HPos.RIGHT)
+
+        val settingsGrid = GridPane()
+        settingsGrid.prefWidth = 200.0
+        settingsGrid.vgap = 10.0
+        settingsGrid.padding = Insets(5.0, 0.0, 0.0, 0.0)  //padding top, left, bottom, right
+        settingsGrid.alignment = Pos.BASELINE_CENTER
+
+        //SETTINGS LIST
+        val list = ListView<SettingEntry>()
+        GridPane.setConstraints(list, 0, 0)
+        GridPane.setVgrow(list, Priority.ALWAYS)
+        settingsGrid.children.add(list)
+
+        val items = FXCollections.observableArrayList<SettingEntry>()
+        items.add(SettingEntry("flSetting_1",false, createBox1("flSetting_1_desc")))
+        items.add(SettingEntry("flSetting_2",false, createBox2("flSetting_2_desc")))
+        list.items = items
+
+        list.setCellFactory { FoldableListCell(list) }
+
+        GridPane.setConstraints(settingsGrid, 1, 0)
+
+        //add components to borderpane
+        mainContent.center = content
+        mainContent.right = settingsGrid
+
+        //debug colors
         if (DebugHelper.isDebugVersion) {
-            grid!!.isGridLinesVisible = true
-            grid!!.style = "-fx-background-color: #333333;"
-            controls!!.style = "-fx-background-color: #336699;"
+            controls.style = "-fx-background-color: #336699;"
+            settingsGrid.style = "-fx-background-color: #444444"
+            settingsGrid.isGridLinesVisible = true
         } else {
-            grid!!.isGridLinesVisible = false
-            grid!!.style = null
-            controls!!.style = null
+            controls.style = "-fx-background-color: #1d1d1d;"
+            settingsGrid.style = null
+            settingsGrid.isGridLinesVisible = false
         }
+
+        return mainContent
     }
 }

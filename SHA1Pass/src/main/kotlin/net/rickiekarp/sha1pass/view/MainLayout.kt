@@ -279,9 +279,6 @@ class MainLayout : AppLayout {
 
             setupEncryptDecryptButtons()
 
-//            val imageConverter = TextToImage()
-//            imageConverter.SaveToImage("supersecret", 50, "/home/rickie/test.png")
-
             return mainContent
         }
 

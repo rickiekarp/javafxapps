@@ -1,4 +1,4 @@
-package net.rickiekarp.core.util.random
+package net.rickiekarp.core.util.enums
 
 enum class AlphabetType(private val characterSet: String) {
     CYRILLIC("АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"),

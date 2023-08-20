@@ -1,66 +1,60 @@
-package net.rickiekarp.core.util.image;
+package net.rickiekarp.core.util.image
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage ;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
+import javafx.embed.swing.SwingFXUtils
+import javafx.geometry.Insets
+import javafx.geometry.Pos
+import javafx.scene.Group
+import javafx.scene.Scene
+import javafx.scene.control.Label
+import javafx.scene.image.Image
+import javafx.scene.image.WritableImage
+import javafx.scene.text.Font
+import net.rickiekarp.core.util.enums.FontType
+import java.io.File
+import java.io.IOException
+import javax.imageio.ImageIO
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+class TextToImage {
+    private val imageWidth = 512
+    private val imageHeight = 512
+    private val outFormat = "png"
 
-public class TextToImage {
-
-    private int imageWidth = 512;
-    private int imageHeight = 512;
-    private String outFormat = "png";
-
-    public void SaveToImage(String text, int fontSize, String outFile) {
-        {
-            Image image = textToImage(text, fontSize);
-            saveToFile(image, outFile);
+    fun saveToImage(text: String, fontSize: Int, fontType: FontType, outFile: String) {
+        run {
+            val image = textToImage(text, fontSize, fontType)
+            saveToFile(image, outFile)
         }
     }
 
-    private void saveToFile(Image image, String outPath) {
-        File outputFile = new File(outPath);
-        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+    private fun saveToFile(image: Image, outPath: String) {
+        val outputFile = File(outPath)
+        val bImage = SwingFXUtils.fromFXImage(image, null)
         try {
-            ImageIO.write(bImage, outFormat, outputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            ImageIO.write(bImage, outFormat, outputFile)
+        } catch (e: IOException) {
+            throw RuntimeException(e)
         }
     }
 
-    private Image textToImage(String text, int fontSize) {
-        Label label = new Label(text);
-        label.setMinSize(imageWidth, imageHeight);
-        label.setMaxSize(imageWidth, imageHeight);
-        label.setPrefSize(imageWidth, imageHeight);
-        label.setStyle("-fx-background-color:#191919; -fx-text-fill:white;");
-        label.setWrapText(true);
-        label.setAlignment(Pos.CENTER);
-        setCustomFont(label, fontSize);
+    private fun textToImage(text: String, fontSize: Int, fontType: FontType): Image {
+        val label = Label(text)
+        label.setMinSize(imageWidth.toDouble(), imageHeight.toDouble())
+        label.setMaxSize(imageWidth.toDouble(), imageHeight.toDouble())
+        label.setPrefSize(imageWidth.toDouble(), imageHeight.toDouble())
+        label.style = "-fx-background-color:#191919; -fx-text-fill:white;"
+        label.isWrapText = true
+        label.alignment = Pos.CENTER
+        label.padding = Insets(50.0, 50.0, 50.0, 50.0)
 
-        Scene scene = new Scene(new Group(label));
-        WritableImage img = new WritableImage(imageWidth, imageHeight);
-        scene.snapshot(img);
-        return img;
-    }
-
-    private void setCustomFont(Label label, int fontSize) {
-        URL url = this.getClass().getClassLoader().getResource("fonts/masonic.ttf");
-        if (url == null) {
-            return;
+        val url = this.javaClass.classLoader.getResource(fontType.getFilePath())
+        if (url != null) {
+            val font = Font.loadFont(url.toExternalForm(), fontSize.toDouble())
+            label.font = font
         }
 
-        Font font = Font.loadFont(url.toExternalForm(), fontSize);
-        label.setFont(font);
+        val scene = Scene(Group(label))
+        val img = WritableImage(imageWidth, imageHeight)
+        scene.snapshot(img)
+        return img
     }
 }

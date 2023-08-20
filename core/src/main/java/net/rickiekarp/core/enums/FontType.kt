@@ -1,4 +1,4 @@
-package net.rickiekarp.core.util.enums
+package net.rickiekarp.core.enums
 
 enum class FontType(private val fontFile: String) {
     ALIEN("fonts/alien.otf"),

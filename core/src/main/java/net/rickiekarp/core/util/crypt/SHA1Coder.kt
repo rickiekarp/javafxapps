@@ -9,8 +9,7 @@ object SHA1Coder {
 
     @Throws(UnsupportedEncodingException::class, NoSuchAlgorithmException::class)
     fun getSHA1(p: String): ByteArray {
-        val md: MessageDigest
-        md = MessageDigest.getInstance("SHA1")
+        val md: MessageDigest = MessageDigest.getInstance("SHA1")
         md.update(p.toByteArray(charset("utf-8")))
         return md.digest()
     }

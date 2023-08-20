@@ -11,17 +11,15 @@ import javafx.stage.Stage
 import net.rickiekarp.core.components.FoldableListCell
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
-import net.rickiekarp.core.extensions.addCharAtIndex
-import net.rickiekarp.core.extensions.removeCharAtIndex
 import net.rickiekarp.core.model.SettingEntry
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.util.crypt.Md5Coder
-import net.rickiekarp.core.util.math.MathUtil
-import net.rickiekarp.core.util.enums.AlphabetType
-import net.rickiekarp.core.util.enums.FontType
+import net.rickiekarp.core.enums.AlphabetType
+import net.rickiekarp.core.enums.CustomCoderType
+import net.rickiekarp.core.enums.FontType
+import net.rickiekarp.core.util.crypt.CustomCoder
 import net.rickiekarp.core.util.image.TextToImage
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.MainScene
@@ -31,11 +29,12 @@ import net.rickiekarp.sha1pass.enum.TextCodingType
 class TextCoding(textCodingType: TextCodingType) {
     private var grid: GridPane? = null
     private var controls: HBox? = null
-    private var type = textCodingType
+    private var codingType = textCodingType
     private val WINDOWIDENTIFIER = "textcoding"
 
     private lateinit var seedTextField: TextField
     private lateinit var inputTextArea: TextArea
+    private lateinit var customCoderVersionBox: ComboBox<CustomCoderType>
 
     init {
         create()
@@ -73,7 +72,7 @@ class TextCoding(textCodingType: TextCodingType) {
             grid!!.hgap = 16.0
             grid!!.padding = Insets(20.0, 15.0, 20.0, 20.0)
 
-            val title = Label(type.name)
+            val title = Label(codingType.name)
             title.style = "-fx-font-size: 16pt;"
             GridPane.setHalignment(title, HPos.CENTER)
             GridPane.setConstraints(title, 0, 0)
@@ -107,12 +106,12 @@ class TextCoding(textCodingType: TextCodingType) {
             controls!!.spacing = 10.0
             controls!!.alignment = Pos.CENTER
 
-            when (type) {
+            when (codingType) {
                 TextCodingType.ENCODE -> {
                     val codingButton = Button(LocalizationProvider.getString("encode"))
                     codingButton.setOnAction { _ ->
                         output.clear()
-                        output.text = encode()
+                        output.text = CustomCoder.encode(inputTextArea.text, seedTextField.text, customCoderVersionBox.value)
                     }
                     controls!!.children.add(codingButton)
                 }
@@ -120,30 +119,7 @@ class TextCoding(textCodingType: TextCodingType) {
                     val codingButton = Button(LocalizationProvider.getString("decode"))
                     codingButton.setOnAction { _ ->
                         output.clear()
-                        var outputText = ""
-
-                        val seed = RandomCharacter.getSeed(seedTextField.text)
-                        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed);
-
-                        var inputText = inputTextArea.text
-
-                        val numberOfCharsToAdd = MathUtil.log2(seedTextField.text.length, 0)
-                        val md5 = Md5Coder.calcMd5(seedTextField.text).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
-
-                        for (md5Digit in md5.toSortedSet().sortedDescending()) {
-                            inputText = inputText.removeCharAtIndex(md5Digit.digitToInt())
-                        }
-
-                        var index = 0
-                        for (character in inputText) {
-                            val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, seed)
-                            val characterIndex = RandomCharacter.getIndexFromChar(character, shuffledCharacters) - seedCharacterAsInt
-                            val decodedChar = RandomCharacter.alphabetPosToLetter(characterIndex)
-                            outputText += decodedChar.toString()
-                            index++
-                        }
-
-                        output.text = outputText
+                        output.text = CustomCoder.decode(inputTextArea.text, seedTextField.text, customCoderVersionBox.value)
                     }
                     controls!!.children.add(codingButton)
                 }
@@ -157,33 +133,6 @@ class TextCoding(textCodingType: TextCodingType) {
 
             return borderpane
         }
-
-    private fun encode() : String {
-        var outputText = ""
-        val seed = RandomCharacter.getSeed(seedTextField.text)
-        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed)
-
-        var inputText = inputTextArea.text
-        inputText = inputText.trim().replace("[^a-zA-Z0-9]".toRegex(), "")
-
-        var index = 0
-        for (character in inputText) {
-            val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, seed)
-            val outChar = RandomCharacter.getCharacterAtIndex(RandomCharacter.letterToAlphabetPos(character) + seedCharacterAsInt, shuffledCharacters)
-            outputText += outChar.toString()
-            index++
-        }
-
-        val numberOfCharsToAdd = MathUtil.log2(seedTextField.text.length, 0)
-        val md5 = Md5Coder.calcMd5(seedTextField.text).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
-
-        for (md5Digit in md5.toSortedSet().sorted()) {
-            val randomCharacter = RandomCharacter.getRandomCharacter()
-            outputText = outputText.addCharAtIndex(randomCharacter, md5Digit.digitToInt())
-        }
-
-        return outputText
-    }
 
     private fun createBox2(description: String): VBox {
         val content = VBox()
@@ -254,7 +203,7 @@ class TextCoding(textCodingType: TextCodingType) {
         codingButton.setOnAction { _ ->
             var inputText = inputTextArea.text
             if (applyEncoding.isSelected) {
-                inputText = encode()
+                inputText = CustomCoder.encode(inputText, seedTextField.text, customCoderVersionBox.value)
             }
 
             if (inputText.isNotEmpty()) {
@@ -275,15 +224,15 @@ class TextCoding(textCodingType: TextCodingType) {
         option1Desc.style = "-fx-font-size: 9pt;"
         option1Desc.maxWidth = 175.0
 
-        val cBoxVersion = ComboBox<String>()
-        cBoxVersion.items.addAll("v1", "v2")
-        cBoxVersion.selectionModel.select(0)
-        cBoxVersion.minWidth = 100.0
+        customCoderVersionBox = ComboBox<CustomCoderType>()
+        customCoderVersionBox.items.addAll(CustomCoderType.entries.toTypedArray())
+        customCoderVersionBox.selectionModel.select(0)
+        customCoderVersionBox.minWidth = 100.0
 
         val hBox = HBox()
         hBox.alignment = Pos.CENTER_LEFT
         hBox.spacing = 5.0
-        hBox.children.addAll(cBoxVersion)
+        hBox.children.addAll(customCoderVersionBox)
 
         content.children.addAll(option1Desc, hBox)
         return content
@@ -314,7 +263,11 @@ class TextCoding(textCodingType: TextCodingType) {
         val items = FXCollections.observableArrayList<SettingEntry>()
         items.add(SettingEntry("Setting.AlgorithmVersion.Title",false, createBox1("Setting.AlgorithmVersion.Description")))
         items.add(SettingEntry("Setting.CharacterSet.Title",false, createBox2("Setting.CharacterSet.Description")))
-        items.add(SettingEntry("Setting.ImageExport.Title",false, createBox3("Setting.ImageExport.Description")))
+
+        if (codingType == TextCodingType.ENCODE) {
+            items.add(SettingEntry("Setting.ImageExport.Title",false, createBox3("Setting.ImageExport.Description")))
+        }
+
         list.items = items
 
         list.setCellFactory { FoldableListCell(list) }

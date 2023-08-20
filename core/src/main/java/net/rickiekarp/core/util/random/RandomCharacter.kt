@@ -1,7 +1,7 @@
 package net.rickiekarp.core.util.random
 
 import net.rickiekarp.core.util.crypt.Md5Coder
-import net.rickiekarp.core.util.enums.AlphabetType
+import net.rickiekarp.core.enums.AlphabetType
 import okhttp3.internal.toImmutableList
 import java.util.*
 
@@ -9,13 +9,13 @@ object RandomCharacter {
 
     var characterSetConfig = mutableMapOf<AlphabetType, Boolean>()
 
-    fun getSeed(inputData : String) : Long {
+    fun getMd5Seed(inputData : String) : Long {
         var md5 = Md5Coder.calcMd5(inputData);
-        md5 = customMd5Replacer(md5)
+        md5 = replaceHexLetterWithDigit(md5)
         return md5.substring(0,16).toLong()
     }
 
-    private fun customMd5Replacer(md5: String): String {
+    private fun replaceHexLetterWithDigit(md5: String): String {
         var modifiedMd5 = md5
         modifiedMd5 = modifiedMd5.replace("a", "2")
         modifiedMd5 = modifiedMd5.replace("b", "5")
@@ -29,13 +29,13 @@ object RandomCharacter {
     private fun getCharacterList(): MutableList<Char> {
         var characterSetString = ""
 
-        if (characterSetConfig[AlphabetType.CYRILLIC]!!) {
+        if (characterSetConfig[AlphabetType.CYRILLIC] != null) {
             characterSetString = AlphabetType.CYRILLIC.getCharacters()
         }
-        if (characterSetConfig[AlphabetType.LATIN]!!) {
+        if (characterSetConfig[AlphabetType.LATIN] != null) {
             characterSetString += AlphabetType.LATIN.getCharacters()
         }
-        if (characterSetConfig[AlphabetType.GREEK]!!) {
+        if (characterSetConfig[AlphabetType.GREEK] != null) {
             characterSetString += AlphabetType.GREEK.getCharacters()
         }
 

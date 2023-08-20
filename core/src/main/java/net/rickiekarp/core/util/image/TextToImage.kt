@@ -9,7 +9,7 @@ import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.WritableImage
 import javafx.scene.text.Font
-import net.rickiekarp.core.util.enums.FontType
+import net.rickiekarp.core.enums.FontType
 import java.io.File
 import java.io.IOException
 import javax.imageio.ImageIO

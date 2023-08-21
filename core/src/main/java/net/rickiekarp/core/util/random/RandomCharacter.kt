@@ -29,13 +29,13 @@ object RandomCharacter {
     private fun getCharacterList(): MutableList<Char> {
         var characterSetString = ""
 
-        if (characterSetConfig[AlphabetType.CYRILLIC] != null) {
+        if (characterSetConfig[AlphabetType.CYRILLIC] != null && characterSetConfig[AlphabetType.CYRILLIC]!!) {
             characterSetString = AlphabetType.CYRILLIC.getCharacters()
         }
-        if (characterSetConfig[AlphabetType.LATIN] != null) {
+        if (characterSetConfig[AlphabetType.LATIN] != null && characterSetConfig[AlphabetType.LATIN]!!) {
             characterSetString += AlphabetType.LATIN.getCharacters()
         }
-        if (characterSetConfig[AlphabetType.GREEK] != null) {
+        if (characterSetConfig[AlphabetType.GREEK] != null && characterSetConfig[AlphabetType.GREEK]!!) {
             characterSetString += AlphabetType.GREEK.getCharacters()
         }
 

@@ -9,6 +9,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.*
 import javafx.stage.Stage
 import net.rickiekarp.core.components.FoldableListCell
+import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.model.SettingEntry
@@ -35,6 +36,8 @@ class TextCoding(textCodingType: TextCodingType) {
     private lateinit var seedTextField: TextField
     private lateinit var inputTextArea: TextArea
     private lateinit var customCoderVersionBox: ComboBox<CustomCoderType>
+
+    private val defaultFontSize = 40
 
     init {
         create()
@@ -186,6 +189,17 @@ class TextCoding(textCodingType: TextCodingType) {
         cBoxVersion.minWidth = 100.0
         cBoxVersion.maxWidth = 150.0
 
+        val fontSizeDesc = Label(LocalizationProvider.getString("Setting.ImageExport.FontSizeDesc"))
+        fontSizeDesc.isWrapText = true
+        fontSizeDesc.style = "-fx-font-size: 9pt;"
+        fontSizeDesc.maxWidth = 175.0
+
+        val fontSize = CustomTextField()
+        fontSize.setRestrict("[0-9]")
+        fontSize.text = defaultFontSize.toString()
+        fontSize.minWidth = 100.0
+        fontSize.maxWidth = 150.0
+
         val applyEncodingDesc = Label(LocalizationProvider.getString("Setting.ImageExport.ApplyEncodingDesc"))
         applyEncodingDesc.isWrapText = true
         applyEncodingDesc.style = "-fx-font-size: 9pt;"
@@ -207,11 +221,21 @@ class TextCoding(textCodingType: TextCodingType) {
             }
 
             if (inputText.isNotEmpty()) {
-                TextToImage().saveToImage(inputText, 50, cBoxVersion.value,System.getProperty("user.home")+"/export.png")
+                var fontSizeAsInt = defaultFontSize
+                if (fontSize.text.isNotEmpty()) {
+                    fontSizeAsInt = fontSize.text.toInt()
+                }
+
+                TextToImage().saveToImage(inputText, fontSizeAsInt, cBoxVersion.value,System.getProperty("user.home")+"/export.png")
             }
         }
 
-        content.children.addAll(option2Desc, cBoxVersion, applyEncodingDesc, applyEncoding, outputDesc, codingButton)
+        content.children.addAll(
+            option2Desc, cBoxVersion,
+            fontSizeDesc, fontSize,
+            applyEncodingDesc, applyEncoding,
+            outputDesc, codingButton
+        )
         return content
     }
 

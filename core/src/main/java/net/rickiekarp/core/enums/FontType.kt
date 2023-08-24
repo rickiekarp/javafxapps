@@ -4,6 +4,8 @@ enum class FontType(private val fontFile: String) {
     ALIEN("fonts/alien.otf"),
     ANCIENT("fonts/ancient.ttf"),
     BEHISTUN("fonts/behistun.ttf"),
+    DARKARTS("fonts/darkarts.ttf"),
+    ENCHANTINGTABLE("fonts/enchantingtable.ttf"),
     JUNGLESLANG("fonts/jungleslang.ttf"),
     LOVECRAFTSDIARY("fonts/lovecraftsdiary.ttf"),
     LUCIUS("fonts/lucius.ttf"),

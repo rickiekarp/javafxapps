@@ -20,9 +20,9 @@ jar {
     def publicVersion = 0
 
     if (minorVersion > 0) {
-        publicVersion = new SimpleDateFormat("yy.MM").format(new Date()) + '.' + minorVersion
+        publicVersion = new SimpleDateFormat("yy.MM.dd").format(new Date()) + '.' + minorVersion
     } else {
-        publicVersion = new SimpleDateFormat("yy.MM").format(new Date())
+        publicVersion = new SimpleDateFormat("yy.MM.dd").format(new Date())
     }
 
     manifest {

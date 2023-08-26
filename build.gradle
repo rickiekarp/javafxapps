@@ -19,7 +19,7 @@ allprojects {
 
     apply plugin: "org.openjfx.javafxplugin"
     javafx {
-        version = "20.0.1"
+        version = "20.0.2"
         modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing' ]
     }
 

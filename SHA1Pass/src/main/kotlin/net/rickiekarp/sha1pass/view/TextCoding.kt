@@ -20,6 +20,7 @@ import net.rickiekarp.core.ui.windowmanager.WindowStage
 import net.rickiekarp.core.enums.AlphabetType
 import net.rickiekarp.core.enums.CustomCoderType
 import net.rickiekarp.core.enums.FontType
+import net.rickiekarp.core.model.CustomCoderConfig
 import net.rickiekarp.core.util.crypt.CustomCoder
 import net.rickiekarp.core.util.image.TextToImage
 import net.rickiekarp.core.util.random.RandomCharacter
@@ -36,6 +37,7 @@ class TextCoding(textCodingType: TextCodingType) {
     private lateinit var seedTextField: TextField
     private lateinit var inputTextArea: TextArea
     private lateinit var customCoderVersionBox: ComboBox<CustomCoderType>
+    private lateinit var preserveWhiteSpacesCheckBox: CheckBox
 
     private val defaultFontSize = 40
 
@@ -114,7 +116,12 @@ class TextCoding(textCodingType: TextCodingType) {
                     val codingButton = Button(LocalizationProvider.getString("encode"))
                     codingButton.setOnAction { _ ->
                         output.clear()
-                        output.text = CustomCoder.encode(inputTextArea.text, seedTextField.text, customCoderVersionBox.value)
+                        val coderConfig = CustomCoderConfig(
+                            customCoderVersionBox.value,
+                            seedTextField.text,
+                            preserveWhiteSpacesCheckBox.isSelected
+                        )
+                        output.text = CustomCoder.encode(inputTextArea.text, coderConfig)
                     }
                     controls!!.children.add(codingButton)
                 }
@@ -122,7 +129,12 @@ class TextCoding(textCodingType: TextCodingType) {
                     val codingButton = Button(LocalizationProvider.getString("decode"))
                     codingButton.setOnAction { _ ->
                         output.clear()
-                        output.text = CustomCoder.decode(inputTextArea.text, seedTextField.text, customCoderVersionBox.value)
+                        val coderConfig = CustomCoderConfig(
+                            customCoderVersionBox.value,
+                            seedTextField.text,
+                            preserveWhiteSpacesCheckBox.isSelected
+                        )
+                        output.text = CustomCoder.decode(inputTextArea.text, coderConfig)
                     }
                     controls!!.children.add(codingButton)
                 }
@@ -137,11 +149,11 @@ class TextCoding(textCodingType: TextCodingType) {
             return borderpane
         }
 
-    private fun createBox2(description: String): VBox {
+    private fun createBox2(): VBox {
         val content = VBox()
         content.spacing = 5.0
 
-        val option2Desc = Label(LocalizationProvider.getString(description))
+        val option2Desc = Label(LocalizationProvider.getString("Setting.CharacterSet.Description"))
         option2Desc.isWrapText = true
         option2Desc.style = "-fx-font-size: 9pt;"
         option2Desc.maxWidth = 175.0
@@ -174,11 +186,11 @@ class TextCoding(textCodingType: TextCodingType) {
         return content
     }
 
-    private fun createBox3(description: String): VBox {
+    private fun createBox3(): VBox {
         val content = VBox()
         content.spacing = 5.0
 
-        val option2Desc = Label(LocalizationProvider.getString(description))
+        val option2Desc = Label(LocalizationProvider.getString("Setting.ImageExport.Description"))
         option2Desc.isWrapText = true
         option2Desc.style = "-fx-font-size: 9pt;"
         option2Desc.maxWidth = 175.0
@@ -217,7 +229,12 @@ class TextCoding(textCodingType: TextCodingType) {
         codingButton.setOnAction { _ ->
             var inputText = inputTextArea.text
             if (applyEncoding.isSelected) {
-                inputText = CustomCoder.encode(inputText, seedTextField.text, customCoderVersionBox.value)
+                val coderConfig = CustomCoderConfig(
+                    customCoderVersionBox.value,
+                    seedTextField.text,
+                    preserveWhiteSpacesCheckBox.isSelected
+                )
+                inputText = CustomCoder.encode(inputText, coderConfig)
             }
 
             if (inputText.isNotEmpty()) {
@@ -239,11 +256,11 @@ class TextCoding(textCodingType: TextCodingType) {
         return content
     }
 
-    private fun createBox1(description: String): VBox {
+    private fun createBox1(): VBox {
         val content = VBox()
         content.spacing = 5.0
 
-        val option1Desc = Label(LocalizationProvider.getString(description))
+        val option1Desc = Label(LocalizationProvider.getString("Setting.AlgorithmVersion.Description"))
         option1Desc.isWrapText = true
         option1Desc.style = "-fx-font-size: 9pt;"
         option1Desc.maxWidth = 175.0
@@ -253,12 +270,20 @@ class TextCoding(textCodingType: TextCodingType) {
         customCoderVersionBox.selectionModel.select(0)
         customCoderVersionBox.minWidth = 100.0
 
+        val settingsLabel = Label(LocalizationProvider.getString("settings"))
+        settingsLabel.isWrapText = true
+        settingsLabel.style = "-fx-font-size: 9pt;"
+        settingsLabel.maxWidth = 175.0
+
+        preserveWhiteSpacesCheckBox = CheckBox(LocalizationProvider.getString("Setting.Algorithm.PreserveWhitespaces"))
+        preserveWhiteSpacesCheckBox.isSelected = false
+
         val hBox = HBox()
         hBox.alignment = Pos.CENTER_LEFT
         hBox.spacing = 5.0
         hBox.children.addAll(customCoderVersionBox)
 
-        content.children.addAll(option1Desc, hBox)
+        content.children.addAll(option1Desc, hBox, settingsLabel, preserveWhiteSpacesCheckBox)
         return content
     }
 
@@ -285,11 +310,11 @@ class TextCoding(textCodingType: TextCodingType) {
         settingsGrid.children.add(list)
 
         val items = FXCollections.observableArrayList<SettingEntry>()
-        items.add(SettingEntry("Setting.AlgorithmVersion.Title",false, createBox1("Setting.AlgorithmVersion.Description")))
-        items.add(SettingEntry("Setting.CharacterSet.Title",false, createBox2("Setting.CharacterSet.Description")))
+        items.add(SettingEntry("Setting.AlgorithmVersion.Title",false, createBox1()))
+        items.add(SettingEntry("Setting.CharacterSet.Title",false, createBox2()))
 
         if (codingType == TextCodingType.ENCODE) {
-            items.add(SettingEntry("Setting.ImageExport.Title",false, createBox3("Setting.ImageExport.Description")))
+            items.add(SettingEntry("Setting.ImageExport.Title",false, createBox3()))
         }
 
         list.items = items

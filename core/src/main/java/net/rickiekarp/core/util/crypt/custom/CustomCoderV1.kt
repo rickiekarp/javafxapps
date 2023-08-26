@@ -2,15 +2,16 @@ package net.rickiekarp.core.util.crypt.custom
 
 import net.rickiekarp.core.extensions.addCharAtIndex
 import net.rickiekarp.core.extensions.removeCharAtIndex
+import net.rickiekarp.core.model.CustomCoderConfig
 import net.rickiekarp.core.util.crypt.Md5Coder
 import net.rickiekarp.core.util.math.MathUtil
 import net.rickiekarp.core.util.random.RandomCharacter
 
 object CustomCoderV1 {
 
-    fun encode(input: String, baseSeed: String) : String {
+    fun encode(input: String, config: CustomCoderConfig) : String {
         var outputText = ""
-        val computedSeed = RandomCharacter.getMd5Seed(baseSeed)
+        val computedSeed = RandomCharacter.getMd5Seed(config.baseSeed)
         val shuffledCharacters = RandomCharacter.getCharacterListShuffled(computedSeed)
 
         var inputText = input
@@ -24,8 +25,8 @@ object CustomCoderV1 {
             index++
         }
 
-        val numberOfCharsToAdd = MathUtil.log2(baseSeed.length, 0)
-        val md5 = Md5Coder.calcMd5(baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
+        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0)
+        val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
         for (md5Digit in md5.toSortedSet().sorted()) {
             val randomCharacter = RandomCharacter.getRandomCharacter()
@@ -36,16 +37,16 @@ object CustomCoderV1 {
     }
 
 
-    fun decode(input: String, baseSeed: String) : String {
+    fun decode(input: String, config: CustomCoderConfig) : String {
         var outputText = ""
 
-        val seed = RandomCharacter.getMd5Seed(baseSeed)
+        val seed = RandomCharacter.getMd5Seed(config.baseSeed)
         val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed);
 
         var inputText = input
 
-        val numberOfCharsToAdd = MathUtil.log2(baseSeed.length, 0)
-        val md5 = Md5Coder.calcMd5(baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
+        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0)
+        val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
         for (md5Digit in md5.toSortedSet().sortedDescending()) {
             inputText = inputText.removeCharAtIndex(md5Digit.digitToInt())

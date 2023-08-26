@@ -1,8 +1,8 @@
 package net.rickiekarp.snakefx.highscore
 
-import org.codehaus.jackson.map.ObjectMapper
-import org.codehaus.jackson.map.SerializationConfig.Feature
-import org.codehaus.jackson.map.type.TypeFactory
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.type.TypeFactory
 import java.io.IOException
 
 /**
@@ -10,12 +10,11 @@ import java.io.IOException
  */
 class HighscoreJsonDao : HighscoreDao {
 
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper = ObjectMapper()
     private val typeFactory: TypeFactory
 
     init {
-        mapper = ObjectMapper()
-        mapper.configure(Feature.INDENT_OUTPUT, true)
+        mapper.enable(SerializationFeature.INDENT_OUTPUT)
         typeFactory = TypeFactory.defaultInstance()
     }
 

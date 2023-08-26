@@ -1,6 +1,6 @@
 package net.rickiekarp.snakefx.highscore
 
-import org.codehaus.jackson.annotate.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.*
 
 class HighScoreEntry : Comparable<HighScoreEntry> {

@@ -8,7 +8,7 @@ plugins {
 dependencies {
     implementation project(":core")
     implementation project(":BotLib")
-    implementation 'org.json:json:20220924'
+    implementation 'org.json:json:20230227'
 }
 
 mainClassName = 'net.rickiekarp.botter.Main'

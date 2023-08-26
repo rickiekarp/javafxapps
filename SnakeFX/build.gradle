@@ -11,7 +11,7 @@ dependencies {
     implementation project(":core")
 
     implementation "javax.validation:validation-api:1.0.0.GA"
-    implementation "org.codehaus.jackson:jackson-mapper-asl:1.9.12"
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
     // testing
     testImplementation "org.mockito:mockito-core:3.9.0"

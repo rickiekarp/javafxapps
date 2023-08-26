@@ -274,7 +274,7 @@ class BotSetupLayout {
                 val searchChrome = Button(LocalizationProvider.getString("search"))
                 searchChrome.maxHeight = 100.0
                 searchChrome.alignment = Pos.CENTER
-                searchChrome.setOnAction { event ->
+                searchChrome.setOnAction { _ ->
                     val directoryChooser = DirectoryChooser()
                     val selectedDirectory = directoryChooser.showDialog(MainScene.mainScene.windowScene!!.window)
 

@@ -21,8 +21,7 @@ object PluginExecutor {
         val authorizedJarFile = File(Configuration.config.pluginDirFile.toString() + File.separator + plugin.pluginName + ".jar")
         val authorizedLoader: ClassLoader
         authorizedLoader = URLClassLoader.newInstance(arrayOf(authorizedJarFile.toURI().toURL()))
-        val authorizedBotPlugin: BotPlugin
-        authorizedBotPlugin = authorizedLoader.loadClass(plugin.pluginClazz.get()).newInstance() as BotPlugin
+        val authorizedBotPlugin: BotPlugin = authorizedLoader.loadClass(plugin.pluginClazz.get()).newInstance() as BotPlugin
         authorizedBotPlugin.setLayout(runner)
     }
 
@@ -34,9 +33,8 @@ object PluginExecutor {
         val authorizedJarFile = File(Configuration.config.pluginDirFile.toString() + File.separator + plugin.pluginName + ".jar")
         val authorizedLoader: ClassLoader
         authorizedLoader = URLClassLoader.newInstance(arrayOf(authorizedJarFile.toURI().toURL()))
-        val authorizedBotPlugin: BotPlugin
         LogFileHandler.logger.info("Starting " + plugin.pluginType + " bot - " + plugin.pluginName + " (" + plugin.pluginOldVersion + ")")
-        authorizedBotPlugin = authorizedLoader.loadClass(plugin.pluginClazz.get()).newInstance() as BotPlugin
+        val authorizedBotPlugin: BotPlugin = authorizedLoader.loadClass(plugin.pluginClazz.get()).newInstance() as BotPlugin
         authorizedBotPlugin.run(runner)
     }
 
@@ -48,8 +46,7 @@ object PluginExecutor {
             val authorizedJarFile = File(Configuration.config.pluginDirFile.toString() + File.separator + plugin.pluginName + ".jar")
             val authorizedLoader: ClassLoader
             authorizedLoader = URLClassLoader.newInstance(arrayOf(authorizedJarFile.toURI().toURL()))
-            val authorizedPlugin: Plugin
-            authorizedPlugin = authorizedLoader.loadClass(plugin.pluginClazz.get()).newInstance() as Plugin
+            val authorizedPlugin: Plugin = authorizedLoader.loadClass(plugin.pluginClazz.get()).newInstance() as Plugin
             Platform.runLater { authorizedPlugin.run() }
         } catch (e: Exception) {
             if (DebugHelper.DEBUG) {

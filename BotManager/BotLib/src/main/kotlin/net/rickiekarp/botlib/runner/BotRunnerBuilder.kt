@@ -31,8 +31,8 @@ class BotRunnerBuilder {
                     }
                 }
 
-                override fun setLayout(node: Node) {
-                    Platform.runLater { MainScene.mainScene.borderPane.center = node }
+                override fun setLayout(layoutNode: Node) {
+                    Platform.runLater { MainScene.mainScene.borderPane.center = layoutNode }
                 }
 
                 override fun addSetting(title: String, description: String, isVisible: Boolean, settingNode: Node) {
@@ -43,11 +43,11 @@ class BotRunnerBuilder {
                     }
                 }
 
-                override fun addControlButton(vararg node: Button) {
+                override fun addControlButton(vararg controlButton: Button) {
                     Platform.runLater {
                         val pane = MainScene.mainScene.borderPane.bottom as AnchorPane
                         val controls = pane.children[0] as HBox
-                        controls.children.addAll(*node)
+                        controls.children.addAll(*controlButton)
                     }
                 }
 
@@ -65,8 +65,8 @@ class BotRunnerBuilder {
                     set(AndroidDriver<WebElement>(driverService as AppiumDriverLocalService, BotLauncher.getCapabilities(plugin)))
                 }
 
-                override fun setLayout(node: Node) {
-                    Platform.runLater { MainScene.mainScene.borderPane.center = node }
+                override fun setLayout(layoutNode: Node) {
+                    Platform.runLater { MainScene.mainScene.borderPane.center = layoutNode }
                 }
 
                 override fun addSetting(title: String, description: String, isVisible: Boolean, settingNode: Node) {
@@ -77,11 +77,11 @@ class BotRunnerBuilder {
                     }
                 }
 
-                override fun addControlButton(vararg node: Button) {
+                override fun addControlButton(vararg controlButton: Button) {
                     Platform.runLater {
                         val pane = MainScene.mainScene.borderPane.bottom as AnchorPane
                         val controls = pane.children[0] as HBox
-                        controls.children.addAll(*node)
+                        controls.children.addAll(*controlButton)
                     }
                 }
 

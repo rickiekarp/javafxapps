@@ -80,7 +80,7 @@ class BotTask(botLauncher: BotLauncher, private val plugin: PluginData) : Task<V
         val listThread = Thread(this)
         listThread.isDaemon = true
 
-        this.setOnSucceeded { event1 ->
+        this.setOnSucceeded { _ ->
             println("Bot finished!")
             LogFileHandler.logger.info("Bot finished!")
             MainLayout.mainLayout!!.setStatus("success", "Finished")

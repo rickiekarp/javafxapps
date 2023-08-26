@@ -223,9 +223,9 @@ class AccountOverview(projectID: Int) {
         //add SplitPane to borderpane layout
         mainContent.center = splitPane
 
-        newAcc.setOnAction { event -> AccountEditDialog(projectID, "new", -1, null) }
+        newAcc.setOnAction { _ -> AccountEditDialog(projectID, "new", -1, null) }
 
-        editAcc.setOnAction { event ->
+        editAcc.setOnAction { _ ->
             val selectedIndex = tableview.selectionModel.focusedIndex
             val selectedAccount = tableview.selectionModel.selectedItem
 
@@ -233,7 +233,7 @@ class AccountOverview(projectID: Int) {
             Account.showAccountDetails(selectedAccount)
         }
 
-        delAcc.setOnAction { event ->
+        delAcc.setOnAction { _ ->
             val selectedIndex = tableview.selectionModel.focusedIndex
             try {
                 AccountXmlFactory.removeAccountFromXml(projectID, selectedIndex)
@@ -251,7 +251,7 @@ class AccountOverview(projectID: Int) {
         }
 
         //Add change listener
-        tableview.selectionModel.selectedItemProperty().addListener { observableValue, oldValue, newValue ->
+        tableview.selectionModel.selectedItemProperty().addListener { _, _, _ ->
             //Check whether item is selected
             if (tableview.selectionModel.selectedItem != null) {
                 editAcc.isDisable = false

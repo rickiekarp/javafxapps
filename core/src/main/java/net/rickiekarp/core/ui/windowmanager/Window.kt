@@ -360,13 +360,13 @@ class Window(val windowStage: WindowStage, val clientArea: Region, st: StageStyl
         clipShape.heightProperty().bind(sideBarHeightProperty)
 
         val btnCfg = SidebarButton(LocalizationProvider.getString("settings"))
-        btnCfg.setOnAction { e ->
+        btnCfg.setOnAction { _ ->
             SettingsScene()
             toggleSideBar()
         }
 
         val btnAbout = SidebarButton(LocalizationProvider.getString("about"))
-        btnAbout.setOnAction { e ->
+        btnAbout.setOnAction { _ ->
             AboutScene()
             toggleSideBar()
         }

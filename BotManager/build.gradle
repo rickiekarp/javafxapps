@@ -11,7 +11,7 @@ dependencies {
     implementation 'org.json:json:20230227'
 }
 
-mainClassName = 'net.rickiekarp.botter.Main'
+application.mainClass.set("net.rickiekarp.botter.Main")
 
 jar {
     println("Building " + project.name)

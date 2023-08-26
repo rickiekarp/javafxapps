@@ -132,7 +132,7 @@ class LoginMaskLayout {
             }
         }
 
-        loginTask.setOnFailed { t ->
+        loginTask.setOnFailed { _ ->
             // This handler will be called if exception occured during your task execution
             // E.g. network or db connection exceptions
             setStatus("Login failed!")

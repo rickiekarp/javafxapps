@@ -195,7 +195,7 @@ class BugReportSettings(projectID: Int) {
         mainContent.center = mainGrid
         mainContent.bottom = controls
 
-        saveCfg.setOnAction { event ->
+        saveCfg.setOnAction { _ ->
             AppConfiguration.browser = browserTF.text
             AppConfiguration.found_in_version = versionTF!!.text
             AppConfiguration.srvSel = serverCB.selectionModel.selectedIndex
@@ -216,31 +216,31 @@ class BugReportSettings(projectID: Int) {
             //            }
         }
 
-        copyTemplate.setOnAction { event ->
+        copyTemplate.setOnAction { _ ->
             AppConfiguration.setStringToClipboard(tmplTA!!.text)
             status.style = "-fx-text-fill: #55c4fe;"
             status.text = LocalizationProvider.getString("template_copied")
         }
 
-        browserTF.setOnKeyReleased { ke -> populateBugTemplate(pjState) }
+        browserTF.setOnKeyReleased { _ -> populateBugTemplate(pjState) }
 
-        versionTF!!.setOnKeyReleased { ke -> populateBugTemplate(pjState) }
+        versionTF!!.setOnKeyReleased { _ -> populateBugTemplate(pjState) }
 
-        accountCB.valueProperty().addListener { ov, t, t1 ->
+        accountCB.valueProperty().addListener { _, _, t1 ->
             if (t1 != null) {
                 AppConfiguration.projectData[pjState].setProjectAccBookmarkName(accountCB.selectionModel.selectedItem)
                 populateBugTemplate(pjState)
             }
         }
 
-        serverCB.valueProperty().addListener { ov, t, t1 ->
+        serverCB.valueProperty().addListener { _, _, t1 ->
             AppConfiguration.srvSel = serverCB.selectionModel.selectedIndex
             if (t1 != null) {
                 populateBugTemplate(pjState)
             }
         }
 
-        locaCB.valueProperty().addListener { ov, t, t1 ->
+        locaCB.valueProperty().addListener { _, _, t1 ->
             AppConfiguration.locaSel = locaCB.selectionModel.selectedIndex
             if (t1 != null) {
                 populateBugTemplate(pjState)

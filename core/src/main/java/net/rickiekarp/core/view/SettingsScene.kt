@@ -390,7 +390,7 @@ class SettingsScene {
             cfgContent.center = tabPane
             cfgContent.bottom = controls
 
-            saveCfg.setOnAction { event ->
+            saveCfg.setOnAction { _ ->
                 var shouldRestart = false
                 if (updateChannelBox.selectionModel.selectedIndex != Configuration.updateChannel) {
                     LogFileHandler.logger.config("change_update_channel: " + Configuration.updateChannel + " -> " + updateChannelBox.selectionModel.selectedIndex)

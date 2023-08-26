@@ -147,7 +147,7 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
         when (SceneType) {
             "new" -> {
                 saveCfg.text = LocalizationProvider.getString("addAcc")
-                saveCfg.setOnAction { event ->
+                saveCfg.setOnAction { _ ->
 
                     if (accNameTF.text.isEmpty()) {
                         MessageDialog(0, LocalizationProvider.getString("enterName"), 350, 220)
@@ -206,7 +206,7 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
 
             "edit" -> {
                 saveCfg.text = LocalizationProvider.getString("saveAcc")
-                saveCfg.setOnAction { event ->
+                saveCfg.setOnAction { _ ->
                     try {
                         AccountXmlFactory.saveAccXml(GAME_ID, selectedIdx)
                         accEditScene!!.win.windowStage.stage.close()
@@ -237,7 +237,7 @@ class AccountEditDialog internal constructor(GAME_ID: Int, sceneType: String, se
         mainContent.bottom = controls
 
 
-        accNameTF.textProperty().addListener { observable, oldValue, newValue ->
+        accNameTF.textProperty().addListener { _, oldValue, newValue ->
             try {
                 if (newValue.length > 16)
                 //maxLength of text field

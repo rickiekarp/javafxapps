@@ -5,7 +5,7 @@ plugins {
     id 'org.openjfx.javafxplugin'
 }
 
-mainClassName = "net.rickiekarp.colorpuzzlefx.Main"
+application.mainClass.set("net.rickiekarp.colorpuzzlefx.Main")
 
 repositories {
     mavenCentral()

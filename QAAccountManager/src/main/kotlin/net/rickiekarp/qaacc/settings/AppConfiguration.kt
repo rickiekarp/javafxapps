@@ -67,7 +67,7 @@ object AppConfiguration {
                 //                proj[i] = doc.createElement("project");
                 //                proj[i].appendChild(doc.createTextNode(projects[i]));
                 //                projects.appendChild(proj[i]);
-                projectData.add(Projects(i, projects[i], "accounts_" + projects[i].toLowerCase() + ".xml", projects[i].toLowerCase() + "Idx", -1, ""))
+                projectData.add(Projects(i, projects[i], "accounts_" + projects[i].lowercase() + ".xml", projects[i].lowercase() + "Idx", -1, ""))
             }
         }
         val projects = arrayOfNulls<String>(projList.length)
@@ -76,7 +76,7 @@ object AppConfiguration {
             val nNode = projList.item(i)
             if (nNode.nodeType == Node.ELEMENT_NODE) {
                 projects[i] = nNode.textContent
-                projectData.add(Projects(i, projects[i]!!, "accounts_" + projects[i]!!.toLowerCase() + ".xml", projects[i]!!.toLowerCase() + "Idx", -1, ""))
+                projectData.add(Projects(i, projects[i]!!, "accounts_" + projects[i]!!.lowercase() + ".xml", projects[i]!!.lowercase() + "Idx", -1, ""))
             }
         }
     }

@@ -7,13 +7,9 @@ plugins {
 
 dependencies {
     implementation project(":core")
-    /* uncomment for cross-platform jar: */
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
-//    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
 }
 
-mainClassName = 'net.rickiekarp.appupdater.Main'
+application.mainClass.set("net.rickiekarp.appupdater.Main")
 
 jar {
     println("Building " + project.name)

@@ -9,7 +9,7 @@ dependencies {
     implementation project(":core")
 }
 
-mainClassName = 'net.rickiekarp.qaacc.Main'
+application.mainClass.set("net.rickiekarp.qaacc.Main")
 
 jar {
     println("Building " + project.name)

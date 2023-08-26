@@ -63,7 +63,7 @@ object ProjectXmlFactory {
                 proj[i] = doc.createElement("project")
                 proj[i]!!.appendChild(doc.createTextNode(AppConfiguration.projects[i]))
                 projects.appendChild(proj[i])
-                AppConfiguration.projectData.add(Projects(i, AppConfiguration.projects[i], "accounts_" + AppConfiguration.projects[i].toLowerCase() + ".xml", AppConfiguration.projects[i].toLowerCase() + "Idx", -1, ""))
+                AppConfiguration.projectData.add(Projects(i, AppConfiguration.projects[i], "accounts_" + AppConfiguration.projects[i].lowercase() + ".xml", AppConfiguration.projects[i].lowercase() + "Idx", -1, ""))
             }
 
             // acronym element
@@ -160,7 +160,7 @@ object ProjectXmlFactory {
                     val nNode = projList.item(i)
                     if (nNode.nodeType == Node.ELEMENT_NODE) {
                         projects[i] = nNode.textContent
-                        AppConfiguration.projectData.add(Projects(i, projects[i]!!, "accounts_" + projects[i]!!.toLowerCase() + ".xml", projects[i]!!.toLowerCase() + "Idx", -1, ""))
+                        AppConfiguration.projectData.add(Projects(i, projects[i]!!, "accounts_" + projects[i]!!.lowercase() + ".xml", projects[i]!!.lowercase() + "Idx", -1, ""))
                     }
                 }
             }
@@ -342,7 +342,7 @@ object ProjectXmlFactory {
                 transformer.transform(source, result)
 
                 //adds new project to projectData list
-                AppConfiguration.projectData.add(Projects(nList.length + 1, projectName, "accounts_" + projectName.toLowerCase() + ".xml", projectName.toLowerCase() + "Idx", -1, ""))
+                AppConfiguration.projectData.add(Projects(nList.length + 1, projectName, "accounts_" + projectName.lowercase() + ".xml", projectName.lowercase() + "Idx", -1, ""))
 
             } catch (e1: ParserConfigurationException) {
                 if (DebugHelper.DEBUG) {

@@ -1,31 +1,36 @@
 package net.rickiekarp.sha1pass.view
 
 import javafx.collections.FXCollections
+import javafx.embed.swing.SwingFXUtils
 import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.*
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.stage.Stage
 import net.rickiekarp.core.components.FoldableListCell
 import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.debug.DebugHelper
 import net.rickiekarp.core.debug.LogFileHandler
+import net.rickiekarp.core.enums.AlphabetType
+import net.rickiekarp.core.enums.CustomCoderType
+import net.rickiekarp.core.enums.FontType
+import net.rickiekarp.core.math.noise.PerlinNoise2D
+import net.rickiekarp.core.model.CustomCoderConfig
 import net.rickiekarp.core.model.SettingEntry
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
-import net.rickiekarp.core.enums.AlphabetType
-import net.rickiekarp.core.enums.CustomCoderType
-import net.rickiekarp.core.enums.FontType
-import net.rickiekarp.core.model.CustomCoderConfig
 import net.rickiekarp.core.util.crypt.CustomCoder
 import net.rickiekarp.core.util.image.TextToImage
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.sha1pass.enum.TextCodingType
+import java.util.*
 
 
 class TextCoding(textCodingType: TextCodingType) {
@@ -270,6 +275,26 @@ class TextCoding(textCodingType: TextCodingType) {
         customCoderVersionBox.selectionModel.select(0)
         customCoderVersionBox.minWidth = 100.0
 
+        val noiseImage = PerlinNoise2D.getNoiseImage()
+        val image: Image = SwingFXUtils.toFXImage(noiseImage, null)
+        val logo = ImageView(image)
+        logo.fitHeightProperty().setValue(35)
+        logo.fitWidthProperty().setValue(35)
+
+//        val timer = Timer()
+//        val task: TimerTask = object : TimerTask() {
+//            override fun run() {
+////                if (MainScene.stageStack.getStageByIdentifier(WINDOWIDENTIFIER) == null) {
+////                    timer.cancel()
+////                }
+//
+//                val perlinNoiseImage = PerlinNoise2D.getNoiseImage()
+//                val image: Image = SwingFXUtils.toFXImage(perlinNoiseImage, null)
+//                logo.image = image;
+//            }
+//        }
+//        timer.schedule(task,0L, 25L);
+
         val settingsLabel = Label(LocalizationProvider.getString("settings"))
         settingsLabel.isWrapText = true
         settingsLabel.style = "-fx-font-size: 9pt;"
@@ -281,7 +306,7 @@ class TextCoding(textCodingType: TextCodingType) {
         val hBox = HBox()
         hBox.alignment = Pos.CENTER_LEFT
         hBox.spacing = 5.0
-        hBox.children.addAll(customCoderVersionBox)
+        hBox.children.addAll(customCoderVersionBox, logo)
 
         content.children.addAll(option1Desc, hBox, settingsLabel, preserveWhiteSpacesCheckBox)
         return content

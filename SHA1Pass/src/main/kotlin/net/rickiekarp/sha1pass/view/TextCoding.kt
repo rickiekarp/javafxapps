@@ -44,10 +44,29 @@ class TextCoding(textCodingType: TextCodingType) {
     private lateinit var customCoderVersionBox: ComboBox<CustomCoderType>
     private lateinit var preserveWhiteSpacesCheckBox: CheckBox
 
+    private lateinit var noiseImageView: ImageView
+
     private val defaultFontSize = 40
 
     init {
         create()
+    }
+
+    private fun onEnable() {
+        val timer = Timer()
+        val task: TimerTask = object : TimerTask() {
+            override fun run() {
+                if (MainScene.stageStack.getStageByIdentifier(WINDOWIDENTIFIER) == null) {
+                    timer.cancel()
+                    return
+                }
+
+                val perlinNoiseImage = PerlinNoise2D.getNoiseImage()
+                val image: Image = SwingFXUtils.toFXImage(perlinNoiseImage, null)
+                noiseImageView.image = image
+            }
+        }
+        timer.schedule(task,0L, 25L);
     }
 
     private fun create() {
@@ -67,6 +86,8 @@ class TextCoding(textCodingType: TextCodingType) {
         infoStage.show()
 
         MainScene.stageStack.push(WindowStage(WINDOWIDENTIFIER, infoStage))
+
+        onEnable()
     }
 
     private val content: BorderPane
@@ -277,23 +298,9 @@ class TextCoding(textCodingType: TextCodingType) {
 
         val noiseImage = PerlinNoise2D.getNoiseImage()
         val image: Image = SwingFXUtils.toFXImage(noiseImage, null)
-        val logo = ImageView(image)
-        logo.fitHeightProperty().setValue(35)
-        logo.fitWidthProperty().setValue(35)
-
-//        val timer = Timer()
-//        val task: TimerTask = object : TimerTask() {
-//            override fun run() {
-////                if (MainScene.stageStack.getStageByIdentifier(WINDOWIDENTIFIER) == null) {
-////                    timer.cancel()
-////                }
-//
-//                val perlinNoiseImage = PerlinNoise2D.getNoiseImage()
-//                val image: Image = SwingFXUtils.toFXImage(perlinNoiseImage, null)
-//                logo.image = image;
-//            }
-//        }
-//        timer.schedule(task,0L, 25L);
+        noiseImageView = ImageView(image)
+        noiseImageView.fitHeightProperty().setValue(35)
+        noiseImageView.fitWidthProperty().setValue(35)
 
         val settingsLabel = Label(LocalizationProvider.getString("settings"))
         settingsLabel.isWrapText = true
@@ -306,7 +313,7 @@ class TextCoding(textCodingType: TextCodingType) {
         val hBox = HBox()
         hBox.alignment = Pos.CENTER_LEFT
         hBox.spacing = 5.0
-        hBox.children.addAll(customCoderVersionBox, logo)
+        hBox.children.addAll(customCoderVersionBox, noiseImageView)
 
         content.children.addAll(option1Desc, hBox, settingsLabel, preserveWhiteSpacesCheckBox)
         return content

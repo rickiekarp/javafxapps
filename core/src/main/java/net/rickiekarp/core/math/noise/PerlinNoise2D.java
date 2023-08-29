@@ -7,8 +7,9 @@ public class PerlinNoise2D {
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480;
 
-    private static BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    public static BufferedImage getNoiseImage(){
+    private static final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+
+    public static BufferedImage getNoiseImage() {
         time += 0.01;
         for(int y = 0; y < HEIGHT; y++){
             for(int x = 0; x < WIDTH; x++){
@@ -17,17 +18,16 @@ public class PerlinNoise2D {
                 int frequency = 6;
                 double noise = noise((dx * frequency) + time, (dy * frequency) + time);
                 noise = (noise - 1) / 2;
-                int b = (int)(noise * 0xFF);
+                int b = (int) (noise * 0xFF);
                 int g = b * 0x100;
-                int r = b * 0x10000;
-                int finalValue = r;
-                image.setRGB(x, y, finalValue);
+                int r = b * 0x10000 + g;
+                image.setRGB(x, y, r);
             }
         }
         return image;
     }
 
-    private static double noise(double x, double y){
+    private static double noise(double x, double y) {
         int xi = (int) Math.floor(x) & 255;
         int yi = (int) Math.floor(y) & 255;
         int g1 = p[p[xi] + yi];
@@ -48,10 +48,8 @@ public class PerlinNoise2D {
 
         double x1Inter = lerp(u, d1, d2);
         double x2Inter = lerp(u, d3, d4);
-        double yInter = lerp(v, x1Inter, x2Inter);
 
-        return yInter;
-
+        return lerp(v, x1Inter, x2Inter);
     }
 
     private static double lerp(double amount, double left, double right) {
@@ -62,16 +60,16 @@ public class PerlinNoise2D {
         return t * t * t * (t * (t * 6 - 15) + 10);
     }
 
-    private static double grad(int hash, double x, double y){
-        switch(hash & 3){
-            case 0: return x + y;
-            case 1: return -x + y;
-            case 2: return x - y;
-            case 3: return -x - y;
-            default: return 0;
-        }
+    private static double grad(int hash, double x, double y) {
+        return switch (hash & 3) {
+            case 0 -> x + y;
+            case 1 -> -x + y;
+            case 2 -> x - y;
+            case 3 -> -x - y;
+            default -> 0;
+        };
     }
-    static final int p[] = new int[512], permutation[] = { 151,160,137,91,90,15,
+    static final int[] p = new int[512], permutation = { 151,160,137,91,90,15,
             131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
             190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
             88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
@@ -85,6 +83,6 @@ public class PerlinNoise2D {
             49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
             138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
     };
-    static { for (int i=0; i < 256 ; i++) p[256+i] = p[i] = permutation[i]; }
 
+    static { for (int i=0; i < 256 ; i++) p[256+i] = p[i] = permutation[i]; }
 }

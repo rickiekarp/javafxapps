@@ -18,7 +18,6 @@ import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.enums.AlphabetType
 import net.rickiekarp.core.enums.CustomCoderType
 import net.rickiekarp.core.enums.FontType
-import net.rickiekarp.core.math.noise.NoiseConfig
 import net.rickiekarp.core.math.noise.PerlinNoise2D
 import net.rickiekarp.core.model.CustomCoderConfig
 import net.rickiekarp.core.model.SettingEntry
@@ -31,7 +30,6 @@ import net.rickiekarp.core.util.image.TextToImage
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.sha1pass.enum.TextCodingType
 import java.util.*
-
 
 class TextCoding(textCodingType: TextCodingType) {
     private var grid: GridPane? = null
@@ -59,10 +57,11 @@ class TextCoding(textCodingType: TextCodingType) {
         false
     )
 
-    private val perlinNoiseGenerator = PerlinNoise2D(NoiseConfig(640, 640))
+    private var perlinNoiseGenerator = PerlinNoise2D(CustomCoderType.V1.getDefaultNoiseConfig())
 
     init {
         create()
+        onEnable()
     }
 
     private fun onEnable() {
@@ -74,6 +73,7 @@ class TextCoding(textCodingType: TextCodingType) {
                     return
                 }
 
+                perlinNoiseGenerator.incrementTime()
                 val perlinNoiseImage = perlinNoiseGenerator.getNoiseImage()
                 val image: Image = SwingFXUtils.toFXImage(perlinNoiseImage, null)
                 noiseImageView.image = image
@@ -99,8 +99,6 @@ class TextCoding(textCodingType: TextCodingType) {
         infoStage.show()
 
         MainScene.stageStack.push(WindowStage(windowIdentifier, infoStage))
-
-        onEnable()
     }
 
     private val content: BorderPane
@@ -158,6 +156,7 @@ class TextCoding(textCodingType: TextCodingType) {
                         coderConfig.coderType = customCoderVersionBox.value
                         coderConfig.baseSeed = seedTextField.text
                         coderConfig.preserveWhiteSpaces = preserveWhiteSpacesCheckBox.isSelected
+                        coderConfig.noiseGenerator = perlinNoiseGenerator
                         output.text = CustomCoder.encode(inputTextArea.text, coderConfig)
                     }
                     controls!!.children.add(codingButton)
@@ -169,6 +168,7 @@ class TextCoding(textCodingType: TextCodingType) {
                         coderConfig.coderType = customCoderVersionBox.value
                         coderConfig.baseSeed = seedTextField.text
                         coderConfig.preserveWhiteSpaces = preserveWhiteSpacesCheckBox.isSelected
+                        coderConfig.noiseGenerator = perlinNoiseGenerator
                         output.text = CustomCoder.decode(inputTextArea.text, coderConfig)
                     }
                     controls!!.children.add(codingButton)
@@ -264,6 +264,7 @@ class TextCoding(textCodingType: TextCodingType) {
                 coderConfig.coderType = customCoderVersionBox.value
                 coderConfig.baseSeed = seedTextField.text
                 coderConfig.preserveWhiteSpaces = preserveWhiteSpacesCheckBox.isSelected
+                coderConfig.noiseGenerator = perlinNoiseGenerator
                 inputText = CustomCoder.encode(inputText, coderConfig)
             }
 
@@ -299,6 +300,12 @@ class TextCoding(textCodingType: TextCodingType) {
         customCoderVersionBox.items.addAll(CustomCoderType.entries.toTypedArray())
         customCoderVersionBox.selectionModel.select(0)
         customCoderVersionBox.minWidth = 100.0
+        customCoderVersionBox.valueProperty().addListener { _, _, newValue ->
+            perlinNoiseGenerator = PerlinNoise2D(newValue!!.getDefaultNoiseConfig())
+            val perlinNoiseImage = perlinNoiseGenerator.getNoiseImage()
+            val image: Image = SwingFXUtils.toFXImage(perlinNoiseImage, null)
+            noiseImageView.image = image
+        }
 
         val noiseImage = perlinNoiseGenerator.getNoiseImage()
         val image: Image = SwingFXUtils.toFXImage(noiseImage, null)

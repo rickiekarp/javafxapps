@@ -8,27 +8,38 @@ public class PerlinNoise2D {
     private final NoiseConfig noiseConfig;
 
     public PerlinNoise2D(NoiseConfig config) {
-        this.time = 0;
         noiseConfig = config;
+        setTime(0);
         image = new BufferedImage(config.getWidth(), config.getHeight(), BufferedImage.TYPE_INT_RGB);
     }
 
+    public double getNoise(double dx, double dy, int frequency, double timeShift) {
+        double noise = noise((dx * frequency) + timeShift, (dy * frequency) + timeShift);
+        noise = (noise - 1) / 2;
+        return noise;
+    }
+
     public BufferedImage getNoiseImage() {
-        time += 0.01;
         for(int y = 0; y < noiseConfig.getHeight(); y++) {
             for(int x = 0; x < noiseConfig.getWidth(); x++) {
                 double dx = (double) x / noiseConfig.getHeight();
                 double dy = (double) y / noiseConfig.getHeight();
-                int frequency = 6;
-                double noise = noise((dx * frequency) + time, (dy * frequency) + time);
-                noise = (noise - 1) / 2;
-                int b = (int) (noise * 0xFF);
-                int g = b * 0x100;
-                int r = b * 0x10000 + g;
-                image.setRGB(x, y, r);
+                double noise = getNoise(dx, dy, noiseConfig.getFrequency(), time);
+                int r = (int) (noise * noiseConfig.getRedMultiplier());
+                int g = r * noiseConfig.getGreenMultiplier();
+                int rgb = r * 0x10000 + g;
+                image.setRGB(x, y, rgb);
             }
         }
         return image;
+    }
+
+    public void setTime(double newTime) {
+        time = newTime;
+    }
+
+    public void incrementTime() {
+        time += 0.01;
     }
 
     private static double noise(double x, double y) {
@@ -73,6 +84,7 @@ public class PerlinNoise2D {
             default -> 0;
         };
     }
+
     static final int[] p = new int[512], permutation = { 151,160,137,91,90,15,
             131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
             190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,

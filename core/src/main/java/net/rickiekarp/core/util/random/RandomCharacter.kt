@@ -7,8 +7,6 @@ import java.util.*
 
 object RandomCharacter {
 
-    var characterSetConfig = mutableMapOf<AlphabetType, Boolean>()
-
     fun getMd5Seed(inputData : String) : Long {
         var md5 = Md5Coder.calcMd5(inputData);
         md5 = replaceHexLetterWithDigit(md5)
@@ -26,7 +24,7 @@ object RandomCharacter {
         return modifiedMd5
     }
 
-    private fun getCharacterList(): MutableList<Char> {
+    private fun getCharacterList(characterSetConfig: MutableMap<AlphabetType, Boolean>): MutableList<Char> {
         var characterSetString = ""
 
         if (characterSetConfig[AlphabetType.CYRILLIC] != null && characterSetConfig[AlphabetType.CYRILLIC]!!) {
@@ -46,8 +44,8 @@ object RandomCharacter {
         return characterSetString.toMutableList()
     }
 
-    fun getCharacterListShuffled(seed : Long) : List<Char> {
-        val characterList = getCharacterList()
+    fun getCharacterListShuffled(seed : Long, characterSetConfig: MutableMap<AlphabetType, Boolean>) : List<Char> {
+        val characterList = getCharacterList(characterSetConfig)
         characterList.shuffle(Random(seed));
         return characterList.toImmutableList()
     }
@@ -56,8 +54,8 @@ object RandomCharacter {
         return characterList[index % characterList.size]
     }
 
-    fun getCharacterAtIndex(index : Int, seed : Long = Long.MIN_VALUE) : Char {
-        val characterList = getCharacterListShuffled(seed)
+    fun getCharacterAtIndex(index : Int, characterSetConfig: MutableMap<AlphabetType, Boolean>, seed : Long = Long.MIN_VALUE) : Char {
+        val characterList = getCharacterListShuffled(seed, characterSetConfig)
         return characterList[index % characterList.size]
     }
 
@@ -65,8 +63,8 @@ object RandomCharacter {
         return characterList.indexOf(character)
     }
 
-    fun getRandomCharacter() : Char {
-        val characterList = getCharacterList()
+    fun getRandomCharacter(characterSetConfig: MutableMap<AlphabetType, Boolean>) : Char {
+        val characterList = getCharacterList(characterSetConfig)
         return characterList[(characterList.indices).random()]
     }
 

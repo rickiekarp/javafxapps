@@ -27,7 +27,6 @@ import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
 import net.rickiekarp.core.util.crypt.CustomCoder
 import net.rickiekarp.core.util.image.TextToImage
-import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.sha1pass.enum.TextCodingType
 import java.util.*
@@ -37,7 +36,7 @@ class TextCoding(textCodingType: TextCodingType) {
     private var grid: GridPane? = null
     private var controls: HBox? = null
     private var codingType = textCodingType
-    private val WINDOWIDENTIFIER = "textcoding"
+    private val windowIdentifier = "textCoding"
 
     private lateinit var seedTextField: TextField
     private lateinit var inputTextArea: TextArea
@@ -48,6 +47,17 @@ class TextCoding(textCodingType: TextCodingType) {
 
     private val defaultFontSize = 40
 
+    private val coderConfig = CustomCoderConfig(
+        CustomCoderType.V1,
+        "",
+        mutableMapOf(
+            AlphabetType.CYRILLIC to true,
+            AlphabetType.LATIN to true,
+            AlphabetType.GREEK to true,
+        ),
+        false
+    )
+
     init {
         create()
     }
@@ -56,7 +66,7 @@ class TextCoding(textCodingType: TextCodingType) {
         val timer = Timer()
         val task: TimerTask = object : TimerTask() {
             override fun run() {
-                if (MainScene.stageStack.getStageByIdentifier(WINDOWIDENTIFIER) == null) {
+                if (MainScene.stageStack.getStageByIdentifier(windowIdentifier) == null) {
                     timer.cancel()
                     return
                 }
@@ -66,12 +76,12 @@ class TextCoding(textCodingType: TextCodingType) {
                 noiseImageView.image = image
             }
         }
-        timer.schedule(task,0L, 25L);
+        timer.schedule(task,0L, 25L)
     }
 
     private fun create() {
         val infoStage = Stage()
-        infoStage.title = LocalizationProvider.getString(WINDOWIDENTIFIER)
+        infoStage.title = LocalizationProvider.getString(windowIdentifier)
         infoStage.icons.add(ImageLoader.getAppIconSmall())
         infoStage.isResizable = true
         infoStage.width = 900.0
@@ -80,12 +90,12 @@ class TextCoding(textCodingType: TextCodingType) {
         val contentVbox = BorderPane()
         contentVbox.center = createLayout()
 
-        val aboutWindow = WindowScene(WindowStage(WINDOWIDENTIFIER, infoStage), contentVbox, 1)
+        val aboutWindow = WindowScene(WindowStage(windowIdentifier, infoStage), contentVbox, 1)
 
         infoStage.scene = aboutWindow
         infoStage.show()
 
-        MainScene.stageStack.push(WindowStage(WINDOWIDENTIFIER, infoStage))
+        MainScene.stageStack.push(WindowStage(windowIdentifier, infoStage))
 
         onEnable()
     }
@@ -142,11 +152,9 @@ class TextCoding(textCodingType: TextCodingType) {
                     val codingButton = Button(LocalizationProvider.getString("encode"))
                     codingButton.setOnAction { _ ->
                         output.clear()
-                        val coderConfig = CustomCoderConfig(
-                            customCoderVersionBox.value,
-                            seedTextField.text,
-                            preserveWhiteSpacesCheckBox.isSelected
-                        )
+                        coderConfig.coderType = customCoderVersionBox.value
+                        coderConfig.baseSeed = seedTextField.text
+                        coderConfig.preserveWhiteSpaces = preserveWhiteSpacesCheckBox.isSelected
                         output.text = CustomCoder.encode(inputTextArea.text, coderConfig)
                     }
                     controls!!.children.add(codingButton)
@@ -155,11 +163,9 @@ class TextCoding(textCodingType: TextCodingType) {
                     val codingButton = Button(LocalizationProvider.getString("decode"))
                     codingButton.setOnAction { _ ->
                         output.clear()
-                        val coderConfig = CustomCoderConfig(
-                            customCoderVersionBox.value,
-                            seedTextField.text,
-                            preserveWhiteSpacesCheckBox.isSelected
-                        )
+                        coderConfig.coderType = customCoderVersionBox.value
+                        coderConfig.baseSeed = seedTextField.text
+                        coderConfig.preserveWhiteSpaces = preserveWhiteSpacesCheckBox.isSelected
                         output.text = CustomCoder.decode(inputTextArea.text, coderConfig)
                     }
                     controls!!.children.add(codingButton)
@@ -186,26 +192,23 @@ class TextCoding(textCodingType: TextCodingType) {
 
         val latin = CheckBox(LocalizationProvider.getString("latin"))
         latin.isSelected = true
-        RandomCharacter.characterSetConfig[AlphabetType.LATIN] = true
         latin.setOnAction { _ ->
-            RandomCharacter.characterSetConfig[AlphabetType.LATIN] = !RandomCharacter.characterSetConfig[AlphabetType.LATIN]!!
-            LogFileHandler.logger.config("change_filename_option: " + !RandomCharacter.characterSetConfig[AlphabetType.LATIN]!! + " -> " + RandomCharacter.characterSetConfig[AlphabetType.LATIN])
+            coderConfig.characterSetConfig[AlphabetType.LATIN] = !coderConfig.characterSetConfig[AlphabetType.LATIN]!!
+            LogFileHandler.logger.config("change_latin_option: " + !coderConfig.characterSetConfig[AlphabetType.LATIN]!! + " -> " + coderConfig.characterSetConfig[AlphabetType.LATIN])
         }
 
         val cyrillic = CheckBox(LocalizationProvider.getString("cyrillic"))
         cyrillic.isSelected = true
-        RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC] = true
         cyrillic.setOnAction { _ ->
-            RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC] = !RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC]!!
-            LogFileHandler.logger.config("change_filename_option: " + !RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC]!! + " -> " + RandomCharacter.characterSetConfig[AlphabetType.CYRILLIC])
+            coderConfig.characterSetConfig[AlphabetType.CYRILLIC] = !coderConfig.characterSetConfig[AlphabetType.CYRILLIC]!!
+            LogFileHandler.logger.config("change_cyrillic_option: " + !coderConfig.characterSetConfig[AlphabetType.CYRILLIC]!! + " -> " + coderConfig.characterSetConfig[AlphabetType.CYRILLIC])
         }
 
         val greek = CheckBox(LocalizationProvider.getString("greek"))
         greek.isSelected = true
-        RandomCharacter.characterSetConfig[AlphabetType.GREEK] = true
         greek.setOnAction { _ ->
-            RandomCharacter.characterSetConfig[AlphabetType.GREEK] = !RandomCharacter.characterSetConfig[AlphabetType.GREEK]!!
-            LogFileHandler.logger.config("change_filename_option: " + !RandomCharacter.characterSetConfig[AlphabetType.GREEK]!! + " -> " + RandomCharacter.characterSetConfig[AlphabetType.GREEK])
+            coderConfig.characterSetConfig[AlphabetType.GREEK] = !coderConfig.characterSetConfig[AlphabetType.GREEK]!!
+            LogFileHandler.logger.config("change_greek_option: " + !coderConfig.characterSetConfig[AlphabetType.GREEK]!! + " -> " + coderConfig.characterSetConfig[AlphabetType.GREEK])
         }
 
         content.children.addAll(option2Desc, latin, cyrillic, greek)
@@ -255,11 +258,9 @@ class TextCoding(textCodingType: TextCodingType) {
         codingButton.setOnAction { _ ->
             var inputText = inputTextArea.text
             if (applyEncoding.isSelected) {
-                val coderConfig = CustomCoderConfig(
-                    customCoderVersionBox.value,
-                    seedTextField.text,
-                    preserveWhiteSpacesCheckBox.isSelected
-                )
+                coderConfig.coderType = customCoderVersionBox.value
+                coderConfig.baseSeed = seedTextField.text
+                coderConfig.preserveWhiteSpaces = preserveWhiteSpacesCheckBox.isSelected
                 inputText = CustomCoder.encode(inputText, coderConfig)
             }
 

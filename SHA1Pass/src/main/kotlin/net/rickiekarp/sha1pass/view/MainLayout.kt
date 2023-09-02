@@ -15,6 +15,7 @@ import net.rickiekarp.core.AppContext
 import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.components.textfield.CustomTextFieldSkin
 import net.rickiekarp.core.debug.DebugHelper
+import net.rickiekarp.core.enums.AlphabetType
 import net.rickiekarp.core.extensions.addCharAtIndex
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.util.ClipboardUtil
@@ -371,7 +372,9 @@ class MainLayout : AppLayout {
 
                 for (i in 1..finalInput.length / divisor) {
                     val indexToFetch = i * divisor - 1
-                    val randomChar = RandomCharacter.getCharacterAtIndex(indexToFetch)
+                    val randomChar = RandomCharacter.getCharacterAtIndex(indexToFetch, mutableMapOf(
+                        AlphabetType.CYRILLIC to true, AlphabetType.LATIN to true, AlphabetType.GREEK to true,
+                    ))
                     finalInput = finalInput.addCharAtIndex(randomChar, indexToFetch)
                 }
             }

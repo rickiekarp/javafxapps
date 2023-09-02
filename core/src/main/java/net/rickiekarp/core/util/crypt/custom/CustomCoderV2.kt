@@ -19,7 +19,7 @@ object CustomCoderV2 {
             RandomCharacter.getMd5Seed(config.baseSeed)
         }
 
-        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(computedSeed)
+        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(computedSeed, config.characterSetConfig)
 
         var inputText = input
         inputText = inputText.trim().replace("[^a-zA-Z0-9]".toRegex(), "")
@@ -36,7 +36,7 @@ object CustomCoderV2 {
         val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
         for (md5Digit in md5.toSortedSet().sorted()) {
-            val randomCharacter = RandomCharacter.getRandomCharacter()
+            val randomCharacter = RandomCharacter.getRandomCharacter(config.characterSetConfig)
             outputText = outputText.addCharAtIndex(randomCharacter, md5Digit.digitToInt())
         }
 
@@ -48,7 +48,7 @@ object CustomCoderV2 {
         var outputText = ""
 
         val seed = RandomCharacter.getMd5Seed(config.baseSeed)
-        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed);
+        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed, config.characterSetConfig)
 
         var inputText = input
 

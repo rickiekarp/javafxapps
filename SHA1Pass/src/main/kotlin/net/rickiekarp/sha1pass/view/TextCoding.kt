@@ -18,6 +18,7 @@ import net.rickiekarp.core.debug.LogFileHandler
 import net.rickiekarp.core.enums.AlphabetType
 import net.rickiekarp.core.enums.CustomCoderType
 import net.rickiekarp.core.enums.FontType
+import net.rickiekarp.core.math.noise.NoiseConfig
 import net.rickiekarp.core.math.noise.PerlinNoise2D
 import net.rickiekarp.core.model.CustomCoderConfig
 import net.rickiekarp.core.model.SettingEntry
@@ -58,6 +59,8 @@ class TextCoding(textCodingType: TextCodingType) {
         false
     )
 
+    private val perlinNoiseGenerator = PerlinNoise2D(NoiseConfig(640, 640))
+
     init {
         create()
     }
@@ -71,7 +74,7 @@ class TextCoding(textCodingType: TextCodingType) {
                     return
                 }
 
-                val perlinNoiseImage = PerlinNoise2D.getNoiseImage()
+                val perlinNoiseImage = perlinNoiseGenerator.getNoiseImage()
                 val image: Image = SwingFXUtils.toFXImage(perlinNoiseImage, null)
                 noiseImageView.image = image
             }
@@ -297,7 +300,7 @@ class TextCoding(textCodingType: TextCodingType) {
         customCoderVersionBox.selectionModel.select(0)
         customCoderVersionBox.minWidth = 100.0
 
-        val noiseImage = PerlinNoise2D.getNoiseImage()
+        val noiseImage = perlinNoiseGenerator.getNoiseImage()
         val image: Image = SwingFXUtils.toFXImage(noiseImage, null)
         noiseImageView = ImageView(image)
         noiseImageView.fitHeightProperty().setValue(35)

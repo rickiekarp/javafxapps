@@ -3,18 +3,22 @@ package net.rickiekarp.core.math.noise;
 import java.awt.image.BufferedImage;
 
 public class PerlinNoise2D {
-    private static double time = 0;
-    public static final int WIDTH = 640;
-    public static final int HEIGHT = 480;
+    private double time;
+    private final BufferedImage image;
+    private final NoiseConfig noiseConfig;
 
-    private static final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    public PerlinNoise2D(NoiseConfig config) {
+        this.time = 0;
+        noiseConfig = config;
+        image = new BufferedImage(config.getWidth(), config.getHeight(), BufferedImage.TYPE_INT_RGB);
+    }
 
-    public static BufferedImage getNoiseImage() {
+    public BufferedImage getNoiseImage() {
         time += 0.01;
-        for(int y = 0; y < HEIGHT; y++){
-            for(int x = 0; x < WIDTH; x++){
-                double dx = (double) x / HEIGHT;
-                double dy = (double) y / HEIGHT;
+        for(int y = 0; y < noiseConfig.getHeight(); y++) {
+            for(int x = 0; x < noiseConfig.getWidth(); x++) {
+                double dx = (double) x / noiseConfig.getHeight();
+                double dy = (double) y / noiseConfig.getHeight();
                 int frequency = 6;
                 double noise = noise((dx * frequency) + time, (dy * frequency) + time);
                 noise = (noise - 1) / 2;

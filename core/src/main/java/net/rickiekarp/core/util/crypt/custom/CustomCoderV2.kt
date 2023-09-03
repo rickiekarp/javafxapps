@@ -14,6 +14,7 @@ object CustomCoderV2 {
         var outputText = ""
 
         val computedSeed = if (config.baseSeed.isEmpty()) {
+            config.baseSeed = CustomCoderType.V2.getDefaultSeed().toString()
             RandomCharacter.getMd5Seed(CustomCoderType.V2.getDefaultSeed().toString())
         } else {
             RandomCharacter.getMd5Seed(config.baseSeed)
@@ -22,46 +23,66 @@ object CustomCoderV2 {
         val shuffledCharacters = RandomCharacter.getCharacterListShuffled(computedSeed, config.characterSetConfig)
 
         var inputText = input
-        inputText = inputText.trim().replace("[^a-zA-Z0-9]".toRegex(), "")
+        inputText = inputText.replace("[^a-zA-Z0-9 ]".toRegex(), "")
 
         var index = 0
         for (character in inputText) {
+            if (config.preserveWhiteSpaces && character.isWhitespace())
+            {
+                outputText += " "
+                index++
+                continue
+            }
             val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, computedSeed)
             val outChar = RandomCharacter.getCharacterAtIndex(RandomCharacter.letterToAlphabetPos(character) + seedCharacterAsInt, shuffledCharacters)
             outputText += outChar.toString()
             index++
         }
 
-        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0)
+        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0) + (config.baseSeed.length / 4)
         val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
-        for (md5Digit in md5.toSortedSet().sorted()) {
-            val randomCharacter = RandomCharacter.getRandomCharacter(config.characterSetConfig)
+        val md5Digits = md5.toSortedSet().sorted()
+        for (md5Digit in md5Digits) {
+            val randomCharacter = RandomCharacter.getCharacterAtIndex(md5Digit.digitToInt(), config.characterSetConfig)
             outputText = outputText.addCharAtIndex(randomCharacter, md5Digit.digitToInt())
         }
 
         return outputText
     }
 
-
     fun decode(input: String, config: CustomCoderConfig) : String {
         var outputText = ""
 
-        val seed = RandomCharacter.getMd5Seed(config.baseSeed)
-        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(seed, config.characterSetConfig)
+        val computedSeed = if (config.baseSeed.isEmpty()) {
+            config.baseSeed = CustomCoderType.V2.getDefaultSeed().toString()
+            RandomCharacter.getMd5Seed(CustomCoderType.V2.getDefaultSeed().toString())
+        } else {
+            RandomCharacter.getMd5Seed(config.baseSeed)
+        }
+
+        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(computedSeed, config.characterSetConfig)
 
         var inputText = input
 
-        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0)
+        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0) + (config.baseSeed.length / 4)
         val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
-        for (md5Digit in md5.toSortedSet().sortedDescending()) {
+        val md5Digits = md5.toSortedSet().sortedDescending()
+        for (md5Digit in md5Digits) {
             inputText = inputText.removeCharAtIndex(md5Digit.digitToInt())
         }
 
         var index = 0
         for (character in inputText) {
-            val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, seed)
+            if (config.preserveWhiteSpaces && character.isWhitespace())
+            {
+                outputText += " "
+                index++
+                continue
+            }
+
+            val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, computedSeed)
             val characterIndex = RandomCharacter.getIndexFromChar(character, shuffledCharacters) - seedCharacterAsInt
             val decodedChar = RandomCharacter.alphabetPosToLetter(characterIndex)
             outputText += decodedChar.toString()

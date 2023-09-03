@@ -39,7 +39,7 @@ public class PerlinNoise2D {
     }
 
     public void incrementTime() {
-        time += 0.01;
+        time += noiseConfig.getTimeIncrement();
     }
 
     private static double noise(double x, double y) {

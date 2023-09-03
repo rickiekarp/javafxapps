@@ -45,9 +45,10 @@ class TextCoding(textCodingType: TextCodingType) {
     private lateinit var noiseImageView: ImageView
 
     private val defaultFontSize = 40
+    private val defaultCoderType = CustomCoderType.V2
 
     private val coderConfig = CustomCoderConfig(
-        CustomCoderType.V1,
+        defaultCoderType,
         "",
         mutableMapOf(
             AlphabetType.CYRILLIC to true,
@@ -57,7 +58,7 @@ class TextCoding(textCodingType: TextCodingType) {
         false
     )
 
-    private var perlinNoiseGenerator = PerlinNoise2D(CustomCoderType.V1.getDefaultNoiseConfig())
+    private var perlinNoiseGenerator = PerlinNoise2D(coderConfig.coderType.getDefaultNoiseConfig())
 
     init {
         create()
@@ -298,7 +299,7 @@ class TextCoding(textCodingType: TextCodingType) {
 
         customCoderVersionBox = ComboBox<CustomCoderType>()
         customCoderVersionBox.items.addAll(CustomCoderType.entries.toTypedArray())
-        customCoderVersionBox.selectionModel.select(0)
+        customCoderVersionBox.selectionModel.select(coderConfig.coderType)
         customCoderVersionBox.minWidth = 100.0
         customCoderVersionBox.valueProperty().addListener { _, _, newValue ->
             perlinNoiseGenerator = PerlinNoise2D(newValue!!.getDefaultNoiseConfig())

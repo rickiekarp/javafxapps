@@ -7,6 +7,7 @@ import net.rickiekarp.core.model.CustomCoderConfig
 import net.rickiekarp.core.util.crypt.Md5Coder
 import net.rickiekarp.core.util.math.MathUtil
 import net.rickiekarp.core.util.random.RandomCharacter
+import kotlin.math.absoluteValue
 
 object CustomCoderV2 {
 
@@ -48,6 +49,13 @@ object CustomCoderV2 {
             outputText = outputText.addCharAtIndex(randomCharacter, md5Digit.digitToInt())
         }
 
+        val noise = config.noiseGenerator!!.getNoise(12.443, 6.347, 6, 9.432)
+        val noiseShifted = (noise.absoluteValue * 100000).toInt().toString().toSortedSet().sorted()
+        for (noiseDigit in noiseShifted) {
+            val randomCharacter = RandomCharacter.getCharacterAtIndex(noiseDigit.digitToInt(), config.characterSetConfig)
+            outputText = outputText.addCharAtIndex(randomCharacter, noiseDigit.digitToInt())
+        }
+
         return outputText
     }
 
@@ -67,6 +75,12 @@ object CustomCoderV2 {
 
         val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0) + (config.baseSeed.length / 4)
         val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
+
+        val noise = config.noiseGenerator!!.getNoise(12.443, 6.347, 6, 9.432)
+        val noiseShifted = (noise.absoluteValue * 100000).toInt().toString().toSortedSet().sortedDescending()
+        for (noiseDigit in noiseShifted) {
+            inputText = inputText.removeCharAtIndex(noiseDigit.digitToInt())
+        }
 
         val md5Digits = md5.toSortedSet().sortedDescending()
         for (md5Digit in md5Digits) {

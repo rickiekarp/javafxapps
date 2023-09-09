@@ -40,9 +40,7 @@ object CustomCoderV2 {
             index++
         }
 
-        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0) + (config.baseSeed.length / 4)
-        val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
-
+        val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "")
         val md5Digits = md5.toSortedSet().sorted()
         for (md5Digit in md5Digits) {
             val randomCharacter = RandomCharacter.getCharacterAtIndex(md5Digit.digitToInt(), config.characterSetConfig)
@@ -69,12 +67,7 @@ object CustomCoderV2 {
             RandomCharacter.getMd5Seed(config.baseSeed)
         }
 
-        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(computedSeed, config.characterSetConfig)
-
         var inputText = input
-
-        val numberOfCharsToAdd = MathUtil.log2(config.baseSeed.length, 0) + (config.baseSeed.length / 4)
-        val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "").substring(0, numberOfCharsToAdd)
 
         val noise = config.noiseGenerator!!.getNoise(12.443, 6.347, 6, 9.432)
         val noiseShifted = (noise.absoluteValue * 100000).toInt().toString().toSortedSet().sortedDescending()
@@ -82,11 +75,13 @@ object CustomCoderV2 {
             inputText = inputText.removeCharAtIndex(noiseDigit.digitToInt())
         }
 
+        val md5 = Md5Coder.calcMd5(config.baseSeed).replace("[^1-9]".toRegex(), "")
         val md5Digits = md5.toSortedSet().sortedDescending()
         for (md5Digit in md5Digits) {
             inputText = inputText.removeCharAtIndex(md5Digit.digitToInt())
         }
 
+        val shuffledCharacters = RandomCharacter.getCharacterListShuffled(computedSeed, config.characterSetConfig)
         var index = 0
         for (character in inputText) {
             if (config.preserveWhiteSpaces && character.isWhitespace())

@@ -10,14 +10,14 @@ public final class PerlinNoise3D {
     public PerlinNoise3D(NoiseConfig config) {
         this.time = 0;
         noiseConfig = config;
-        image = new BufferedImage(config.getWidth(), config.getHeight(), BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(config.getNoiseInput().getX(), config.getNoiseInput().getY(), BufferedImage.TYPE_INT_RGB);
     }
     public BufferedImage getNoiseImage() {
         time += 0.01;
-        for(int y = 0; y < noiseConfig.getHeight(); y++){
-            for(int x = 0; x < noiseConfig.getWidth(); x++){
-                double dx = (double) x / noiseConfig.getHeight();
-                double dy = (double) y / noiseConfig.getHeight();
+        for(int y = 0; y < noiseConfig.getNoiseInput().getY(); y++){
+            for(int x = 0; x < noiseConfig.getNoiseInput().getX(); x++){
+                double dx = (double) x / noiseConfig.getNoiseInput().getY();
+                double dy = (double) y / noiseConfig.getNoiseInput().getY();
                 int frequency = 6;
                 double noise = noise((dx * time) + time, (dy * time) + time, time);
                 noise = (noise - 1) / 2;

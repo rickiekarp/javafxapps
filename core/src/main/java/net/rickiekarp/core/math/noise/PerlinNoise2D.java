@@ -10,7 +10,7 @@ public class PerlinNoise2D {
     public PerlinNoise2D(NoiseConfig config) {
         noiseConfig = config;
         setTime(0);
-        image = new BufferedImage(config.getWidth(), config.getHeight(), BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(config.getNoiseInput().getX(), config.getNoiseInput().getY(), BufferedImage.TYPE_INT_RGB);
     }
 
     public double getNoise(double dx, double dy, int frequency, double timeShift) {
@@ -20,11 +20,11 @@ public class PerlinNoise2D {
     }
 
     public BufferedImage getNoiseImage() {
-        for(int y = 0; y < noiseConfig.getHeight(); y++) {
-            for(int x = 0; x < noiseConfig.getWidth(); x++) {
-                double dx = (double) x / noiseConfig.getHeight();
-                double dy = (double) y / noiseConfig.getHeight();
-                double noise = getNoise(dx, dy, noiseConfig.getFrequency(), time);
+        for(int y = 0; y < noiseConfig.getNoiseInput().getY(); y++) {
+            for(int x = 0; x < noiseConfig.getNoiseInput().getX(); x++) {
+                double dx = (double) x / noiseConfig.getNoiseInput().getY();
+                double dy = (double) y / noiseConfig.getNoiseInput().getY();
+                double noise = getNoise(dx, dy, noiseConfig.getNoiseInput().getFrequency(), time);
                 int r = (int) (noise * noiseConfig.getRedMultiplier());
                 int g = r * noiseConfig.getGreenMultiplier();
                 int rgb = r * 0x10000 + g;
@@ -39,7 +39,7 @@ public class PerlinNoise2D {
     }
 
     public void incrementTime() {
-        time += noiseConfig.getTimeIncrement();
+        time += noiseConfig.getNoiseInput().getTimeIncrement();
     }
 
     private static double noise(double x, double y) {

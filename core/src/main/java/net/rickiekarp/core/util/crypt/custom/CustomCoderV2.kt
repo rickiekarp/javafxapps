@@ -99,7 +99,11 @@ object CustomCoderV2 {
             val seedCharacterAsInt = RandomCharacter.getCharacterFromSeed(index, computedSeed)
             val characterIndex = RandomCharacter.getIndexFromChar(character, shuffledCharacters) - seedCharacterAsInt
             val decodedChar = RandomCharacter.alphabetPosToLetter(characterIndex)
-            outputText += decodedChar.toString()
+
+            if (shuffledCharacters.contains(decodedChar)) {
+                outputText += decodedChar.toString()
+            }
+
             index++
         }
 

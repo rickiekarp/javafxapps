@@ -19,14 +19,13 @@ allprojects {
 
     apply plugin: "org.openjfx.javafxplugin"
     javafx {
-        version = "20.0.2"
+        version = "21"
         modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing' ]
     }
 
     repositories {
         // this repo should be available in every subproject that uses kotlin
         mavenCentral()
-        jcenter()
     }
 
     java {
@@ -50,12 +49,12 @@ allprojects {
     }
 
     detekt {
-        toolVersion = "1.22.0"
-        input = files("src/main/kotlin")
+        toolVersion = "1.23.1"
+        source = files("src/main/kotlin")
         config = files("../config/detekt/detekt.yml")
     }
 }
 
 wrapper {
-    gradleVersion = "8.2.1"
+    gradleVersion = "8.3"
 }

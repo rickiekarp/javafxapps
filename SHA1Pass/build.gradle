@@ -32,3 +32,11 @@ jar {
         )
     }
 }
+
+tasks.register('deployArchive', Exec) {
+    workingDir "./build/distributions/"
+    commandLine "rsync", "-rlvpt", "SHA1Pass.zip", "pi:/mnt/raid2/applications/nginx/files/software/dev/sha1pass/"
+    doLast {
+        println "DONE!"
+    }
+}

@@ -31,6 +31,7 @@ import net.rickiekarp.core.ui.windowmanager.WindowStage
 import java.io.File
 import java.lang.reflect.Field
 import java.net.MalformedURLException
+import java.net.URI
 import java.net.URL
 import java.util.logging.Level
 
@@ -191,7 +192,7 @@ class SettingsScene {
 
                 val fileDownloader: FileDownloader
                 try {
-                    fileDownloader = FileDownloader(URL(Configuration.host + "files/apps/" + AppContext.context.contextIdentifier + "/download/" + updateChannel[Configuration.updateChannel] + File.separator), UpdateChecker.filesToDownload)
+                    fileDownloader = FileDownloader(URI.create(Configuration.host + "files/apps/" + AppContext.context.contextIdentifier + "/download/" + updateChannel[Configuration.updateChannel] + File.separator).toURL(), UpdateChecker.filesToDownload)
                 } catch (e: MalformedURLException) {
                     e.printStackTrace()
                     return@setOnAction

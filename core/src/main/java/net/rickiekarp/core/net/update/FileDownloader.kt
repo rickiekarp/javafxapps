@@ -8,6 +8,7 @@ import java.io.InputStream
 import java.io.RandomAccessFile
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
+import java.net.URI
 import java.net.URL
 import java.util.*
 
@@ -80,7 +81,8 @@ class FileDownloader : Observable, Runnable {
         var stream: InputStream? = null
         val downloadURL: URL
         try {
-            downloadURL = URL(getHostString(url!!) + "/" + downloadList[0])
+            downloadURL = URI.create(getHostString(url!!) + "/" + downloadList[0]).toURL();
+
         } catch (e: MalformedURLException) {
             e.printStackTrace()
             return

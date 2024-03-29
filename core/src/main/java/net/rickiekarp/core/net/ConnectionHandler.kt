@@ -12,6 +12,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.net.ConnectException
+import java.net.URI
 import java.net.URL
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
@@ -32,7 +33,7 @@ internal class ConnectionHandler {
 
     fun request(networkAction: NetworkAction): Response? {
         return try {
-            val hostUrl = URL(Configuration.host + networkAction.hostUrl)
+            val hostUrl = URI.create(Configuration.host + networkAction.hostUrl).toURL();
             performRequest(hostUrl, networkAction)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -57,7 +58,7 @@ internal class ConnectionHandler {
             }
         }
 
-        val composedUrl = URL(decodedUrl)
+        val composedUrl = URI.create(decodedUrl).toURL();
         builder.url(composedUrl)
 
         addHeaders(builder)

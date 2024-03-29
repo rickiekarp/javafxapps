@@ -13,6 +13,7 @@ import net.rickiekarp.core.settings.Configuration
 import net.rickiekarp.core.util.FileUtil
 import java.io.File
 import java.io.IOException
+import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
 import java.nio.file.Files
@@ -35,7 +36,7 @@ class UpdateChecker {
             LogFileHandler.logger.info("Checking for new java version...")
 
             try {
-                javaurl = URL("http://java.com/applet/JreCurrentVersion2.txt")
+                javaurl = URI.create("http://java.com/applet/JreCurrentVersion2.txt").toURL();
 
                 LogFileHandler.logger.info("Connecting to: $javaurl")
                 val scanner = Scanner(javaurl.openStream())

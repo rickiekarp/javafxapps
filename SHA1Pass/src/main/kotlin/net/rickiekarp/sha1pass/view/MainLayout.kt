@@ -19,6 +19,7 @@ import net.rickiekarp.core.enums.AlphabetType
 import net.rickiekarp.core.extensions.addCharAtIndex
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.util.ClipboardUtil
+import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.core.util.crypt.*
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.AboutScene
@@ -34,9 +35,10 @@ class MainLayout : AppLayout {
 
     private lateinit var mainGrid: GridPane
     private lateinit var color: Rectangle
-    private lateinit var sentenceMaskTF: CustomTextField
     private lateinit var sentenceTF: CustomTextField
-    private lateinit var peekTF: TextField
+    private lateinit var sentenceTextFieldSkin: CustomTextFieldSkin
+    private lateinit var wordTF: CustomTextField
+    private lateinit var wordTextFieldSkin: CustomTextFieldSkin
 
     private var colorPos = -1
 
@@ -84,19 +86,13 @@ class MainLayout : AppLayout {
             mainGrid.children.add(sentenceLabel)
             sentenceLabel.tooltip = Tooltip(LocalizationProvider.getString("type_sentence_tip"))
 
-            sentenceMaskTF = CustomTextField()
-            sentenceMaskTF.tooltip = Tooltip(LocalizationProvider.getString("type_sentence_tip"))
-            sentenceMaskTF.skin = CustomTextFieldSkin(sentenceMaskTF)
-            GridPane.setConstraints(sentenceMaskTF, 1, 0)
-            GridPane.setColumnSpan(sentenceMaskTF, 4)
-            mainGrid.children.add(sentenceMaskTF)
-
             sentenceTF = CustomTextField()
             sentenceTF.tooltip = Tooltip(LocalizationProvider.getString("type_sentence_tip"))
+            sentenceTextFieldSkin = CustomTextFieldSkin(sentenceTF)
+            sentenceTextFieldSkin.shouldMask = true
+            sentenceTF.skin = sentenceTextFieldSkin
             GridPane.setConstraints(sentenceTF, 1, 0)
             GridPane.setColumnSpan(sentenceTF, 4)
-            sentenceTF.isManaged = false
-            sentenceTF.isVisible = false
             mainGrid.children.add(sentenceTF)
 
             val helpBtn = Button(LocalizationProvider.getString("help_label"))
@@ -142,13 +138,16 @@ class MainLayout : AppLayout {
             GridPane.setConstraints(specialCheckBox, 3, 1)
             mainGrid.children.add(specialCheckBox)
 
-            peekTF = TextField(LocalizationProvider.getString("pass_peek"))
-            peekTF.style = "-fx-font-size: 10pt;"
-            peekTF.isEditable = false
-            peekTF.tooltip = Tooltip(LocalizationProvider.getString("pass_peek_tip"))
-            GridPane.setConstraints(peekTF, 5, 1)
-            peekTF.prefWidth = 30.0
-            mainGrid.children.add(peekTF)
+            wordTF = CustomTextField()
+            wordTextFieldSkin = CustomTextFieldSkin(wordTF)
+            wordTextFieldSkin.shouldMask = false
+            wordTF.skin = wordTextFieldSkin
+            wordTF.text = CommonUtil.getDate("yyyy")
+            wordTF.style = "-fx-font-size: 10pt;"
+            wordTF.tooltip = Tooltip(LocalizationProvider.getString("pass_word_tip"))
+            GridPane.setConstraints(wordTF, 5, 1)
+            wordTF.prefWidth = 30.0
+            mainGrid.children.add(wordTF)
 
             val colorBtn = Button(LocalizationProvider.getString("color_label"))
             colorBtn.style = "-fx-font-size: 9pt;"
@@ -214,15 +213,15 @@ class MainLayout : AppLayout {
 
             viewMode.selectedProperty().addListener { _, _, newVal ->
                 if (newVal!!) {
+                    sentenceTextFieldSkin.shouldMask = false
                     status.text = LocalizationProvider.getString("vs_on")
                 } else {
+                    sentenceTextFieldSkin.shouldMask = true
                     status.text = LocalizationProvider.getString("vs_off")
                 }
+
+                sentenceTF.text = sentenceTF.text
             }
-            sentenceTF.managedProperty().bind(viewMode.selectedProperty())
-            sentenceTF.visibleProperty().bind(viewMode.selectedProperty())
-            sentenceMaskTF.managedProperty().bind(viewMode.selectedProperty().not())
-            sentenceTF.textProperty().bindBidirectional(sentenceMaskTF.textProperty())
 
             secureMode.selectedProperty().addListener { _, _, newVal ->
                 if (newVal!!) {
@@ -230,12 +229,17 @@ class MainLayout : AppLayout {
                     viewMode.isDisable = true
                     viewMode.isSelected = false
                     colorBtn.isDisable = true
+                    sentenceTextFieldSkin.shouldMask = true
+                    sentenceTF.text = sentenceTF.text
+                    wordTextFieldSkin.shouldMask = true
+                    wordTF.text = wordTF.text
                     status.text = LocalizationProvider.getString("sm_on")
                 } else {
                     isSecure = false
                     viewMode.isDisable = false
                     sentenceTF.text = ""
-                    peekTF.text = "Peek"
+                    wordTextFieldSkin.shouldMask = false
+                    wordTF.text = CommonUtil.getDate("yyyy")
                     colorBtn.isDisable = false
                     ClipboardUtil.setStringToClipboard("")
                     status.text = LocalizationProvider.getString("sm_off")
@@ -308,9 +312,9 @@ class MainLayout : AppLayout {
 
         val hash = HexCoder.bytesToHex(sha1)
         if (complex) {
-            applyComplex(hash)
+            copyToClipboard(hash + AppConfiguration.comp_string)
         } else {
-            copyPassword(hash)
+            copyToClipboard(hash)
         }
     }
 
@@ -320,9 +324,9 @@ class MainLayout : AppLayout {
 
         val hash = String(Base64Coder.encode(sha1))
         if (complex) {
-            applyComplex(hash)
+            copyToClipboard(hash + AppConfiguration.comp_string)
         } else {
-            copyPassword(hash)
+            copyToClipboard(hash)
         }
     }
 
@@ -333,22 +337,14 @@ class MainLayout : AppLayout {
         val hash = BCryptCoder.hashPw(data, salt)
 
         if (complex) {
-            applyComplex(hash)
+            copyToClipboard(hash + AppConfiguration.comp_string)
         } else {
-            copyPassword(hash)
+            copyToClipboard(hash)
         }
     }
 
-    private fun applyComplex(data: String) {
-        //copy encoded string to clipboard and set the peek TextField text
-        ClipboardUtil.setStringToClipboard(data + AppConfiguration.comp_string)
-        peekText(data + AppConfiguration.comp_string)
-    }
-
-    private fun copyPassword(hashedPass: String) {
-        //copy encoded string to clipboard and set the peek TextField text
-        ClipboardUtil.setStringToClipboard(hashedPass)
-        peekText(hashedPass)
+    private fun copyToClipboard(data: String) {
+        ClipboardUtil.setStringToClipboard(data)
     }
 
     /**
@@ -356,7 +352,7 @@ class MainLayout : AppLayout {
      * @return to be encrypted user input
      */
     private fun checkInputData(): String {
-        var finalInput = sentenceTF.text
+        var finalInput = sentenceTF.text + wordTF.text
 
         if (isSpecialCharacterMode) {
             if (finalInput.isNotEmpty()) {
@@ -405,22 +401,10 @@ class MainLayout : AppLayout {
         }
     }
 
-    /**
-     * Shows the first part of the encrypted password in a text field
-     * @param s Text to show in the text field
-     */
-    private fun peekText(s: String) {
-        if (isSecure) {
-            peekTF.text = "Peek"
-        } else {
-            peekTF.text = s.substring(0, 4)
-        }
-    }
-
     override val layout: Node
         get() = mainLayout
 
     override fun postInit() {
-        sentenceMaskTF.requestFocus()
+        sentenceTF.requestFocus()
     }
 }

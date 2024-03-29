@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
         classpath "org.openjfx:javafx-plugin:0.0.13"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.1"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.6"
     }
 }
 
@@ -29,8 +29,8 @@ allprojects {
     }
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     dependencies {
@@ -47,7 +47,7 @@ allprojects {
     }
 
     detekt {
-        toolVersion = "1.23.1"
+        toolVersion = "1.23.6"
         source = files("src/main/kotlin")
         config = files("../config/detekt/detekt.yml")
     }

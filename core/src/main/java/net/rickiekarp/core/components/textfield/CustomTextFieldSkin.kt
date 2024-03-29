@@ -2,18 +2,21 @@ package net.rickiekarp.core.components.textfield
 
 import javafx.scene.control.skin.TextFieldSkin
 
-class CustomTextFieldSkin(passwordField: CustomTextField) : TextFieldSkin(passwordField) {
+class CustomTextFieldSkin(textField: CustomTextField) : TextFieldSkin(textField) {
+
+    var shouldMask = true
 
     override fun maskText(txt: String): String {
-        val textField = skinnable
+        if (!shouldMask)
+            return txt
 
-        val n = textField.length
-        val passwordBuilder = StringBuilder(n)
+        val n = skinnable.length
+        val stringBuilder = StringBuilder(n)
         for (i in 0 until n) {
             val bullet = '\u2022'
-            passwordBuilder.append(bullet)
+            stringBuilder.append(bullet)
         }
 
-        return passwordBuilder.toString()
+        return stringBuilder.toString()
     }
 }

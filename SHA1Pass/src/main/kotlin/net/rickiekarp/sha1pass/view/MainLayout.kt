@@ -23,6 +23,8 @@ import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.core.util.crypt.*
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.AboutScene
+import net.rickiekarp.core.view.CoordinatesScene
+import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.core.view.layout.AppLayout
 import net.rickiekarp.sha1pass.enum.TextCodingType
 import net.rickiekarp.sha1pass.settings.AppConfiguration
@@ -95,14 +97,15 @@ class MainLayout : AppLayout {
             GridPane.setColumnSpan(sentenceTF, 4)
             mainGrid.children.add(sentenceTF)
 
-            val helpBtn = Button(LocalizationProvider.getString("help_label"))
-            helpBtn.style = "-fx-font-size: 9pt;"
-            helpBtn.tooltip = Tooltip(
+            val coordinatesBtn = Button("L")
+            coordinatesBtn.style = "-fx-font-size: 9pt;"
+            coordinatesBtn.tooltip = Tooltip(
                 LocalizationProvider.getString("help_tip") + " " + AppContext.context.applicationName
             )
-            GridPane.setConstraints(helpBtn, 6, 0)
-            GridPane.setHalignment(helpBtn, HPos.CENTER)
-            mainGrid.children.add(helpBtn)
+            coordinatesBtn.setOnAction { CoordinatesScene() }
+            GridPane.setConstraints(coordinatesBtn, 6, 0)
+            GridPane.setHalignment(coordinatesBtn, HPos.CENTER)
+            mainGrid.children.add(coordinatesBtn)
 
             val viewMode = CheckBox(LocalizationProvider.getString("vs"))
             viewMode.style = "-fx-font-size: 9pt;"
@@ -188,8 +191,6 @@ class MainLayout : AppLayout {
 
             mainContent.center = mainGrid
             mainContent.bottom = controls
-
-            helpBtn.setOnAction { AboutScene() }
 
             colorBtn.setOnAction {
                 color.isVisible = true
@@ -283,6 +284,15 @@ class MainLayout : AppLayout {
             }
 
             setupEncryptDecryptButtons()
+
+            val helpBtn = Button(LocalizationProvider.getString("help_label"))
+            helpBtn.styleClass.add("decoration-button-other")
+            helpBtn.tooltip = Tooltip(
+                LocalizationProvider.getString("help_tip") + " " + AppContext.context.applicationName
+            )
+            helpBtn.setOnAction { AboutScene() }
+
+            MainScene.mainScene.windowScene!!.win.titleBarButtonBox.children.addAll(helpBtn)
 
             return mainContent
         }

@@ -84,4 +84,8 @@ class CustomTextField : TextField() {
     fun setRestrict(restrict: String) {
         this.restrict.set(restrict)
     }
+
+    fun getDoubleValue() : Double {
+        return text.replace("−", "-").toDoubleOrNull() ?: 0.0
+    }
 }

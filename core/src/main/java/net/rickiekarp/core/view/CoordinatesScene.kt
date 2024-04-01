@@ -1,33 +1,36 @@
 package net.rickiekarp.core.view
 
 import javafx.beans.binding.ObjectExpression
-import javafx.collections.FXCollections
+import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.geometry.Point2D
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.chart.LineChart
-import javafx.scene.chart.LineChart.SortingPolicy
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.XYChart
 import javafx.scene.chart.XYChart.Series
-import javafx.scene.control.ChoiceBox
+import javafx.scene.control.Button
 import javafx.scene.control.Label
-import javafx.scene.control.Tooltip
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.Pane
-import javafx.scene.layout.StackPane
+import javafx.scene.control.TextField
+import javafx.scene.layout.*
 import javafx.scene.shape.Circle
 import javafx.stage.Stage
+import net.rickiekarp.core.components.textfield.CustomTextField
 import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
+import net.rickiekarp.core.util.crypt.HexCoder
+import net.rickiekarp.core.util.crypt.SHA1Coder
 
 
 /**
  * About Stage GUI.
  */
 class CoordinatesScene {
+
+    private lateinit var series: Series<Number, Number>
     private var viewTag = "location"
 
     private val content: BorderPane
@@ -39,59 +42,18 @@ class CoordinatesScene {
             val xAxis = NumberAxis()
             val yAxis = NumberAxis()
 
-            val series = Series<Number, Number>()
-
-            val data1 = XYChart.Data<Number,Number>(-2, -3)
-            data1.node = createDataNode(data1.XValueProperty(), data1.YValueProperty())
-            data1.node.style = "-fx-background-color: red, red;"
-
-            val data2 = XYChart.Data<Number,Number>(2, 3)
-            data2.node = createDataNode(data2.XValueProperty(), data2.YValueProperty())
-            data2.node.style = "-fx-background-color: orange, orange;"
-
-            val data3 = XYChart.Data<Number,Number>(2, 6)
-            data3.node = createDataNode(data3.XValueProperty(), data3.YValueProperty())
-            data3.node.style = "-fx-background-color: red, red;"
-
-            val data4 = XYChart.Data<Number,Number>(-1, 2)
-            data4.node = createDataNode(data4.XValueProperty(), data4.YValueProperty())
-            data4.node.style = "-fx-background-color: orange, orange;"
-
-            series.data.addAll(data1, data2, data3, data4)
-
-            val formula = calcLinearFunctionFormula(
-                Point2D(data1.XValueProperty().value.toDouble(), data1.YValueProperty().value.toDouble()),
-                Point2D(data3.XValueProperty().value.toDouble(), data3.YValueProperty().value.toDouble())
-            )
-            val formulaB = calcLinearFunctionFormula(
-                Point2D(data2.XValueProperty().value.toDouble(), data2.YValueProperty().value.toDouble()),
-                Point2D(data4.XValueProperty().value.toDouble(), data4.YValueProperty().value.toDouble())
-            )
-            val intersection = calcIntersectionPoint(formula, formulaB)
-
-            if (intersection != null) {
-                val intersectionNode = XYChart.Data<Number,Number>(intersection.first, intersection.second)
-                intersectionNode.node = createDataNode(intersectionNode.XValueProperty(), intersectionNode.YValueProperty())
-                intersectionNode.node.style = "-fx-background-color: green, green;"
-                series.data.add(intersectionNode)
-            }
+            series = Series<Number, Number>()
 
             val chart = LineChart(xAxis, yAxis)
             chart.isLegendVisible = false
             chart.data.add(series)
-            val policies = FXCollections.observableArrayList(SortingPolicy.entries)
-
-            val policy = ChoiceBox(policies)
-            policy.tooltip = Tooltip("Choose a data sorting policy.")
-            policy.selectionModel.selectFirst()
-            chart.axisSortingPolicyProperty().bind(policy.valueProperty())
 
             val nodes: Set<Node> = chart.lookupAll(".series0")
             nodes.first().style = "-fx-stroke: transparent;"
 
-            val root: Pane = StackPane(chart, policy)
-            StackPane.setAlignment(policy, Pos.TOP_RIGHT)
+            val root: Pane = StackPane(chart)
 
+            borderpane.top = getControls()
             borderpane.center = root
             return borderpane
         }
@@ -161,5 +123,124 @@ class CoordinatesScene {
         infoStage.show()
 
         MainScene.stageStack.push(WindowStage(viewTag, infoStage))
+    }
+
+    private fun getControls() : GridPane {
+        val controls = GridPane()
+        controls.padding = Insets(10.0, 7.0, 10.0, 7.0)
+        controls.alignment = Pos.CENTER
+        controls.vgap = 10.0
+        controls.hgap = 10.0
+
+        // Point A
+
+        val fieldX = CustomTextField()
+        fieldX.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldX, 1, 0)
+        val fieldY = CustomTextField()
+        fieldY.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldY, 2, 0)
+
+        fieldX.onKeyTyped = EventHandler { validateCoordinates(fieldX, fieldY, "red") }
+        fieldY.onKeyTyped = EventHandler { validateCoordinates(fieldX, fieldY, "red") }
+
+        // Point B
+
+        val fieldBX = CustomTextField()
+        fieldBX.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldBX, 1, 1)
+        val fieldBY = CustomTextField()
+        fieldBY.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldBY, 2, 1)
+
+        fieldBX.onKeyTyped = EventHandler { validateCoordinates(fieldBX, fieldBY, "red") }
+        fieldBY.onKeyTyped = EventHandler { validateCoordinates(fieldBX, fieldBY, "red") }
+
+        // Point C
+
+        val fieldCX = CustomTextField()
+        fieldCX.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldCX, 4, 0)
+        val fieldCY = CustomTextField()
+        fieldCY.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldCY, 5, 0)
+
+        fieldCX.onKeyTyped = EventHandler { validateCoordinates(fieldCX, fieldCY, "orange") }
+        fieldCY.onKeyTyped = EventHandler { validateCoordinates(fieldCX, fieldCY, "orange") }
+
+        // Point D
+
+        val fieldDX = CustomTextField()
+        fieldDX.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldDX, 4, 1)
+        val fieldDY = CustomTextField()
+        fieldDY.setRestrict("-?[0-9]")
+        GridPane.setConstraints(fieldDY, 5, 1)
+
+        fieldDX.onKeyTyped = EventHandler { validateCoordinates(fieldDX, fieldDY, "orange") }
+        fieldDY.onKeyTyped = EventHandler { validateCoordinates(fieldDX, fieldDY, "orange") }
+
+        // controls
+
+        val result = TextField()
+        result.setOnMouseClicked { println(result.text) }
+        GridPane.setConstraints(result, 3, 2)
+        result.isVisible = false
+
+        val button = Button("test")
+        button.setOnAction {
+            val addedIntersection = calcResult(fieldX, fieldY, fieldBX, fieldBY, fieldCX, fieldCY, fieldDX, fieldDY)
+            if (addedIntersection != null) {
+                val intersectionNode = XYChart.Data<Number,Number>(addedIntersection.first, addedIntersection.second)
+                intersectionNode.node = createDataNode(intersectionNode.XValueProperty(), intersectionNode.YValueProperty())
+                intersectionNode.node.style = "-fx-background-color: green, green;"
+                series.data.add(intersectionNode)
+
+                val sha1 = SHA1Coder.getSHA1Bytes(addedIntersection.first.toString() + "," + addedIntersection.second.toString(), false)
+                result.text = HexCoder.bytesToHex(sha1)
+                button.isVisible = false
+                result.isVisible = true
+            }
+        }
+        GridPane.setConstraints(button, 3, 2)
+
+        controls.children.addAll(
+            fieldX, fieldY,
+            fieldBX, fieldBY,
+            fieldCX, fieldCY,
+            fieldDX, fieldDY,
+            button, result
+        )
+        return controls
+    }
+
+    private fun calcResult(
+        fieldX: CustomTextField, fieldY: CustomTextField,
+        fieldBX: CustomTextField, fieldBY: CustomTextField,
+        fieldCX: CustomTextField, fieldCY: CustomTextField,
+        fieldDX: CustomTextField, fieldDY: CustomTextField
+    ) : Pair<Double, Double>? {
+        val formula = calcLinearFunctionFormula(
+            Point2D(fieldX.getDoubleValue(), fieldY.getDoubleValue()),
+            Point2D(fieldBX.getDoubleValue(), fieldBY.getDoubleValue()),
+        )
+        val formulaB = calcLinearFunctionFormula(
+            Point2D(fieldCX.getDoubleValue(), fieldCY.getDoubleValue()),
+            Point2D(fieldDX.getDoubleValue(), fieldDY.getDoubleValue()),
+        )
+        return calcIntersectionPoint(formula, formulaB)
+    }
+
+    private fun validateCoordinates(fieldX: CustomTextField, fieldY: CustomTextField, color: String) {
+        if (fieldX.text.isNotEmpty() && fieldY.text.isNotEmpty()) {
+            val a = fieldX.getDoubleValue() ?: return
+            val b = fieldY.getDoubleValue() ?: return
+
+            val data1 = XYChart.Data<Number,Number>(a, b)
+            data1.node = createDataNode(data1.XValueProperty(), data1.YValueProperty())
+            data1.node.style = "-fx-background-color: $color, $color;"
+
+            series.data.add(data1)
+        }
     }
 }

@@ -1,4 +1,4 @@
-package net.rickiekarp.core.view
+package net.rickiekarp.sha1pass.scenes
 
 import javafx.beans.binding.ObjectExpression
 import javafx.event.EventHandler
@@ -21,9 +21,10 @@ import net.rickiekarp.core.provider.LocalizationProvider
 import net.rickiekarp.core.ui.windowmanager.ImageLoader
 import net.rickiekarp.core.ui.windowmanager.WindowScene
 import net.rickiekarp.core.ui.windowmanager.WindowStage
+import net.rickiekarp.core.util.ClipboardUtil
 import net.rickiekarp.core.util.crypt.HexCoder
 import net.rickiekarp.core.util.crypt.SHA1Coder
-
+import net.rickiekarp.core.view.MainScene
 
 /**
  * About Stage GUI.
@@ -136,10 +137,10 @@ class CoordinatesScene {
 
         val fieldX = CustomTextField()
         fieldX.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldX, 1, 0)
+        GridPane.setConstraints(fieldX, 0, 0)
         val fieldY = CustomTextField()
         fieldY.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldY, 2, 0)
+        GridPane.setConstraints(fieldY, 1, 0)
 
         fieldX.onKeyTyped = EventHandler { validateCoordinates(fieldX, fieldY, "red") }
         fieldY.onKeyTyped = EventHandler { validateCoordinates(fieldX, fieldY, "red") }
@@ -148,10 +149,10 @@ class CoordinatesScene {
 
         val fieldBX = CustomTextField()
         fieldBX.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldBX, 1, 1)
+        GridPane.setConstraints(fieldBX, 0, 1)
         val fieldBY = CustomTextField()
         fieldBY.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldBY, 2, 1)
+        GridPane.setConstraints(fieldBY, 1, 1)
 
         fieldBX.onKeyTyped = EventHandler { validateCoordinates(fieldBX, fieldBY, "red") }
         fieldBY.onKeyTyped = EventHandler { validateCoordinates(fieldBX, fieldBY, "red") }
@@ -160,10 +161,10 @@ class CoordinatesScene {
 
         val fieldCX = CustomTextField()
         fieldCX.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldCX, 4, 0)
+        GridPane.setConstraints(fieldCX, 3, 0)
         val fieldCY = CustomTextField()
         fieldCY.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldCY, 5, 0)
+        GridPane.setConstraints(fieldCY, 4, 0)
 
         fieldCX.onKeyTyped = EventHandler { validateCoordinates(fieldCX, fieldCY, "orange") }
         fieldCY.onKeyTyped = EventHandler { validateCoordinates(fieldCX, fieldCY, "orange") }
@@ -172,22 +173,20 @@ class CoordinatesScene {
 
         val fieldDX = CustomTextField()
         fieldDX.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldDX, 4, 1)
+        GridPane.setConstraints(fieldDX, 3, 1)
         val fieldDY = CustomTextField()
         fieldDY.setRestrict("-?[0-9]")
-        GridPane.setConstraints(fieldDY, 5, 1)
+        GridPane.setConstraints(fieldDY, 4, 1)
 
         fieldDX.onKeyTyped = EventHandler { validateCoordinates(fieldDX, fieldDY, "orange") }
         fieldDY.onKeyTyped = EventHandler { validateCoordinates(fieldDX, fieldDY, "orange") }
 
         // controls
 
-        val result = TextField()
-        result.setOnMouseClicked { println(result.text) }
+        val result = Label()
         GridPane.setConstraints(result, 3, 2)
-        result.isVisible = false
 
-        val button = Button("test")
+        val button = Button(LocalizationProvider.getString("calculate"))
         button.setOnAction {
             val addedIntersection = calcResult(fieldX, fieldY, fieldBX, fieldBY, fieldCX, fieldCY, fieldDX, fieldDY)
             if (addedIntersection != null) {
@@ -197,12 +196,11 @@ class CoordinatesScene {
                 series.data.add(intersectionNode)
 
                 val sha1 = SHA1Coder.getSHA1Bytes(addedIntersection.first.toString() + "," + addedIntersection.second.toString(), false)
-                result.text = HexCoder.bytesToHex(sha1)
-                button.isVisible = false
-                result.isVisible = true
+                ClipboardUtil.setStringToClipboard(HexCoder.bytesToHex(sha1))
+                result.text = LocalizationProvider.getString("copiedToClipboard")
             }
         }
-        GridPane.setConstraints(button, 3, 2)
+        GridPane.setConstraints(button, 2, 2)
 
         controls.children.addAll(
             fieldX, fieldY,
@@ -233,8 +231,8 @@ class CoordinatesScene {
 
     private fun validateCoordinates(fieldX: CustomTextField, fieldY: CustomTextField, color: String) {
         if (fieldX.text.isNotEmpty() && fieldY.text.isNotEmpty()) {
-            val a = fieldX.getDoubleValue() ?: return
-            val b = fieldY.getDoubleValue() ?: return
+            val a = fieldX.getDoubleValue()
+            val b = fieldY.getDoubleValue()
 
             val data1 = XYChart.Data<Number,Number>(a, b)
             data1.node = createDataNode(data1.XValueProperty(), data1.YValueProperty())

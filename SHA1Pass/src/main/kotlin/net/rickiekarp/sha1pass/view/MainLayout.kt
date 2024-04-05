@@ -23,10 +23,10 @@ import net.rickiekarp.core.util.CommonUtil
 import net.rickiekarp.core.util.crypt.*
 import net.rickiekarp.core.util.random.RandomCharacter
 import net.rickiekarp.core.view.AboutScene
-import net.rickiekarp.core.view.CoordinatesScene
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.core.view.layout.AppLayout
 import net.rickiekarp.sha1pass.enum.TextCodingType
+import net.rickiekarp.sha1pass.scenes.CoordinatesScene
 import net.rickiekarp.sha1pass.settings.AppConfiguration
 
 class MainLayout : AppLayout {

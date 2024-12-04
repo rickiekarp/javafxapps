@@ -4,7 +4,10 @@ import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
-import javafx.scene.control.*
+import javafx.scene.control.Button
+import javafx.scene.control.CheckBox
+import javafx.scene.control.Label
+import javafx.scene.control.Tooltip
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.ColumnConstraints
 import javafx.scene.layout.GridPane
@@ -26,6 +29,7 @@ import net.rickiekarp.core.view.AboutScene
 import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.core.view.layout.AppLayout
 import net.rickiekarp.sha1pass.enum.TextCodingType
+import net.rickiekarp.sha1pass.libloader.GoLibTransformer
 import net.rickiekarp.sha1pass.scenes.CoordinatesScene
 import net.rickiekarp.sha1pass.settings.AppConfiguration
 
@@ -293,12 +297,10 @@ class MainLayout : AppLayout {
             helpBtn.setOnAction { AboutScene() }
 
             MainScene.mainScene.windowScene!!.win.titleBarButtonBox.children.addAll(helpBtn)
-
             return mainContent
         }
 
     private fun setupEncryptDecryptButtons() {
-
         val decodeButton = Button(LocalizationProvider.getString("decode_label_short"))
         decodeButton.style = "-fx-font-size: 9pt;"
         decodeButton.tooltip = Tooltip(LocalizationProvider.getString("decode_tip"))
@@ -317,40 +319,34 @@ class MainLayout : AppLayout {
     }
 
     private fun calcHex() {
-        val data = checkInputData()
-        val sha1 = SHA1Coder.getSHA1Bytes(data, hmac)
+        var result = GoLibTransformer.Sha1PassLib.EncodeToHex(checkInputData())
 
-        val hash = HexCoder.bytesToHex(sha1)
         if (complex) {
-            copyToClipboard(hash + AppConfiguration.comp_string)
-        } else {
-            copyToClipboard(hash)
+            result += AppConfiguration.comp_string
         }
+        copyToClipboard(result)
     }
 
     private fun calcBase64() {
-        val data = checkInputData()
-        val sha1 = SHA1Coder.getSHA1Bytes(data, hmac)
+        val sha1 = SHA1Coder.getSHA1Bytes(checkInputData(), hmac)
+        var hash = String(Base64Coder.encode(sha1))
 
-        val hash = String(Base64Coder.encode(sha1))
         if (complex) {
-            copyToClipboard(hash + AppConfiguration.comp_string)
-        } else {
-            copyToClipboard(hash)
+            hash += AppConfiguration.comp_string
         }
+        copyToClipboard(hash)
     }
 
     private fun calcBCrypt() {
         val data = checkInputData()
         val sha1 = SHA1Coder.getSHA1Bytes(data, hmac)
         val salt = "$2a$10$" + SHA1Coder.getSHA1String(sha1)
-        val hash = BCryptCoder.hashPw(data, salt)
+        var hash = BCryptCoder.hashPw(data, salt)
 
         if (complex) {
-            copyToClipboard(hash + AppConfiguration.comp_string)
-        } else {
-            copyToClipboard(hash)
+            hash += AppConfiguration.comp_string
         }
+        copyToClipboard(hash)
     }
 
     private fun copyToClipboard(data: String) {

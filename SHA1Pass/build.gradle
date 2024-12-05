@@ -34,8 +34,18 @@ jar {
     }
 }
 
+tasks.register('fetchNativesLib', Exec) {
+    workingDir "."
+    group "build"
+    commandLine "rsync", "-rlvpt", "--mkpath", "pi:/mnt/raid2/applications/nginx/files/packages/libsha1pass/*", "src/main/resources/libs/natives"
+    doLast {
+        println "DONE!"
+    }
+}
+
 tasks.register('deployArchive', Exec) {
     workingDir "./build/distributions/"
+    group "distribution"
     commandLine "rsync", "-rlvpt", "SHA1Pass.zip", "pi:/mnt/raid2/applications/nginx/files/software/dev/sha1pass/"
     doLast {
         println "DONE!"

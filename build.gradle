@@ -6,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
         classpath "org.openjfx:javafx-plugin:0.0.13"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.6"
     }
@@ -19,7 +19,7 @@ allprojects {
 
     apply plugin: "org.openjfx.javafxplugin"
     javafx {
-        version = "22"
+        version = "23.0.1"
         modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing' ]
     }
 

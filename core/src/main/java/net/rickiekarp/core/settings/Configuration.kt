@@ -65,7 +65,6 @@ class Configuration
      * Try to load the configuration file.
      */
     fun load(): Boolean {
-
         //instantiate SettingsXmlFactory
         settingsXmlFactory = SettingsXmlFactory()
 
@@ -85,14 +84,12 @@ class Configuration
 
         //set current Locale
         LocalizationProvider.setCurrentLocale()
-
         //sets up the logger
         LogFileHandler.setupLogger()
-
         //starts logging
         LogFileHandler.startLogging()
 
-        //post config set ups
+        //post config set-ups
         when (colorScheme) {
             0 -> Window.colorTheme = "darkgray"
             1 -> Window.colorTheme = "gray"
@@ -150,7 +147,6 @@ class Configuration
         } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
-
     }
 
     /**

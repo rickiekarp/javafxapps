@@ -2,7 +2,6 @@ package net.rickiekarp.sha1pass;
 
 import javafx.stage.Stage;
 import net.rickiekarp.core.AppStarter;
-import net.rickiekarp.sha1pass.settings.AppConfiguration;
 import net.rickiekarp.sha1pass.view.MainLayout;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +18,6 @@ public class MainApp extends AppStarter {
     @Override
     public void start(@NotNull Stage stage) {
         setMainClazz(MainApp.class);
-        setConfigClazz(AppConfiguration.class);
 
         setWinType((byte) 1);
         setMinWidth(440);

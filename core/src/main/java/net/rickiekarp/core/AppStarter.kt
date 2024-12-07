@@ -36,7 +36,9 @@ open class AppStarter : Application() {
         isConfigLoaded = Configuration.config.load()
         if (isConfigLoaded) {
             //load additional application related configuration
-            Configuration.config.loadProperties(configClazz!!)
+            if (configClazz != null) {
+                Configuration.config.loadProperties(configClazz!!)
+            }
 
             //log properties of current program state0
             DebugHelper.logProperties()
@@ -54,7 +56,7 @@ open class AppStarter : Application() {
             Thread.setDefaultUncaughtExceptionHandler { _, e -> Platform.runLater { ExceptionHandler(e) } }
             Thread.currentThread().uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _, throwable -> ExceptionHandler(
                 throwable
-            ) }
+            )}
         }
 
         //application related configuration
@@ -133,5 +135,4 @@ open class AppStarter : Application() {
     companion object {
         private var node: AppLayout? = null
     }
-
 }

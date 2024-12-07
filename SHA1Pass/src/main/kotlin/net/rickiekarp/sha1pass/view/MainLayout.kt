@@ -30,13 +30,11 @@ import net.rickiekarp.core.view.MainScene
 import net.rickiekarp.core.view.layout.AppLayout
 import net.rickiekarp.sha1pass.enum.TextCodingType
 import net.rickiekarp.sha1pass.libloader.GoLibTransformer
-import net.rickiekarp.sha1pass.scenes.CoordinatesScene
-import net.rickiekarp.sha1pass.settings.AppConfiguration
 
 class MainLayout : AppLayout {
     private var isSecure = false
-    private var hmac = false
-    private var complex = true
+    private var isHMAC = false
+    private var isComplex = true
     private var isSpecialCharacterMode = true
 
     private lateinit var mainGrid: GridPane
@@ -47,6 +45,8 @@ class MainLayout : AppLayout {
     private lateinit var wordTextFieldSkin: CustomTextFieldSkin
 
     private var colorPos = -1
+
+    private val complexStr = ".H0k"
 
     private val mainLayout: Node
         get() {
@@ -78,9 +78,9 @@ class MainLayout : AppLayout {
             val column5 = ColumnConstraints()
             column5.percentWidth = 16.0
             val column6 = ColumnConstraints()
-            column6.percentWidth = 16.0
+            column6.percentWidth = 12.0
             val column7 = ColumnConstraints()
-            column7.percentWidth = 11.0
+            column7.percentWidth = 15.0
             mainGrid.columnConstraints.addAll(column1, column2, column3, column4, column5, column6, column7)
 
             mainGrid.hgap = 5.0
@@ -98,24 +98,14 @@ class MainLayout : AppLayout {
             sentenceTextFieldSkin.shouldMask = true
             sentenceTF.skin = sentenceTextFieldSkin
             GridPane.setConstraints(sentenceTF, 1, 0)
-            GridPane.setColumnSpan(sentenceTF, 4)
+            GridPane.setColumnSpan(sentenceTF, 5)
             mainGrid.children.add(sentenceTF)
-
-            val coordinatesBtn = Button("L")
-            coordinatesBtn.style = "-fx-font-size: 9pt;"
-            coordinatesBtn.tooltip = Tooltip(
-                LocalizationProvider.getString("help_tip") + " " + AppContext.context.applicationName
-            )
-            coordinatesBtn.setOnAction { CoordinatesScene() }
-            GridPane.setConstraints(coordinatesBtn, 6, 0)
-            GridPane.setHalignment(coordinatesBtn, HPos.CENTER)
-            mainGrid.children.add(coordinatesBtn)
 
             val viewMode = CheckBox(LocalizationProvider.getString("vs"))
             viewMode.style = "-fx-font-size: 9pt;"
             viewMode.tooltip = Tooltip(LocalizationProvider.getString("vs_tip"))
-            GridPane.setConstraints(viewMode, 5, 0)
-            GridPane.setHalignment(viewMode, HPos.CENTER)
+            GridPane.setConstraints(viewMode, 6, 0)
+            GridPane.setHalignment(viewMode, HPos.LEFT)
             mainGrid.children.add(viewMode)
 
             val secureMode = CheckBox(LocalizationProvider.getString("sm"))
@@ -127,14 +117,14 @@ class MainLayout : AppLayout {
             val hmacMode = CheckBox(LocalizationProvider.getString("hm"))
             hmacMode.style = "-fx-font-size: 8pt;"
             hmacMode.tooltip = Tooltip(LocalizationProvider.getString("hmac_tip"))
-            hmacMode.isSelected = hmac
+            hmacMode.isSelected = isHMAC
             GridPane.setConstraints(hmacMode, 1, 1)
             mainGrid.children.add(hmacMode)
 
             val complexMode = CheckBox(LocalizationProvider.getString("comp"))
             complexMode.style = "-fx-font-size: 8pt;"
             complexMode.tooltip = Tooltip(LocalizationProvider.getString("comp_tip"))
-            complexMode.isSelected = complex
+            complexMode.isSelected = isComplex
             GridPane.setConstraints(complexMode, 2, 1)
             mainGrid.children.add(complexMode)
 
@@ -163,23 +153,23 @@ class MainLayout : AppLayout {
             GridPane.setHalignment(colorBtn, HPos.CENTER)
             mainGrid.children.add(colorBtn)
 
-            val hexBtn = Button(LocalizationProvider.getString("hex_label"))
-            hexBtn.style = "-fx-font-size: 10pt;"
-            hexBtn.tooltip = Tooltip(LocalizationProvider.getString("a_40_char_tip"))
-            hexBtn.minWidth = 103.0
-            encryptBtns.children.add(hexBtn)
+            val sha256Btn = Button(LocalizationProvider.getString("sha256_label"))
+            sha256Btn.style = "-fx-font-size: 10pt;"
+            sha256Btn.tooltip = Tooltip(LocalizationProvider.getString("a_40_char_tip"))
+            sha256Btn.minWidth = 103.0
+            encryptBtns.children.add(sha256Btn)
 
-            val b64Btn = Button(LocalizationProvider.getString("b64_label"))
-            b64Btn.style = "-fx-font-size: 10pt;"
-            b64Btn.tooltip = Tooltip(LocalizationProvider.getString("a_28_char_tip"))
-            b64Btn.minWidth = 103.0
-            encryptBtns.children.add(b64Btn)
+            val sha512Btn = Button(LocalizationProvider.getString("sha512_label"))
+            sha512Btn.style = "-fx-font-size: 10pt;"
+            sha512Btn.tooltip = Tooltip(LocalizationProvider.getString("a_28_char_tip"))
+            sha512Btn.minWidth = 103.0
+            encryptBtns.children.add(sha512Btn)
 
-            val bcryptBtn = Button(LocalizationProvider.getString("bcrypt_label"))
-            bcryptBtn.style = "-fx-font-size: 10pt;"
-            bcryptBtn.tooltip = Tooltip(LocalizationProvider.getString("a_60_char_tip"))
-            bcryptBtn.minWidth = 103.0
-            encryptBtns.children.add(bcryptBtn)
+            val customBtn = Button(LocalizationProvider.getString("custom_label"))
+            customBtn.style = "-fx-font-size: 10pt;"
+            customBtn.tooltip = Tooltip(LocalizationProvider.getString("a_60_char_tip"))
+            customBtn.minWidth = 103.0
+            encryptBtns.children.add(customBtn)
 
             color = Rectangle(30.0, 30.0)
             color.isVisible = false
@@ -201,30 +191,23 @@ class MainLayout : AppLayout {
                 colorRotate()
             }
 
-            hexBtn.setOnAction {
-                calcHex()
-                status.text = LocalizationProvider.getString("hex_password_copied")
+            sha256Btn.setOnAction {
+                calcSha256()
+                status.text = LocalizationProvider.getString("sha256_password_copied")
             }
 
-            b64Btn.setOnAction {
-                calcBase64()
-                status.text = LocalizationProvider.getString("b64_password_copied")
+            sha512Btn.setOnAction {
+                calcSha512()
+                status.text = LocalizationProvider.getString("sha512_password_copied")
             }
 
-            bcryptBtn.setOnAction {
-                calcBCrypt()
-                status.text = LocalizationProvider.getString("bcrypt_password_copied")
+            customBtn.setOnAction {
+                calcCustom()
+                status.text = LocalizationProvider.getString("custom_password_copied")
             }
 
             viewMode.selectedProperty().addListener { _, _, newVal ->
-                if (newVal!!) {
-                    sentenceTextFieldSkin.shouldMask = false
-                    status.text = LocalizationProvider.getString("vs_on")
-                } else {
-                    sentenceTextFieldSkin.shouldMask = true
-                    status.text = LocalizationProvider.getString("vs_off")
-                }
-
+                sentenceTextFieldSkin.shouldMask = !newVal!!
                 sentenceTF.text = sentenceTF.text
             }
 
@@ -252,21 +235,19 @@ class MainLayout : AppLayout {
             }
 
             hmacMode.selectedProperty().addListener { _, _, newVal ->
+                isHMAC = newVal
                 if (newVal) {
-                    hmac = true
                     status.text = LocalizationProvider.getString("hmac_on")
                 } else {
-                    hmac = false
                     status.text = LocalizationProvider.getString("hmac_off")
                 }
             }
 
             complexMode.selectedProperty().addListener { _, _, newVal ->
+                isComplex = newVal
                 if (newVal) {
-                    complex = true
                     status.text = LocalizationProvider.getString("comp_on")
                 } else {
-                    complex = false
                     status.text = LocalizationProvider.getString("comp_off")
                 }
             }
@@ -318,35 +299,31 @@ class MainLayout : AppLayout {
         encodeButton.setOnAction { TextCoding(TextCodingType.ENCODE) }
     }
 
-    private fun calcHex() {
-        var result = GoLibTransformer.Sha1PassLib.EncodeToHex(checkInputData())
-
-        if (complex) {
-            result += AppConfiguration.comp_string
+    private fun calcSha256() {
+        val input: String = if (isComplex) {
+            checkInputData() + complexStr
+        } else {
+            checkInputData()
         }
-        copyToClipboard(result)
+        copyToClipboard(GoLibTransformer.Sha1PassLib.GetHashSha3256(input))
     }
 
-    private fun calcBase64() {
-        val sha1 = SHA1Coder.getSHA1Bytes(checkInputData(), hmac)
-        var hash = String(Base64Coder.encode(sha1))
-
-        if (complex) {
-            hash += AppConfiguration.comp_string
+    private fun calcSha512() {
+        val input: String = if (isComplex) {
+            checkInputData() + complexStr
+        } else {
+            checkInputData()
         }
-        copyToClipboard(hash)
+        copyToClipboard(GoLibTransformer.Sha1PassLib.GetHashSha3512(input))
     }
 
-    private fun calcBCrypt() {
-        val data = checkInputData()
-        val sha1 = SHA1Coder.getSHA1Bytes(data, hmac)
-        val salt = "$2a$10$" + SHA1Coder.getSHA1String(sha1)
-        var hash = BCryptCoder.hashPw(data, salt)
-
-        if (complex) {
-            hash += AppConfiguration.comp_string
+    private fun calcCustom() {
+        val input: String = if (isComplex) {
+            checkInputData() + complexStr
+        } else {
+            checkInputData()
         }
-        copyToClipboard(hash)
+        copyToClipboard(GoLibTransformer.Sha1PassLib.GetHashCustom(input, 64))
     }
 
     private fun copyToClipboard(data: String) {

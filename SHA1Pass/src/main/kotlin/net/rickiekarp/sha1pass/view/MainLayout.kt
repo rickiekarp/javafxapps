@@ -305,7 +305,12 @@ class MainLayout : AppLayout {
         } else {
             checkInputData()
         }
-        copyToClipboard(GoLibTransformer.Sha1PassLib.GetHashSha3256(input))
+        val result: String = if (isHMAC) {
+            GoLibTransformer.Sha1PassLib.GetHashSha3256HMAC(input, wordTF.text)
+        } else {
+            GoLibTransformer.Sha1PassLib.GetHashSha3256(input)
+        }
+        copyToClipboard(result)
     }
 
     private fun calcSha512() {
@@ -314,7 +319,12 @@ class MainLayout : AppLayout {
         } else {
             checkInputData()
         }
-        copyToClipboard(GoLibTransformer.Sha1PassLib.GetHashSha3512(input))
+        val result: String = if (isHMAC) {
+            GoLibTransformer.Sha1PassLib.GetHashSha3512HMAC(input, wordTF.text)
+        } else {
+            GoLibTransformer.Sha1PassLib.GetHashSha3512(input)
+        }
+        copyToClipboard(result)
     }
 
     private fun calcCustom() {
